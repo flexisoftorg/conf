@@ -1,4 +1,4 @@
-name: Pulumi
+name: On Push
 
 permissions:
   id-token: write
