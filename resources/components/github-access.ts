@@ -1,6 +1,8 @@
 import * as gcp from '@pulumi/gcp';
 import * as github from '@pulumi/github';
 import * as pulumi from '@pulumi/pulumi';
+import { interpolate } from '@pulumi/pulumi';
+import { environment } from '../config';
 import { owner } from '../github/config';
 import { project } from '../google/config';
 
@@ -43,7 +45,7 @@ export class GitHubAccess extends pulumi.ComponentResource {
     this.serviceAccount = new gcp.serviceaccount.Account(
       name,
       {
-        accountId: `${name}-github`,
+        accountId: interpolate`${environment}-${name}-github`,
         description: 'GitHub Actions Service Account, uses Workload Identity',
       },
       { parent: this },

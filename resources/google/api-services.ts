@@ -26,6 +26,7 @@ const apis = [
   'firebasehosting.googleapis.com',
   'identitytoolkit.googleapis.com',
   'firestore.googleapis.com',
+  'artifactregistry.googleapis.com',
 ];
 
 export const apiServices = apis.map(

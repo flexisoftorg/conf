@@ -1,4 +1,6 @@
 config:
+  flexisoft-portal:developers:
+    - group:developers@bjerk.io
   flexisoft-portal:owner: flexisoftorg
   flexisoft-portal:token:
     secure: AAABADDz1ourbJnZV1eKCrOJbkl/dyYwPffiZIW6ybcIxrkGiCaa3ux1vgb/wMBb4Y5d6qK7rVrLJg36O66KUNKZMYBbAWfa
