@@ -1,0 +1,91 @@
+name: Update Service tag
+permissions:
+  id-token: write
+  contents: read
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Which tag
+        required: true
+      service:
+        description: Which service
+        required: true
+  repository_dispatch:
+    types: [update-tag]
+jobs:
+  update-app-tag:
+    name: Update app tag
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        env: [prod] # If we have more environments, add them here
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: cobraz/setup-variables@v1
+        id: vars
+        with:
+          key: ${{ github.event_name }}
+          map: |
+            repository_dispatch: '{"tag": "${{ github.event.client_payload.tag }}", "service": "${{ github.event.client_payload.service }}", "env": "${{ github.event.client_payload.env }}"}'
+            workflow_dispatch: '{"tag": "${{ github.event.inputs.tag }}", "service": "${{ github.event.inputs.service }}", "env": "${{ github.event.inputs.env }}"}'
+
+      - run: echo ${{ steps.vars.outputs.result }}
+
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v0
+        with:
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+
+      - uses: cobraz/pulumi-set-config@main
+        id: config
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+        with:
+          stack-name: Bjerk/${{ matrix.env }}
+          key: ${{ fromJson(steps.vars.outputs.result).service }}:tag
+          value: ${{ fromJson(steps.vars.outputs.result).tag }}
+
+      - name: Get commits
+        uses: actions/github-script@v4
+        id: changelog
+        with:
+          github-token: ${{ secrets.BOT_GITHUB_TOKEN }}
+          result-encoding: string
+          script: |
+
+            const [,head] = '${{ fromJson(steps.vars.outputs.result).tag }}'.split('-');
+            const [,base] = '${{ fromJson(steps.config.outputs.key).value }}'.split('-');
+
+            const compare = await github.repos.compareCommits({
+              owner: 'flexisoftorg',
+              repo: '${{ fromJson(steps.vars.outputs.result).service }}',
+              base,
+              head,
+            });
+
+            const parseCommit = (message) => message.split('\n')[0].replace('#', 'taksnor/${{ fromJson(steps.vars.outputs.result).service }}#');
+            const changelog = compare.data.commits.map(commit => `* ${parseCommit(commit.commit.message)} ([commit](${commit.html_url}))`).join('\n');
+
+            return changelog;
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.BOT_GITHUB_TOKEN }}
+          commit-message:
+            bump ${{ fromJson(steps.vars.outputs.result).service }} to ${{
+            fromJson(steps.vars.outputs.result).tag }} on ${{ matrix.env }}
+          branch:
+            bump-tag-${{ fromJson(steps.vars.outputs.result).service }}-${{
+            matrix.env }}
+          title:
+            'chore: bump ${{ fromJson(steps.vars.outputs.result).service }} tag
+            to `${{ fromJson(steps.vars.outputs.result).tag }}` on ${{
+            matrix.env }}'
+          body: |
+            Automated tag change on ${{ matrix.env }}. 🎉
+
+            ${{ steps.changelog.outputs.result }}
