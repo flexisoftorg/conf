@@ -1,0 +1,55 @@
+name: Pulumi
+
+permissions:
+  id-token: write
+  contents: read
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  apply-changes:
+    name: Apply ${{ matrix.stack }}
+
+    runs-on: ubuntu-latest
+
+    concurrency: pulumi-${{ matrix.stack }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - stack: Bjerk/prod
+            refresh: false
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GOOGLE_PROJECT_SA_KEY }}
+          project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
+
+      - name: Use Node v16
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Lint
+        run: yarn lint
+
+      - uses: pulumi/actions@v4
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+        with:
+          command: up
+          refresh: ${{ matrix.refresh }}
+          stack-name: ${{ matrix.stack }}
