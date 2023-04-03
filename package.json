@@ -25,7 +25,9 @@
   "eslintConfig": {
     "extends": "@bjerk/eslint-config",
     "rules": {
-      "import/no-unassigned-import": "off"
+      "import/no-unassigned-import": "off",
+      "promise/catch-or-return" : "off",
+      "promise/always-return": "off"
     }
   },
   "dependencies": {

@@ -5,6 +5,13 @@ config:
   flexisoft-portal:token:
     secure: AAABADDz1ourbJnZV1eKCrOJbkl/dyYwPffiZIW6ybcIxrkGiCaa3ux1vgb/wMBb4Y5d6qK7rVrLJg36O66KUNKZMYBbAWfa
   google:project: flexisoft-portal
+  portal-api:auth-sign-secret:
+    secure: AAABABT9sBALgR4qM4gZtqbiCqKxSddMp8BDvfrokEuZbYlEC7+CqZjIGlMDbBIDJWiZaQq+QqvI4EdbrgdJpTOtIYqMqMfqsDazSIe9T4DbO09YcmKaaXa0tdxC6Ocp
+  portal-api:cookie-secret:
+    secure: AAABAP89uVPZ83VODwoAGbT/4sLABC4QcOd9IDyRrdYp/jBthgbBi1Z2JUPJIfOFRlnO6IwYYvJfPEkeDgJ1fyLllBp63SsdKF/X30HyRtODMeZ6PT80hj1yZTteO08n
+  portal-api:domain: api.flexisoft.bjerk.dev.
+  portal-api:tag: main-d138256
+  portal-app:domain: flexisoft.bjerk.dev.
   pulumi:disable-default-providers:
     - '*'
   shared:domain: flexisoft.bjerk.dev.

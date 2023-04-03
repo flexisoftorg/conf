@@ -5,3 +5,7 @@ const config = new pulumi.Config();
 export const developers = config.requireObject<string[]>('developers');
 
 export const environment = pulumi.getStack();
+
+const portalAppConfig = new pulumi.Config('portal-app');
+
+export const portalAppDomain = portalAppConfig.require('domain');

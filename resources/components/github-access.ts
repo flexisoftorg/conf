@@ -69,7 +69,7 @@ export class GitHubAccess extends pulumi.ComponentResource {
           `${name}-identity-provider-${owner}-${repo}`,
           {
             repository,
-            secretName: 'WORKLOAD_IDENTITY_PROVIDER',
+            secretName: 'GOOGLE_WORKLOAD_IDENTITY_PROVIDER',
             plaintextValue: identityPoolProviderName,
           },
           { parent: this, deleteBeforeReplace: true },
