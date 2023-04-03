@@ -1,11 +1,32 @@
 {
-    "name": "flexisoft-portal",
-    "main": "index.ts",
-    "devDependencies": {
-        "@types/node": "^16"
-    },
-    "dependencies": {
-        "@pulumi/pulumi": "^3.0.0",
-        "@pulumi/gcp": "^6.0.0"
-    }
+  "name": "flexisoft-portal",
+  "main": "index.ts",
+  "scripts": {
+    "lint": "eslint --ext .ts,.tsx .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@bjerk/eslint-config": "^3.1.0",
+    "@cobraz/prettier": "^2.0.1",
+    "@types/node": "^16",
+    "@typescript-eslint/eslint-plugin": "5.57.1-alpha.8",
+    "@typescript-eslint/parser": "5.57.1-alpha.9",
+    "eslint": "8.37.0",
+    "eslint-config-prettier": "8.8.0",
+    "eslint-plugin-eslint-comments": "3.2.0",
+    "eslint-plugin-import": "2.27.5",
+    "eslint-plugin-prettier": "4.2.1",
+    "eslint-plugin-promise": "6.1.1",
+    "eslint-plugin-unicorn": "46.0.0",
+    "prettier": "^2.8.7"
+  },
+  "prettier": "@cobraz/prettier",
+  "eslintConfig": {
+    "extends": "@bjerk/eslint-config"
+  },
+  "dependencies": {
+    "@pulumi/gcp": "^6.0.0",
+    "@pulumi/pulumi": "^3.0.0"
+  }
 }
