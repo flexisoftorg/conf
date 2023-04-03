@@ -304,6 +304,13 @@
   dependencies:
     "@pulumi/pulumi" "^3.0.0"
 
+"@pulumi/google-native@^0.28.0":
+  version "0.28.0"
+  resolved "https://registry.yarnpkg.com/@pulumi/google-native/-/google-native-0.28.0.tgz#285b505c0d985650e19cb1099295e135911ca368"
+  integrity sha512-rKRRpxCS42irSi7ecTGGuZobLMe7WejGmg+iEvsPy7EyQInlp1RYNDxAck7krWFUkTGzs2j+nLpkW1rCme9kNA==
+  dependencies:
+    "@pulumi/pulumi" "^3.0.0"
+
 "@pulumi/pulumi@^3.0.0":
   version "3.60.0"
   resolved "https://registry.yarnpkg.com/@pulumi/pulumi/-/pulumi-3.60.0.tgz#6dbd18142b6cffab7601e58c6608a23650afc6bd"

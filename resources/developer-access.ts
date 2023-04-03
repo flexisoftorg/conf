@@ -1,7 +1,7 @@
 import * as gcp from '@pulumi/gcp';
 import { developers } from './config';
-import { repository } from './google/artifact-registry';
 import { provider } from './google/provider';
+import { repository } from './shared/google/artifact-registry';
 
 /**
  * This file is used to give developers access to resources in Google Cloud Platform.

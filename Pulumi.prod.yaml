@@ -7,3 +7,4 @@ config:
   google:project: flexisoft-portal
   pulumi:disable-default-providers:
     - '*'
+  shared:domain: flexisoft.bjerk.dev.
