@@ -28,6 +28,9 @@ export interface GitHubAccessArgs {
  * Creates a service account and access to it from GitHub Actions.
  */
 export class GitHubAccess extends pulumi.ComponentResource {
+
+  public readonly serviceAccount: gcp.serviceaccount.Account;
+
   constructor(
     name: string,
     args: GitHubAccessArgs,
@@ -37,7 +40,7 @@ export class GitHubAccess extends pulumi.ComponentResource {
 
     const { identityPoolName, identityPoolProviderName, repositories } = args;
 
-    const serviceAccount = new gcp.serviceaccount.Account(
+    this.serviceAccount = new gcp.serviceaccount.Account(
       name,
       {
         accountId: `${name}-github`,
@@ -75,7 +78,7 @@ export class GitHubAccess extends pulumi.ComponentResource {
           {
             repository,
             secretName: 'GOOGLE_SERVICE_ACCOUNT',
-            plaintextValue: serviceAccount.email,
+            plaintextValue: this.serviceAccount.email,
           },
           { parent: this, deleteBeforeReplace: true },
         );
@@ -83,7 +86,7 @@ export class GitHubAccess extends pulumi.ComponentResource {
         new gcp.serviceaccount.IAMMember(
           `${name}-core-iam-service-${owner}-${repo}`,
           {
-            serviceAccountId: serviceAccount.name,
+            serviceAccountId: this.serviceAccount.name,
             role: 'roles/iam.workloadIdentityUser',
             member: pulumi.interpolate`principalSet://iam.googleapis.com/${identityPoolName}/attribute.repository/${owner}/${repo}`,
           },
@@ -93,7 +96,7 @@ export class GitHubAccess extends pulumi.ComponentResource {
         new gcp.serviceaccount.IAMMember(
           `${name}-core-iam-service-token-${owner}-${repo}`,
           {
-            serviceAccountId: serviceAccount.name,
+            serviceAccountId: this.serviceAccount.name,
             role: 'roles/iam.serviceAccountTokenCreator',
             member: pulumi.interpolate`principalSet://iam.googleapis.com/${identityPoolName}/attribute.repository/${owner}/${repo}`,
           },

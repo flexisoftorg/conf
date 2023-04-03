@@ -1,1 +1,1 @@
-import './resources/backend-repository-access';
+import './resources/repository-access';
