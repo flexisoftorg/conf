@@ -47,10 +47,10 @@ const portalAppAccess = new GitHubAccess(
 );
 
 new gcp.projects.IAMMember(
-  'portal-app-firebase-hosting-access',
+  'portal-app-firebase-admin-access',
   {
     member: pulumi.interpolate`serviceAccount:${portalAppAccess.serviceAccount.email}`,
-    role: 'roles/firebasehosting.admin',
+    role: 'roles/firebase.admin',
     project,
   },
   { provider: googleProvider },
