@@ -15,3 +15,4 @@ config:
   pulumi:disable-default-providers:
     - '*'
   shared:domain: flexisoft.bjerk.dev.
+  shared:root-domain: bjerk.dev.

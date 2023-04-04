@@ -5,7 +5,7 @@ import { CloudRunService } from '../components/cloud-run-service';
 import { portalAppDomain } from '../config';
 import { project, region } from '../google/config';
 import { provider } from '../google/provider';
-import { domain } from '../shared/config';
+import { rootDomain } from '../shared/config';
 import { artifactRepoUrl } from '../shared/google/artifact-registry';
 import { zone } from '../shared/google/dns';
 
@@ -32,7 +32,7 @@ const service = new CloudRunService(
         name: 'FRONTEND_URL',
         value: interpolate`https://${portalAppDomain.slice(0, -1)}`,
       },
-      { name: 'SELF_DOMAIN', value: domain.slice(0, -1) },
+      { name: 'SELF_DOMAIN', value: rootDomain.slice(0, -1) },
       { name: 'SELF_URL', value: interpolate`https://${cleanPortalApiDomain}` },
 
       // TODO: Remove these once secrets are injected.
