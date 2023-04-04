@@ -10,7 +10,7 @@ config:
   portal-api:cookie-secret:
     secure: AAABAP89uVPZ83VODwoAGbT/4sLABC4QcOd9IDyRrdYp/jBthgbBi1Z2JUPJIfOFRlnO6IwYYvJfPEkeDgJ1fyLllBp63SsdKF/X30HyRtODMeZ6PT80hj1yZTteO08n
   portal-api:domain: api.flexisoft.bjerk.dev.
-  portal-api:tag: main-f238c38
+  portal-api:tag: main-d6eecd2
   portal-app:domain: flexisoft.bjerk.dev.
   pulumi:disable-default-providers:
     - '*'
