@@ -50,7 +50,7 @@ new gcp.projects.IAMMember(
   'portal-app-firebase-admin-access',
   {
     member: pulumi.interpolate`serviceAccount:${portalAppAccess.serviceAccount.email}`,
-    role: 'roles/firebase.admin',
+    role: 'roles/editor',
     project,
   },
   { provider: googleProvider },
