@@ -4,6 +4,7 @@ import { interpolate } from '@pulumi/pulumi';
 import { CloudRunService } from '../components/cloud-run-service';
 import { portalAppDomain } from '../config';
 import { project, region } from '../google/config';
+import { redisInstance } from '../google/memorystore';
 import { provider } from '../google/provider';
 import { rootDomain } from '../shared/config';
 import { artifactRepoUrl } from '../shared/google/artifact-registry';
@@ -38,6 +39,7 @@ const service = new CloudRunService(
       // TODO: Remove these once secrets are injected.
       { name: 'COOKIE_SECRET', value: cookieSecret },
       { name: 'AUTH_SIGN_SECRET', value: authSignSecret },
+      { name: 'REDIS_URL', value: redisInstance.authString },
     ],
   },
   { providers: [provider] },

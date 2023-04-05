@@ -27,6 +27,7 @@ const apis = [
   'identitytoolkit.googleapis.com',
   'firestore.googleapis.com',
   'artifactregistry.googleapis.com',
+  'vpcaccess.googleapis.com',
 ];
 
 export const apiServices = apis.map(
