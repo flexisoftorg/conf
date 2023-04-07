@@ -1,7 +1,11 @@
 import * as gcp from '@pulumi/gcp';
 import { portalAppDomain } from '../../config';
 import { provider } from '../../google/provider';
+import { portalApiDomain } from '../../kubernetes/portal-api/portal-api';
 import { domain } from '../config';
+import { ipAddress } from './ip-address';
+
+const ingressIpAddress = ipAddress.address;
 
 export const zone = new gcp.dns.ManagedZone(
   'main-zone',
@@ -35,3 +39,14 @@ new gcp.dns.RecordSet(
   { provider },
 );
 
+new gcp.dns.RecordSet(
+  'portal-api',
+  {
+    managedZone: zone.name,
+    name: portalApiDomain,
+    type: 'A',
+    ttl: 300,
+    rrdatas: [ingressIpAddress],
+  },
+  { provider },
+);

@@ -27,6 +27,7 @@ const apis = [
   'identitytoolkit.googleapis.com',
   'firestore.googleapis.com',
   'artifactregistry.googleapis.com',
+  'redis.googleapis.com',
 ];
 
 export const apiServices = apis.map(

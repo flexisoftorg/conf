@@ -26,7 +26,7 @@
     "extends": "@bjerk/eslint-config",
     "rules": {
       "import/no-unassigned-import": "off",
-      "promise/catch-or-return" : "off",
+      "promise/catch-or-return": "off",
       "promise/always-return": "off"
     }
   },
@@ -34,6 +34,7 @@
     "@pulumi/gcp": "^6.0.0",
     "@pulumi/github": "^5.6.0",
     "@pulumi/google-native": "^0.28.0",
+    "@pulumi/kubernetes": "^3.24.3",
     "@pulumi/pulumi": "^3.0.0"
   }
 }
