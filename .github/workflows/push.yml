@@ -65,5 +65,6 @@ jobs:
         uses: derjuulsn/todo-issue@main
         with:
           excludePattern: '^(node_modules/)'
+          label: needs-refinement
         env:
           GITHUB_TOKEN: ${{ secrets.BOT_GITHUB_TOKEN }}
