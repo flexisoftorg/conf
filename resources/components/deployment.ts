@@ -40,6 +40,11 @@ export interface AppComponentArgs {
    */
   environment?: pulumi.Input<string>;
 
+  /**
+   * Resources
+   */
+  resources: pulumi.Input<k8s.types.input.core.v1.ResourceRequirements>;
+
   namespace?: pulumi.Input<string>;
 }
 
@@ -66,6 +71,7 @@ export class DeploymentComponent extends pulumi.ComponentResource {
       port = 8000,
       environment = pulumi.getStack(),
       namespace,
+      resources,
     } = args;
 
     const matchLabels = { app: name, environment };
@@ -98,6 +104,7 @@ export class DeploymentComponent extends pulumi.ComponentResource {
                     },
                     ..._env,
                   ]),
+                  resources,
                 },
               ],
             },

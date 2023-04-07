@@ -10,6 +10,16 @@ export const redis = new DeploymentComponent(
     env: [{ name: 'MASTER', value: 'true' }],
     namespace: namespace.metadata.name,
     port: 6379,
+    resources: {
+      requests: {
+        cpu: '100m',
+        memory: '128Mi',
+      },
+      limits: {
+        cpu: '200m',
+        memory: '256Mi',
+      },
+    },
   },
   { provider },
 );

@@ -58,6 +58,16 @@ new DeploymentComponent(
         value: interpolate`redis://${redis.service.metadata.name}.${redis.service.metadata.namespace}.svc.cluster.local:6379`,
       },
     ],
+    resources: {
+      requests: {
+        cpu: '100m',
+        memory: '128Mi',
+      },
+      limits: {
+        cpu: '200m',
+        memory: '256Mi',
+      },
+    },
   },
   { provider: kubernetesProvider },
 );
