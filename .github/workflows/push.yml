@@ -34,6 +34,11 @@ jobs:
           credentials_json: ${{ secrets.GOOGLE_PROJECT_SA_KEY }}
           project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
 
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@v0
+        with:
+          install_components: 'gke-gcloud-auth-plugin'
+
       - name: Use Node LTS
         uses: actions/setup-node@v3
         with:
