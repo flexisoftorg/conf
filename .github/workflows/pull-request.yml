@@ -34,6 +34,7 @@ jobs:
       - name: Setup gcloud
         uses: google-github-actions/setup-gcloud@v0
         with:
+          skip_install: true # We do not need the latest version of gcloud.
           install_components: 'gke-gcloud-auth-plugin'
 
       - run: yarn install
