@@ -13,4 +13,4 @@ jobs:
       - uses: actions/add-to-project@v0.4.1
         with:
           project-url: https://github.com/orgs/flexisoftorg/projects/1
-          github-token: ${{ secrets.BJERKBOT_GITHUB_TOKEN }}
+          github-token: ${{ secrets.BOT_GITHUB_TOKEN }}

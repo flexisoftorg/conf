@@ -53,3 +53,17 @@ jobs:
           command: up
           refresh: ${{ matrix.refresh }}
           stack-name: ${{ matrix.stack }}
+
+  todo-to-issue:
+    name: Create issue from TODO comments
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
+
+      - name: Create issue from TODO comments 📝
+        uses: derjuulsn/todo-issue@main
+        with:
+          excludePattern: '^(node_modules/)'
+        env:
+          GITHUB_TOKEN: ${{ secrets.BOT_GITHUB_TOKEN }}

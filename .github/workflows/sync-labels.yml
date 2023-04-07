@@ -16,7 +16,7 @@ jobs:
         id: search
         with:
           result-encoding: string
-          github-token: ${{ secrets.BJERKBOT_GITHUB_TOKEN }}
+          github-token: ${{ secrets.BOT_GITHUB_TOKEN }}
           script: |
             const { data: { items } } = await github.rest.search.repos({
               q: 'user:flexisoftorg'
@@ -27,4 +27,4 @@ jobs:
         with:
           manifest: labels.yml
           repository: ${{ steps.search.outputs.result }}
-          token: ${{ secrets.BJERKBOT_GITHUB_TOKEN }}
+          token: ${{ secrets.BOT_GITHUB_TOKEN }}
