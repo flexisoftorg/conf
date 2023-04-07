@@ -69,8 +69,8 @@
 - name: needs-design
   description: Needs input from design/UX
   color: 0e8a16
-- name: needs-grooming
-  description: Needs grooming to become actionable
+- name: needs-refinement
+  description: Needs grooming to become refinement
   color: 0e8a16
 - name: needs-product
   description: Needs input from product management
