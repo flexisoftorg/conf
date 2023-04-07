@@ -23,15 +23,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: cobraz/setup-variables@v1
-        id: vars
-        with:
-          key: ${{ github.event_name }}
-          map: |
-            repository_dispatch: '{"tag": "${{ github.event.client_payload.tag }}", "service": "${{ github.event.client_payload.service }}", "env": "${{ github.event.client_payload.env }}"}'
-            workflow_dispatch: '{"tag": "${{ github.event.inputs.tag }}", "service": "${{ github.event.inputs.service }}", "env": "${{ github.event.inputs.env }}"}'
+      - uses: cobraz/setup-inputs@v1
+        id: inputs
 
-      - run: echo ${{ steps.vars.outputs.result }}
+      - run: echo ${{ steps.inputs.outputs.payload }}
 
       - name: Authenticate to GCP
         uses: google-github-actions/auth@v1
@@ -45,15 +40,15 @@ jobs:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
         with:
           stack-name: Bjerk/${{ matrix.env }}
-          key: ${{ fromJson(steps.vars.outputs.result).service }}:tag
-          value: ${{ fromJson(steps.vars.outputs.result).tag }}
+          key: ${{ steps.inputs.outputs.service }}:tag
+          value: ${{ steps.inputs.outputs.tag }}
 
       - uses: cobraz/get-commit-changelog@v1
         id: changelog
         with:
           base: ${{ fromJson(steps.config.outputs.key).value }}
-          head: ${{ fromJson(steps.vars.outputs.result).tag }}
-          repository: flexisoftorg/${{ fromJson(steps.vars.outputs.result).service }}
+          head: ${{ steps.inputs.outputs.tag }}
+          repository: flexisoftorg/${{ steps.inputs.outputs.service }}
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
 
       - name: Create Pull Request
@@ -61,15 +56,12 @@ jobs:
         with:
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
           commit-message:
-            bump ${{ fromJson(steps.vars.outputs.result).service }} to ${{
-            fromJson(steps.vars.outputs.result).tag }} on ${{ matrix.env }}
-          branch:
-            bump-tag-${{ fromJson(steps.vars.outputs.result).service }}-${{
-            matrix.env }}
+            bump ${{ steps.inputs.outputs.service }} to ${{
+            steps.inputs.outputs.tag }} on ${{ matrix.env }}
+          branch: bump-tag-${{ steps.inputs.outputs.service }}-${{ matrix.env }}
           title:
-            'chore: bump ${{ fromJson(steps.vars.outputs.result).service }} tag
-            to `${{ fromJson(steps.vars.outputs.result).tag }}` on ${{
-            matrix.env }}'
+            'chore: bump ${{ steps.inputs.outputs.service }} tag to `${{
+            steps.inputs.outputs.tag }}` on ${{ matrix.env }}'
           body: |
             Automated tag change on ${{ matrix.env }}. 🎉
 
