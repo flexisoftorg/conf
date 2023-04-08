@@ -2,7 +2,6 @@ import * as gcp from '@pulumi/gcp';
 import * as pulumi from '@pulumi/pulumi';
 import { GitHubAccess } from './components/github-access';
 import { provider as githubProvider } from './github/provider';
-import { project } from './google/config';
 import { identityPool, identityPoolProvider } from './google/identity-pool';
 import { provider as googleProvider } from './google/provider';
 import { repository } from './shared/google/artifact-registry';
@@ -46,12 +45,12 @@ const portalAppAccess = new GitHubAccess(
   { providers: [googleProvider, githubProvider] },
 );
 
-new gcp.projects.IAMMember(
-  'portal-app-firebase-admin-access',
+new gcp.artifactregistry.RepositoryIamMember(
+  'portal-app-artifact-registry-access',
   {
+    repository: repository.id,
     member: pulumi.interpolate`serviceAccount:${portalAppAccess.serviceAccount.email}`,
-    role: 'roles/editor',
-    project,
+    role: 'roles/artifactregistry.writer',
   },
   { provider: googleProvider },
 );

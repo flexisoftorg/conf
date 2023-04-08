@@ -3,9 +3,19 @@ import { provider } from '../../github/provider';
 import { artifactRepoUrl } from '../google/artifact-registry';
 
 new github.ActionsSecret(
-  'artifact-secret',
+  'portal-api-artifact-secret',
   {
     repository: 'portal-api',
+    secretName: 'CONTAINER_REGISTRY',
+    plaintextValue: artifactRepoUrl,
+  },
+  { provider, aliases: [{ name: 'artifact-secret' }] },
+);
+
+new github.ActionsSecret(
+  'portal-app-artifact-secret',
+  {
+    repository: 'portal-app',
     secretName: 'CONTAINER_REGISTRY',
     plaintextValue: artifactRepoUrl,
   },
