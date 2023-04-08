@@ -28,11 +28,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Authenticate to GCP
-        uses: google-github-actions/auth@v1
+      - name: Authenticate with Google 🔑
+        uses: google-github-actions/auth@v0
         with:
-          credentials_json: ${{ secrets.GOOGLE_PROJECT_SA_KEY }}
+          token_format: access_token
           project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
 
       - uses: cobraz/setup-gke-gcloud-auth-plugin@v1
 
