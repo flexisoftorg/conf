@@ -38,6 +38,7 @@ jobs:
           value: ${{ steps.inputs.outputs.tag }}
 
       - uses: cobraz/get-commit-changelog@v1
+        if: ${{ steps.config.outputs.key }}
         id: changelog
         with:
           base: ${{ fromJson(steps.config.outputs.key).value }}
