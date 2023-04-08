@@ -1,4 +1,5 @@
 import * as google from '@pulumi/google-native';
+import { apiServices } from '../../google/api-services';
 import { region } from '../../google/config';
 import { provider } from './native-provider';
 
@@ -9,5 +10,5 @@ export const ipAddress = new google.compute.v1.Address(
     addressType: 'EXTERNAL',
     region,
   },
-  { provider },
+  { provider, dependsOn: apiServices },
 );

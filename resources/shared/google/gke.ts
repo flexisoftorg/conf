@@ -1,4 +1,5 @@
 import * as google from '@pulumi/google-native';
+import { apiServices } from '../../google/api-services';
 import { region } from '../../google/config';
 import { provider } from './native-provider';
 
@@ -10,5 +11,5 @@ export const cluster = new google.container.v1.Cluster(
     location: region,
     autopilot: { enabled: true },
   },
-  { provider, protect: true },
+  { provider, protect: true, dependsOn: apiServices },
 );

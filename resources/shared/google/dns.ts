@@ -1,5 +1,6 @@
 import * as gcp from '@pulumi/gcp';
 import { portalAppDomain } from '../../config';
+import { apiServices } from '../../google/api-services';
 import { provider } from '../../google/provider';
 import { portalApiDomain } from '../../kubernetes/portal-api/portal-api';
 import { domain } from '../config';
@@ -14,7 +15,7 @@ export const zone = new gcp.dns.ManagedZone(
     dnsName: domain,
     description: 'Main zone',
   },
-  { provider },
+  { provider, dependsOn: apiServices },
 );
 
 /**
