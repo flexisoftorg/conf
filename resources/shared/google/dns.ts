@@ -35,7 +35,7 @@ new gcp.dns.RecordSet(
     name: portalAppDomain,
     type: 'A',
     ttl: 300,
-    rrdatas: ['199.36.158.100'],
+    rrdatas: [ingressIpAddress],
   },
   { provider },
 );
