@@ -1,7 +1,7 @@
 import * as k8s from '@pulumi/kubernetes';
 import { provider } from '../../shared/kubernetes/provider';
 
-const name = 'portal-api';
+const name = 'portal-app';
 
 export const namespace = new k8s.core.v1.Namespace(
   name,
