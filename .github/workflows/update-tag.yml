@@ -28,12 +28,6 @@ jobs:
 
       - run: echo ${{ steps.inputs.outputs.payload }}
 
-      - name: Authenticate to GCP
-        uses: google-github-actions/auth@v1
-        with:
-          credentials_json: ${{ secrets.GOOGLE_PROJECT_SA_KEY }}
-          project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
-
       - uses: cobraz/pulumi-config@v2
         id: config
         env:
