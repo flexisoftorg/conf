@@ -1,9 +1,3 @@
-- name: awaiting-feedback
-  description: Issues that needs some feedback
-  color: 0e8a16
-- name: awaiting-upstream
-  description: Awaiting upstream dependency
-  color: 0e8a16
 - name: blocked
   description: Work can't continue
   color: b60205
@@ -80,6 +74,12 @@
   color: 0e8a16
 - name: needs-triage
   description: Needs attention from the triage team
+  color: 0e8a16
+- name: needs-feedback
+  description: Needs some feedback from user or end-user
+  color: 0e8a16
+- name: needs-upstream
+  description: Needs a change in an upstream dependency
   color: 0e8a16
 - name: p0
   description: Bugs severe enough to interrupt existing work
