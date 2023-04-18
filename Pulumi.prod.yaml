@@ -18,3 +18,5 @@ config:
     - '*'
   shared:domain: flexisoft.bjerk.dev.
   shared:root-domain: bjerk.dev.
+  shared:studio-sub-domain: studio.flexisoft.bjerk.dev.
+  shared:wildcard-sub-domain: '*.flexisoft.bjerk.dev.'

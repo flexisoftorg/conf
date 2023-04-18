@@ -3,7 +3,7 @@ import { portalAppDomain } from '../../config';
 import { apiServices } from '../../google/api-services';
 import { provider } from '../../google/provider';
 import { portalApiDomain } from '../../kubernetes/portal-api/portal-api';
-import { domain } from '../config';
+import { domain, studioSubDomain, wildcardSubDomain } from '../config';
 import { ipAddress } from './ip-address';
 
 const ingressIpAddress = ipAddress.address;
@@ -48,6 +48,30 @@ new gcp.dns.RecordSet(
     type: 'A',
     ttl: 300,
     rrdatas: [ingressIpAddress],
+  },
+  { provider },
+);
+
+new gcp.dns.RecordSet(
+  'studio',
+  {
+    managedZone: zone.name,
+    name: studioSubDomain,
+    type: 'CNAME',
+    ttl: 300,
+    rrdatas: ['flexisoftorg.github.io.'],
+  },
+  { provider },
+);
+
+new gcp.dns.RecordSet(
+  'wildcard',
+  {
+    managedZone: zone.name,
+    name: wildcardSubDomain,
+    type: 'CNAME',
+    ttl: 300,
+    rrdatas: ['flexisoftorg.github.io.'],
   },
   { provider },
 );
