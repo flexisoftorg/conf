@@ -8,6 +8,7 @@ import { artifactRepoUrl } from '../../shared/google/artifact-registry';
 import { provider as kubernetesProvider } from '../../shared/kubernetes/provider';
 import { namespace } from './namespace';
 import { redis } from './redis';
+import { customers } from '../../get-customers';
 
 const config = new pulumi.Config('portal-api');
 
@@ -32,7 +33,21 @@ const portalApiEnvSecrets = new kubernetes.core.v1.Secret(
   { provider: kubernetesProvider },
 );
 
-new DeploymentComponent(
+const portalApiCustomerConfigMap = new kubernetes.core.v1.ConfigMap(
+  'portal-api-customer-config-map',
+  {
+    metadata: {
+      name: 'portal-api-customer-config-map',
+      namespace: namespace.metadata.name,
+    },
+    data: {
+      CUSTOMERS: customers.apply(customers => JSON.stringify(customers)),
+    },
+  },
+  { provider: kubernetesProvider },
+);
+
+export const portalApi = new DeploymentComponent(
   'portal-api',
   {
     image: interpolate`${artifactRepoUrl}/portal-api`,
@@ -40,13 +55,11 @@ new DeploymentComponent(
     host: cleanPortalApiDomain,
     namespace: namespace.metadata.name,
     port: 8000,
-    envFrom: [{ secretRef: { name: portalApiEnvSecrets.metadata.name } }],
+    envFrom: [
+      { secretRef: { name: portalApiEnvSecrets.metadata.name } },
+      { configMapRef: { name: portalApiCustomerConfigMap.metadata.name } },
+    ],
     env: [
-      // TODO: Add these as injected secrets. Remember to rotate them.
-      // secrets: [
-      //   { name: 'COOKIE_SECRET', value: cookieSecret },
-      //   { name: 'AUTH_SIGN_SECRET', value: authSignSecret },
-      // ],
       {
         name: 'FRONTEND_URL',
         value: interpolate`https://${portalAppDomain.slice(0, -1)}`,

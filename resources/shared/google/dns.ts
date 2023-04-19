@@ -69,9 +69,9 @@ new gcp.dns.RecordSet(
   {
     managedZone: zone.name,
     name: wildcardSubDomain,
-    type: 'CNAME',
+    type: 'A',
     ttl: 300,
-    rrdatas: ['flexisoftorg.github.io.'],
+    rrdatas: [ingressIpAddress],
   },
   { provider },
 );
