@@ -53,6 +53,7 @@ export class DeploymentComponent extends pulumi.ComponentResource {
   public readonly service: k8s.core.v1.Service;
 
   public readonly ingress?: k8s.networking.v1.Ingress;
+  public readonly port: pulumi.Output<number>;
 
   constructor(
     name: string,
@@ -73,6 +74,8 @@ export class DeploymentComponent extends pulumi.ComponentResource {
       namespace,
       resources,
     } = args;
+
+    this.port = pulumi.output(port);
 
     const matchLabels = { app: name, environment };
 

@@ -25,6 +25,7 @@ export const ingress = new k8s.helm.v3.Chart(
       ingressController: {
         config: {
           email: systemEmail,
+          onDemandTLS: true,
         },
       },
       loadBalancer: {

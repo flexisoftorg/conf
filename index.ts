@@ -4,6 +4,7 @@ import './resources/shared/kubernetes/ingress-controller';
 import './resources/kubernetes/portal-api/redis';
 import './resources/kubernetes/portal-api/portal-api';
 import './resources/kubernetes/portal-app/portal-app';
+import './resources/kubernetes/portal-app/portal-domains';
 import './resources/shared/shared-resources';
 
 import './resources/repository-access';
