@@ -3,12 +3,12 @@ import * as pulumi from '@pulumi/pulumi';
 import { interpolate } from '@pulumi/pulumi';
 import { DeploymentComponent } from '../../components/deployment';
 import { portalAppDomain } from '../../config';
+import { customers } from '../../get-customers';
 import { rootDomain } from '../../shared/config';
 import { artifactRepoUrl } from '../../shared/google/artifact-registry';
 import { provider as kubernetesProvider } from '../../shared/kubernetes/provider';
 import { namespace } from './namespace';
 import { redis } from './redis';
-import { customers } from '../../get-customers';
 
 const config = new pulumi.Config('portal-api');
 

@@ -30,7 +30,6 @@ export interface GitHubAccessArgs {
  * Creates a service account and access to it from GitHub Actions.
  */
 export class GitHubAccess extends pulumi.ComponentResource {
-
   public readonly serviceAccount: gcp.serviceaccount.Account;
 
   constructor(
