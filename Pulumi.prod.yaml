@@ -13,7 +13,7 @@ config:
   portal-api:domain: api.flexisoft.bjerk.dev.
   portal-api:tag: main-7b9b7de
   portal-app:domain: flexisoft.bjerk.dev.
-  portal-app:tag: main-996d825
+  portal-app:tag: main-695f4c1
   pulumi:disable-default-providers:
     - '*'
   shared:domain: flexisoft.bjerk.dev.
