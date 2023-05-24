@@ -44,7 +44,7 @@ new k8s.networking.v1.Ingress(
     spec: {
       rules: [
         {
-          host: `*.${cleanPortalApiDomain}`,
+          host: `*.app.${cleanPortalApiDomain}`,
           http: {
             paths: [
               {
