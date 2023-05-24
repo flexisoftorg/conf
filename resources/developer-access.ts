@@ -1,5 +1,6 @@
 import * as gcp from '@pulumi/gcp';
 import { developers } from './config';
+import * as googleConfig from './google/config';
 import { provider } from './google/provider';
 import { repository } from './shared/google/artifact-registry';
 
@@ -10,16 +11,25 @@ import { repository } from './shared/google/artifact-registry';
  * explicitly give them access to the resources they need.
  */
 
-developers.map(
-  developer =>
-    // Gives developers access to deploy to the main artifact registry.
-    new gcp.artifactregistry.RepositoryIamMember(
-      `main-artifact-iam-${developer}`,
-      {
-        repository: repository.id,
-        member: developer,
-        role: 'roles/artifactregistry.writer',
-      },
-      { provider, deleteBeforeReplace: true },
-    ),
-);
+developers.map(member => [
+  // Gives developers access to deploy to the main artifact registry.
+  new gcp.artifactregistry.RepositoryIamMember(
+    `main-artifact-iam-${member}`,
+    {
+      repository: repository.id,
+      member,
+      role: 'roles/artifactregistry.writer',
+    },
+    { provider, deleteBeforeReplace: true },
+  ),
+  // Gives developers access to the Kubernetes cluster
+  new gcp.projects.IAMMember(
+    `main-cluster-iam-${member}`,
+    {
+      project: googleConfig.project,
+      member,
+      role: 'roles/container.developer',
+    },
+    { provider, deleteBeforeReplace: true },
+  ),
+]);
