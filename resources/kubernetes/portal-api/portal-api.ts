@@ -64,6 +64,10 @@ export const portalApi = new DeploymentComponent(
         name: 'FRONTEND_URL',
         value: interpolate`https://${portalAppDomain.slice(0, -1)}`,
       },
+      {
+        name: 'LOG_LEVEL',
+        value: config.get('log-level') || 'info',
+      },
       { name: 'SELF_DOMAIN', value: rootDomain.slice(0, -1) },
       { name: 'SELF_URL', value: interpolate`https://${cleanPortalApiDomain}` },
       {
