@@ -23,12 +23,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: cobraz/setup-inputs@v1
+      - uses: simenandre/setup-inputs@v1
         id: inputs
 
       - run: echo ${{ steps.inputs.outputs.payload }}
 
-      - uses: cobraz/pulumi-config@v2
+      - uses: simenandre/pulumi-config@v2
         id: config
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
@@ -37,7 +37,7 @@ jobs:
           key: ${{ steps.inputs.outputs.service }}:tag
           value: ${{ steps.inputs.outputs.tag }}
 
-      - uses: cobraz/get-commit-changelog@v1
+      - uses: simenandre/get-commit-changelog@v1
         if: ${{ steps.config.outputs.key }}
         id: changelog
         with:
