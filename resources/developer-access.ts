@@ -32,4 +32,13 @@ developers.map(member => [
     },
     { provider, deleteBeforeReplace: true },
   ),
+  new gcp.projects.IAMMember(
+    `logs-viewer-iam-${member}`,
+    {
+      project: googleConfig.project,
+      member,
+      role: 'roles/logging.privateLogViewer',
+    },
+    { provider, deleteBeforeReplace: true },
+  ),
 ]);
