@@ -11,10 +11,10 @@ customers.apply(customers =>
     .map(
       customer =>
         new k8s.networking.v1.Ingress(
-          `${customer.slug.current}-ingress`,
+          `${customer.ident.current}-ingress`,
           {
             metadata: {
-              name: `customer-${customer.slug.current}`,
+              name: `customer-${customer.ident.current}`,
               namespace: namespace.metadata.name,
               annotations: {
                 'kubernetes.io/ingress.class': 'caddy',

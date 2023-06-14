@@ -2,7 +2,6 @@ import * as kubernetes from '@pulumi/kubernetes';
 import * as pulumi from '@pulumi/pulumi';
 import { interpolate } from '@pulumi/pulumi';
 import { DeploymentComponent } from '../../components/deployment';
-import { portalAppDomain } from '../../config';
 import { customers } from '../../get-customers';
 import { rootDomain } from '../../shared/config';
 import { artifactRepoUrl } from '../../shared/google/artifact-registry';
@@ -14,9 +13,6 @@ const config = new pulumi.Config('portal-api');
 
 const authSignSecret = config.requireSecret('auth-sign-secret');
 const cookieSecret = config.requireSecret('cookie-secret');
-
-export const portalApiDomain = config.require('domain');
-const cleanPortalApiDomain = portalApiDomain.slice(0, -1);
 
 const portalApiEnvSecrets = new kubernetes.core.v1.Secret(
   'portal-api-env-secrets',
@@ -52,7 +48,6 @@ export const portalApi = new DeploymentComponent(
   {
     image: interpolate`${artifactRepoUrl}/portal-api`,
     tag: config.require('tag'),
-    host: cleanPortalApiDomain,
     namespace: namespace.metadata.name,
     port: 8000,
     envFrom: [
@@ -60,9 +55,10 @@ export const portalApi = new DeploymentComponent(
       { configMapRef: { name: portalApiCustomerConfigMap.metadata.name } },
     ],
     env: [
+      // TODO: Remove once tenant configs are landed
       {
         name: 'FRONTEND_URL',
-        value: interpolate`https://${portalAppDomain.slice(0, -1)}`,
+        value: interpolate`https://flexisoft.bjerk.dev`,
       },
       {
         name: 'LOG_LEVEL',
