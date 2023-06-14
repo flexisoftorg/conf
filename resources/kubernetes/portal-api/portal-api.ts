@@ -3,7 +3,6 @@ import * as pulumi from '@pulumi/pulumi';
 import { interpolate } from '@pulumi/pulumi';
 import { DeploymentComponent } from '../../components/deployment';
 import { customers } from '../../get-customers';
-import { rootDomain } from '../../shared/config';
 import { artifactRepoUrl } from '../../shared/google/artifact-registry';
 import { provider as kubernetesProvider } from '../../shared/kubernetes/provider';
 import { namespace } from './namespace';
@@ -55,17 +54,19 @@ export const portalApi = new DeploymentComponent(
       { configMapRef: { name: portalApiCustomerConfigMap.metadata.name } },
     ],
     env: [
-      // TODO: Remove once tenant configs are landed
+      // TODO: Remove FRONTEND_URL, SELF_URL and SELF_DOMAIN once tenant configs are added to API and Portal
       {
         name: 'FRONTEND_URL',
-        value: interpolate`https://flexisoft.bjerk.dev`,
+        value: 'https://flexisoft.bjerk.dev',
       },
+      { name: 'SELF_URL', value: 'https://api.flexisoft.bjerk.dev' },
+      { name: 'SELF_DOMAIN', value: 'https://flexisoft.bjerk.dev' },
+
       {
         name: 'LOG_LEVEL',
         value: config.get('log-level') || 'info',
       },
-      { name: 'SELF_DOMAIN', value: rootDomain.slice(0, -1) },
-      { name: 'SELF_URL', value: interpolate`https://${cleanPortalApiDomain}` },
+
       {
         name: 'REDIS_URL',
         value: interpolate`redis://${redis.service.metadata.name}.${redis.service.metadata.namespace}.svc.cluster.local:6379`,
