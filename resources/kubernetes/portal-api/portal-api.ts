@@ -7,7 +7,7 @@ import { customers } from '../../get-customers';
 import { rootDomain } from '../../shared/config';
 import { artifactRepoUrl } from '../../shared/google/artifact-registry';
 import { provider as kubernetesProvider } from '../../shared/kubernetes/provider';
-import { namespace } from './namespace';
+import { namespace } from '../namespace';
 import { redis } from './redis';
 import { customerConfigMap } from '../../shared/kubernetes/customer-config';
 
