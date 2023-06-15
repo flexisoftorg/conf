@@ -2,8 +2,8 @@ import * as kubernetes from '@pulumi/kubernetes';
 import * as pulumi from '@pulumi/pulumi';
 import { interpolate } from '@pulumi/pulumi';
 import { DeploymentComponent } from '../../components/deployment';
-import { customers } from '../../get-customers';
 import { artifactRepoUrl } from '../../shared/google/artifact-registry';
+import { customerConfigMap } from '../../shared/kubernetes/customer-config';
 import { provider as kubernetesProvider } from '../../shared/kubernetes/provider';
 import { namespace } from './namespace';
 import { redis } from './redis';
@@ -28,20 +28,6 @@ const portalApiEnvSecrets = new kubernetes.core.v1.Secret(
   { provider: kubernetesProvider },
 );
 
-const portalApiCustomerConfigMap = new kubernetes.core.v1.ConfigMap(
-  'portal-api-customer-config-map',
-  {
-    metadata: {
-      name: 'portal-api-customer-config-map',
-      namespace: namespace.metadata.name,
-    },
-    data: {
-      CUSTOMERS: customers.apply(customers => JSON.stringify(customers)),
-    },
-  },
-  { provider: kubernetesProvider },
-);
-
 export const portalApi = new DeploymentComponent(
   'portal-api',
   {
@@ -51,7 +37,7 @@ export const portalApi = new DeploymentComponent(
     port: 8000,
     envFrom: [
       { secretRef: { name: portalApiEnvSecrets.metadata.name } },
-      { configMapRef: { name: portalApiCustomerConfigMap.metadata.name } },
+      { configMapRef: { name: customerConfigMap.metadata.name } },
     ],
     env: [
       // TODO: Remove FRONTEND_URL, SELF_URL and SELF_DOMAIN once tenant configs are added to API and Portal

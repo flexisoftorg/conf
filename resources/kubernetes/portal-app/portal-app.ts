@@ -2,6 +2,7 @@ import * as pulumi from '@pulumi/pulumi';
 import { interpolate } from '@pulumi/pulumi';
 import { DeploymentComponent } from '../../components/deployment';
 import { artifactRepoUrl } from '../../shared/google/artifact-registry';
+import { customerConfigMap } from '../../shared/kubernetes/customer-config';
 import { provider as kubernetesProvider } from '../../shared/kubernetes/provider';
 import { namespace } from './namespace';
 
@@ -13,6 +14,9 @@ export const portalApp = new DeploymentComponent(
     image: interpolate`${artifactRepoUrl}/portal-app`,
     tag: config.require('tag'),
     namespace: namespace.metadata.name,
+    envFrom: [
+      { configMapRef: { name: customerConfigMap.metadata.name } },
+    ],
     port: 8000,
     resources: {
       requests: {
