@@ -1,9 +1,7 @@
 import * as gcp from '@pulumi/gcp';
-import { portalAppDomain } from '../../config';
 import { apiServices } from '../../google/api-services';
 import { provider } from '../../google/provider';
-import { portalApiDomain } from '../../kubernetes/portal-api/portal-api';
-import { domain, studioSubDomain, wildcardSubDomain } from '../config';
+import { domain, studioSubDomain } from '../config';
 import { ipAddress } from './ip-address';
 
 const ingressIpAddress = ipAddress.address;
@@ -29,22 +27,10 @@ export const zone = new gcp.dns.ManagedZone(
  */
 
 new gcp.dns.RecordSet(
-  'portal-app-ipv4',
+  'tenant-api',
   {
     managedZone: zone.name,
-    name: portalAppDomain,
-    type: 'A',
-    ttl: 300,
-    rrdatas: [ingressIpAddress],
-  },
-  { provider },
-);
-
-new gcp.dns.RecordSet(
-  'portal-api',
-  {
-    managedZone: zone.name,
-    name: portalApiDomain,
+    name: `tenant.${domain}`,
     type: 'A',
     ttl: 300,
     rrdatas: [ingressIpAddress],
@@ -64,11 +50,27 @@ new gcp.dns.RecordSet(
   { provider },
 );
 
+/**
+ * Demo App DNS records
+ */
+
 new gcp.dns.RecordSet(
-  'wildcard',
+  'portal-app-ipv4',
   {
     managedZone: zone.name,
-    name: wildcardSubDomain,
+    name: domain,
+    type: 'A',
+    ttl: 300,
+    rrdatas: [ingressIpAddress],
+  },
+  { provider },
+);
+
+new gcp.dns.RecordSet(
+  'portal-api',
+  {
+    managedZone: zone.name,
+    name: `api.${domain}`,
     type: 'A',
     ttl: 300,
     rrdatas: [ingressIpAddress],
