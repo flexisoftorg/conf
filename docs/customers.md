@@ -20,3 +20,9 @@ deploy the infrastructure to update the ingress resources.
 
 The ingress configures both API address (`api.<custom domain>`) and frontend on
 the custom domain.
+
+## The schema
+
+The schema is defined in the [studio repository][schema].
+
+[schema]: https://github.com/flexisoftorg/studio/blob/main/schemas/customer.ts
