@@ -1,12 +1,13 @@
 import * as kubernetes from '@pulumi/kubernetes';
-import { customers } from '../../get-customers';
-import { provider as kubernetesProvider } from './provider';
+import { customers } from '../get-customers';
+import { provider as kubernetesProvider } from '../shared/kubernetes/provider';
+import { namespace } from './namespace';
 
 export const customerConfigMap = new kubernetes.core.v1.ConfigMap(
   'customer-config-map',
   {
     metadata: {
-      name: 'customer-config-map',
+      namespace: namespace.metadata.name,
     },
     data: {
       CUSTOMERS: customers.apply(customers => JSON.stringify(customers)),

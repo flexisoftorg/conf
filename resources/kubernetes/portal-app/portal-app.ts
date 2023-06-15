@@ -4,9 +4,8 @@ import { interpolate } from '@pulumi/pulumi';
 import { DeploymentComponent } from '../../components/deployment';
 import { artifactRepoUrl } from '../../shared/google/artifact-registry';
 import { provider as kubernetesProvider } from '../../shared/kubernetes/provider';
-import { cleanPortalApiDomain } from './config';
+import { customerConfigMap } from '../customer-config';
 import { namespace } from '../namespace';
-import { customerConfigMap } from '../../shared/kubernetes/customer-config';
 
 const config = new pulumi.Config('portal-app');
 
@@ -15,7 +14,6 @@ export const portalApp = new DeploymentComponent(
   {
     image: interpolate`${artifactRepoUrl}/portal-app`,
     tag: config.require('tag'),
-    host: cleanPortalApiDomain,
     namespace: namespace.metadata.name,
     port: 8000,
     envFrom: [
