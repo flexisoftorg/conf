@@ -12,7 +12,7 @@ config:
     secure: AAABADy2iSkKwef0IiFd0IDXze14jO0VtDr6oM53MXgdadia3pK7wN0U2AArLuQ0GooGBzS6GxGuvCPSgZV2MdfaumwMzdzpoe1OHNN9jP5NGQaJP/RpQRPhlx4r3YnH
   portal-api:log-level: debug
   portal-api:tag: main-370d22a
-  portal-app:tag: main-0b17701
+  portal-app:tag: main-6678ae2
   pulumi:disable-default-providers:
     - '*'
   shared:domain: flexisoft.bjerk.dev.
