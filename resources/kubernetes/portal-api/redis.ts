@@ -1,6 +1,6 @@
 import { DeploymentComponent } from '../../components/deployment';
 import { provider } from '../../shared/kubernetes/provider';
-import { namespace } from './namespace';
+import { namespace } from '../namespace';
 
 export const redis = new DeploymentComponent(
   'redis',

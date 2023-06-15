@@ -1,8 +1,8 @@
 import * as k8s from '@pulumi/kubernetes';
 import { customers } from '../../get-customers';
 import { provider } from '../../shared/kubernetes/provider';
+import { namespace } from '../namespace';
 import { portalApi } from '../portal-api/portal-api';
-import { namespace } from './namespace';
 import { portalApp } from './portal-app';
 
 customers.apply(customers =>
