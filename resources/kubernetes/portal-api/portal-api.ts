@@ -46,7 +46,7 @@ export const portalApi = new DeploymentComponent(
         value: 'https://flexisoft.bjerk.dev',
       },
       { name: 'SELF_URL', value: 'https://api.flexisoft.bjerk.dev' },
-      { name: 'SELF_DOMAIN', value: 'https://flexisoft.bjerk.dev' },
+      { name: 'SELF_DOMAIN', value: 'flexisoft.bjerk.dev' },
 
       {
         name: 'LOG_LEVEL',
