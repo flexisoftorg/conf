@@ -1,14 +1,14 @@
-import * as google from '@pulumi/google-native';
+import * as gcp from '@pulumi/gcp';
 import { apiServices } from '../../google/api-services';
 import { region } from '../../google/config';
-import { provider } from './native-provider';
+import { provider } from '../../google/provider';
 
-export const ipAddress = new google.compute.v1.Address(
+export const ipAddress = new gcp.compute.Address(
   'flexisoft-core-address',
   {
     name: 'flexisoft-core-address',
     addressType: 'EXTERNAL',
     region,
   },
-  { provider, dependsOn: apiServices },
+  { provider, dependsOn: apiServices, import: 'flexisoft-core-address' },
 );
