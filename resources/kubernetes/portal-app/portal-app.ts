@@ -2,8 +2,8 @@ import * as pulumi from '@pulumi/pulumi';
 import { interpolate } from '@pulumi/pulumi';
 import { DeploymentComponent } from '../../components/deployment';
 import { artifactRepoUrl } from '../../shared/google/artifact-registry';
+import { customerConfigMap } from '../../shared/kubernetes/customer-config';
 import { provider as kubernetesProvider } from '../../shared/kubernetes/provider';
-import { customerConfigMap } from '../customer-config';
 import { namespace } from '../namespace';
 
 const config = new pulumi.Config('portal-app');
