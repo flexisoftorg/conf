@@ -1,4 +1,4 @@
-name: On Push
+name: Manual Refresh
 
 permissions:
   id-token: write
