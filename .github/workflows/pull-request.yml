@@ -22,8 +22,13 @@ jobs:
             refresh: false
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+
+      - name: Use Node LTS
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+          cache: yarn
 
       - name: Authenticate with Google 🔑
         uses: google-github-actions/auth@v1
@@ -34,23 +39,11 @@ jobs:
 
       - uses: simenandre/setup-gke-gcloud-auth-plugin@v1
 
-      - name: Use Node LTS
-        uses: actions/setup-node@v3
-        with:
-          node-version: lts/*
-          cache: yarn
-
-      - name: Install dependencies
-        run: yarn install
-
-      - name: Lint
-        run: yarn lint
+      - run: yarn install
 
       - uses: pulumi/actions@v4
-        env:
-          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
         with:
-          stack-name: ${{ matrix.stack }}
           command: preview
+          stack-name: ${{ matrix.stack }}
           comment-on-pr: true
           github-token: ${{ secrets.BOT_GITHUB_TOKEN }}
