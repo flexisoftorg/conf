@@ -82,7 +82,7 @@ export class DeploymentComponent extends pulumi.ComponentResource {
     this.deployment = new k8s.apps.v1.Deployment(
       name,
       {
-        metadata: { namespace, labels: { environment } },
+        metadata: { name, namespace, labels: { environment } },
         spec: {
           replicas: 1,
           selector: { matchLabels },
