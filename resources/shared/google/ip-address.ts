@@ -10,5 +10,5 @@ export const ipAddress = new gcp.compute.Address(
     addressType: 'EXTERNAL',
     region,
   },
-  { provider, dependsOn: apiServices, import: 'flexisoft-core-address' },
+  { provider, dependsOn: apiServices, protect: true },
 );
