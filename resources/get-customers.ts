@@ -4,13 +4,13 @@ import { z } from 'zod';
 import { sanityApiToken, sanityProjectId } from './shared/config';
 
 const portalCustomer = z.object({
-  ident: z.object({
-    current: z.string(),
-  }),
   host: z.string(),
   name: z.string(),
   port: z.number(),
   database: z.string(),
+  slug: z.object({
+    current: z.string(),
+  }),
   domain: z.string().optional(),
 });
 
@@ -26,9 +26,7 @@ export function getCustomers(): pulumi.Output<PortalCustomer[]> {
       apiVersion: '2023-04-18',
     });
 
-    const result = await client.fetch(
-      "*[_type == 'customer' && !(_id in path('drafts.**'))]",
-    );
+    const result = await client.fetch("*[_type == 'customer']");
     return z.array(portalCustomer).parse(result);
   });
 }
