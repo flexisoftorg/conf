@@ -13,10 +13,9 @@ export const portalApp = new DeploymentComponent(
   {
     image: interpolate`${artifactRepoUrl}/portal-app`,
     tag: config.require('tag'),
+    logLevel: config.get('log-level'),
     namespace: namespace.metadata.name,
-    envFrom: [
-      { configMapRef: { name: customerConfigMap.metadata.name } },
-    ],
+    envFrom: [{ configMapRef: { name: customerConfigMap.metadata.name } }],
     port: 8000,
     resources: {
       requests: {
