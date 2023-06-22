@@ -36,6 +36,7 @@ export const portalApi = new DeploymentComponent(
     tag: config.require('tag'),
     namespace: namespace.metadata.name,
     port: 8000,
+    logLevel,
     envFrom: [
       { secretRef: { name: portalApiEnvSecrets.metadata.name } },
       { configMapRef: { name: customerConfigMap.metadata.name } },
@@ -48,12 +49,6 @@ export const portalApi = new DeploymentComponent(
       },
       { name: 'SELF_URL', value: 'https://api.flexisoft.bjerk.dev' },
       { name: 'SELF_DOMAIN', value: 'flexisoft.bjerk.dev' },
-
-      {
-        name: 'LOG_LEVEL',
-        value: logLevel ?? 'info',
-      },
-
       {
         name: 'REDIS_URL',
         value: interpolate`redis://${redis.service.metadata.name}.${redis.service.metadata.namespace}.svc.cluster.local:6379`,
