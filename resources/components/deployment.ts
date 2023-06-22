@@ -96,17 +96,19 @@ export class DeploymentComponent extends pulumi.ComponentResource {
                   imagePullPolicy: 'IfNotPresent',
                   ports: [{ containerPort: port }],
                   envFrom,
-                  env: pulumi.output(env).apply(_env => [
-                    {
-                      name: 'PORT',
-                      value: String(port),
-                    },
-                    {
-                      name: 'LOG_LEVEL',
-                      value: logLevel,
-                    },
-                    ..._env,
-                  ]),
+                  env: pulumi
+                    .all([env, logLevel])
+                    .apply(([uwEnv, uwLoglevel]) => [
+                      {
+                        name: 'PORT',
+                        value: String(port),
+                      },
+                      {
+                        name: 'LOG_LEVEL',
+                        value: uwLoglevel,
+                      },
+                      ...uwEnv,
+                    ]),
                   resources,
                 },
               ],
