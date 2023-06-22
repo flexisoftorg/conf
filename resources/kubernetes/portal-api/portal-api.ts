@@ -12,6 +12,7 @@ const config = new pulumi.Config('portal-api');
 
 const authSignSecret = config.requireSecret('auth-sign-secret');
 const cookieSecret = config.requireSecret('cookie-secret');
+const logLevel = config.get('log-level');
 
 const portalApiEnvSecrets = new kubernetes.core.v1.Secret(
   'portal-api-env-secrets',
@@ -50,7 +51,7 @@ export const portalApi = new DeploymentComponent(
 
       {
         name: 'LOG_LEVEL',
-        value: config.get('log-level') || 'info',
+        value: logLevel ?? 'info',
       },
 
       {
