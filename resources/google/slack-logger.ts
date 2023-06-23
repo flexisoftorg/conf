@@ -5,7 +5,7 @@ import { provider } from './provider';
 import { project } from './config';
 
 const config = new pulumi.Config('slack');
-const name = 'flexi-soft-slack-logger';
+const name = 'flexi-soft';
 const slackAgentTag = 'v3.1.0';
 const channel = 'C05CQ64DGBE'; // #flexi-soft-notifications
 
