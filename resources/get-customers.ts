@@ -11,8 +11,8 @@ const portalCustomer = z.object({
   name: z.string(),
   port: z.number(),
   database: z.string(),
-  domain: z.string().optional(),
-  logoUrl: z.string().optional(),
+  domain: z.string(),
+  logoUrl: z.string().nullable(),
 });
 
 export type PortalCustomer = z.infer<typeof portalCustomer>;
