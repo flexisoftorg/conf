@@ -11,7 +11,8 @@ const portalCustomer = z.object({
   name: z.string(),
   port: z.number(),
   database: z.string(),
-  domain: z.string().optional(),
+  domain: z.string(),
+  logoUrl: z.string().nullable(),
 });
 
 export type PortalCustomer = z.infer<typeof portalCustomer>;
@@ -27,7 +28,19 @@ export function getCustomers(): pulumi.Output<PortalCustomer[]> {
     });
 
     const result = await client.fetch(
-      "*[_type == 'customer' && !(_id in path('drafts.**'))]",
+      `
+        *[_type == 'customer' && !(_id in path('drafts.**'))] {
+            ident {
+              current
+            },
+            host,
+            name,
+            port,
+            database,
+            domain,
+            "logoUrl": logo.asset->url
+        }
+      `,
     );
     return z.array(portalCustomer).parse(result);
   });
