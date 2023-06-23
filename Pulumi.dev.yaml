@@ -1,0 +1,3 @@
+config:
+  slack:bot-oauth-token:
+    secure: AAABAMgfilSNZ7BcEO5vORrE9Mpq9lUKhwSnt4PPfAq8YXoDWnpI7B+B+b4fZzernohM25gObCaRSahnFQXoww==
