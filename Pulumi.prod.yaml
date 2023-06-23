@@ -11,7 +11,7 @@ config:
   portal-api:cookie-secret:
     secure: AAABADy2iSkKwef0IiFd0IDXze14jO0VtDr6oM53MXgdadia3pK7wN0U2AArLuQ0GooGBzS6GxGuvCPSgZV2MdfaumwMzdzpoe1OHNN9jP5NGQaJP/RpQRPhlx4r3YnH
   portal-api:log-level: debug
-  portal-api:tag: main-9c082ae
+  portal-api:tag: main-9eace2f
   portal-app:log-level: debug
   portal-app:tag: main-809adb2
   pulumi:disable-default-providers:
