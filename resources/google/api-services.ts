@@ -28,6 +28,7 @@ const apis = [
   'firestore.googleapis.com',
   'artifactregistry.googleapis.com',
   'redis.googleapis.com',
+  'eventarc.googleapis.com',
 ];
 
 export const apiServices = apis.map(
