@@ -37,6 +37,7 @@ jobs:
     concurrency: pulumi-Bjerk/${{ needs.metadata.outputs.env }}
     needs: metadata
     if: needs.metadata.outputs.actor != 'renovate[bot]'
+    permissions: write-all
     steps:
       - uses: actions/checkout@v3
 
