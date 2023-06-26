@@ -97,11 +97,15 @@ jobs:
       - name: Notify on Slack
         uses: slackapi/slack-github-action@v1.24.0
         with:
-          slack-message: |
+          payload: |
+            { 
+              "text": "${{ env.message }}"
+            }
+        env:
+          message: |
             Bumped ${{ steps.inputs.outputs.service }} tag to
             ${{ steps.inputs.outputs.tag }} on ${{ steps.inputs.outputs.env }}
             (done by ${{ needs.metadata.outputs.actor }}) 🎉
-        env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
 
