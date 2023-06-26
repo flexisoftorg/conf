@@ -27,12 +27,14 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       actor: ${{ steps.inputs.outputs.actor || github.actor }}
+      env: ${{ github.event.inputs.env }}
     steps:
       - uses: simenandre/setup-inputs@v1
         id: inputs
   update-app-tag:
     name: Update app tag (by ${{ needs.metadata.outputs.actor }})
     runs-on: ubuntu-latest
+    concurrency: pulumi-Bjerk/${{ needs.metadata.outputs.env }}
     needs: metadata
     if: needs.metadata.outputs.actor != 'renovate[bot]'
     steps:
