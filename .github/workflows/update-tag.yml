@@ -1,7 +1,7 @@
 name: Update Service tag
 permissions:
   id-token: write
-  contents: read
+  contents: write
 on:
   workflow_dispatch:
     inputs:
@@ -14,9 +14,19 @@ on:
   repository_dispatch:
     types: [update-tag]
 jobs:
-  update-app-tag:
-    name: Update app tag
+  metadata:
+    name: Prepare metadata
     runs-on: ubuntu-latest
+    outputs:
+      actor: ${{ steps.inputs.outputs.actor }}
+    steps:
+      - uses: simenandre/setup-inputs@v1
+        id: inputs
+  update-app-tag:
+    name: Update app tag (by ${{ needs.metadata.outputs.actor }})
+    runs-on: ubuntu-latest
+    needs: metadata
+    if: needs.metadata.outputs.actor != 'renovate[bot]'
     strategy:
       matrix:
         env: [prod] # If we have more environments, add them here
@@ -33,7 +43,75 @@ jobs:
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
         with:
-          stack-name: Bjerk/${{ matrix.env }}
+          stack-name: Bjerk/${{ steps.inputs.outputs.env }}
+          key: ${{ steps.inputs.outputs.service }}:tag
+          value: ${{ steps.inputs.outputs.tag }}
+
+      - name: Authenticate with Google 🔑
+        uses: google-github-actions/auth@v1
+        with:
+          project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+
+      - uses: simenandre/setup-gke-gcloud-auth-plugin@v1
+
+      - name: Use Node LTS
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install
+
+      - uses: pulumi/actions@v4
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+        with:
+          command: up
+          stack-name: Bjerk/${{ steps.inputs.outputs.env }}
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: |
+            Bump ${{ steps.inputs.outputs.service }} tag to ${{ steps.inputs.outputs.tag }} on ${{ steps.inputs.outputs.env }}
+          commit_options: '--no-verify'
+          commit_user_name: ${{ steps.inputs.outputs.actor }}
+          commit_user_email:
+            ${{ steps.inputs.outputs.actor }}@users.noreply.github.com
+
+      - name: Notify on Slack
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          slack-message: |
+            Bumped ${{ steps.inputs.outputs.service }} tag to
+            ${{ steps.inputs.outputs.tag }} on ${{ steps.inputs.outputs.env }}
+            (done by ${{ steps.inputs.outputs.actor }}) 🎉
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+
+  open-tag-pr:
+    name: Create tag update PR
+    runs-on: ubuntu-latest
+    needs: metadata
+    if: needs.metadata.outputs.actor == 'renovate[bot]'
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: simenandre/setup-inputs@v1
+        id: inputs
+
+      - run: echo ${{ steps.inputs.outputs.payload }}
+
+      - uses: simenandre/pulumi-config@v2
+        id: config
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+        with:
+          stack-name: Bjerk/${{ steps.inputs.outputs.env }}
           key: ${{ steps.inputs.outputs.service }}:tag
           value: ${{ steps.inputs.outputs.tag }}
 
@@ -46,28 +124,15 @@ jobs:
           repository: flexisoftorg/${{ steps.inputs.outputs.service }}
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
 
-      - name: Commit changes
-        if: steps.inputs.outputs.actor != 'renovate[bot]'
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: |
-            Bump ${{ steps.inputs.outputs.service }} tag to ${{ steps.inputs.outputs.tag }} on ${{ matrix.env }}
-          commit_options: '--no-verify'
-          commit_user_name: ${{ steps.inputs.outputs.actor }}
-          commit_user_email:
-            ${{ steps.inputs.outputs.actor }}@users.noreply.github.com
-
-      - name: Send custom JSON data to Slack workflow
-        if: steps.inputs.outputs.actor != 'renovate[bot]'
-        uses: slackapi/slack-github-action@v1.24.0
-        with:
-          slack-message: |
-            Bumped ${{ steps.inputs.outputs.service }} tag to
-            ${{ steps.inputs.outputs.tag }} on ${{ matrix.env }}
-            (done by ${{ steps.inputs.outputs.actor }})
+      - name: Set update message
+        id: change
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+          message: |
+            Automated PR created to bump ${{
+            steps.inputs.outputs.service }} tag to ${{
+            steps.inputs.outputs.tag }} on ${{ steps.inputs.outputs.env }}
+        run: |
+          echo ::set-output name=message::${{ env.message }}. 🎉
 
       - name: Create Pull Request
         if: steps.inputs.outputs.actor == 'renovate[bot]'
@@ -77,33 +142,29 @@ jobs:
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
           commit-message:
             bump ${{ steps.inputs.outputs.service }} to ${{
-            steps.inputs.outputs.tag }} on ${{ matrix.env }}
-          branch: bump-tag-${{ steps.inputs.outputs.service }}-${{ matrix.env }}
+            steps.inputs.outputs.tag }} on ${{ steps.inputs.outputs.env }}
+          branch: bump-tag-${{ steps.inputs.outputs.service }}-${{ steps.inputs.outputs.env }}
           title:
             'chore: bump ${{ steps.inputs.outputs.service }} tag to `${{
-            steps.inputs.outputs.tag }}` on ${{ matrix.env }}'
+            steps.inputs.outputs.tag }}` on ${{ steps.inputs.outputs.env }}'
           body: |
-            Automated tag change on ${{ matrix.env }}. 🎉
+            ${{ steps.change.outputs.message }}
 
             ${{ steps.changelog.outputs.changelog }}
 
-      - name: Send custom JSON data to Slack workflow
+      - name: Send Slack notification
         if: steps.inputs.outputs.actor == 'renovate[bot]'
         uses: slackapi/slack-github-action@v1.24.0
         with:
           payload: >-
             {
-              "text": "Automated PR created to bump ${{
-            steps.inputs.outputs.service }} tag to ${{
-            steps.inputs.outputs.tag }} on ${{ matrix.env }}",
+              "text": "${{ steps.change.outputs.message }}",
               "blocks": [
                 {
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "Automated PR created to bump ${{
-            steps.inputs.outputs.service }} tag to ${{
-            steps.inputs.outputs.tag }} on ${{ matrix.env }}"
+                    "text": "${{ steps.change.outputs.message }}"
                   }
                 },
                 {
