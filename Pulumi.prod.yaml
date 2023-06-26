@@ -21,3 +21,5 @@ config:
     secure: AAABAKNUxuIL0P20L2+jSx+8ltTNOjlOc6QPadK5RvVmbRjvuyQdVE0usE8NDTvDULKHUvccqXXy8++71QO4+Knmr3f8Cm4f5jug/ArWfAh55OIU+l0ewtwczJatw781PQuDvBLz+Z9+Bn13sjSQpIJIpKUw+YCytxUA9o9vmhlGHtTAc3GnswmMOv5X5dUvvwe7NtDwrlRvkVw20kniJGqNZF2v1ETYbERDx/gm2f8d0H2jMqIMpqNykO1+YyD0kSo4YsQN02wW/kknQclxy/bkd/A=
   shared:sanity-project-id: w45ry00z
   shared:studio-sub-domain: studio.flexisoft.bjerk.dev.
+  slack:bot-oauth-token:
+    secure: AAABAP0i2LEFsOZ2YLW6LasJg7R1m+DaL0nhcByNCS8X6bgGE2zlkJLNS+rRfWvBvb88bBhEpx0m98fKKc2eeA==
