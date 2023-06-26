@@ -11,6 +11,14 @@ on:
       service:
         description: Which service
         required: true
+      env:
+        type: choice
+        description: Which service
+        required: true
+        default: prod
+        options:
+          - prod
+
   repository_dispatch:
     types: [update-tag]
 jobs:
@@ -18,7 +26,7 @@ jobs:
     name: Prepare metadata
     runs-on: ubuntu-latest
     outputs:
-      actor: ${{ steps.inputs.outputs.actor }}
+      actor: ${{ steps.inputs.outputs.actor || github.actor }}
     steps:
       - uses: simenandre/setup-inputs@v1
         id: inputs
@@ -27,9 +35,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: metadata
     if: needs.metadata.outputs.actor != 'renovate[bot]'
-    strategy:
-      matrix:
-        env: [prod] # If we have more environments, add them here
     steps:
       - uses: actions/checkout@v3
 
@@ -143,7 +148,9 @@ jobs:
           commit-message:
             bump ${{ steps.inputs.outputs.service }} to ${{
             steps.inputs.outputs.tag }} on ${{ steps.inputs.outputs.env }}
-          branch: bump-tag-${{ steps.inputs.outputs.service }}-${{ steps.inputs.outputs.env }}
+          branch:
+            bump-tag-${{ steps.inputs.outputs.service }}-${{
+            steps.inputs.outputs.env }}
           title:
             'chore: bump ${{ steps.inputs.outputs.service }} tag to `${{
             steps.inputs.outputs.tag }}` on ${{ steps.inputs.outputs.env }}'
