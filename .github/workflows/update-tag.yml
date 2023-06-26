@@ -13,7 +13,7 @@ on:
         required: true
       env:
         type: choice
-        description: Which service
+        description: Environment
         required: true
         default: prod
         options:
@@ -76,6 +76,10 @@ jobs:
         with:
           command: up
           stack-name: Bjerk/${{ steps.inputs.outputs.env }}
+          target:
+            urn:pulumi:prod::flexisoft-portal::flexisoft:deployment::${{
+            steps.inputs.outputs.service }}
+          target-dependents: true
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
@@ -83,9 +87,9 @@ jobs:
           commit_message: |
             Bump ${{ steps.inputs.outputs.service }} tag to ${{ steps.inputs.outputs.tag }} on ${{ steps.inputs.outputs.env }}
           commit_options: '--no-verify'
-          commit_user_name: ${{ steps.inputs.outputs.actor }}
+          commit_user_name: ${{ needs.metadata.outputs.actor }}
           commit_user_email:
-            ${{ steps.inputs.outputs.actor }}@users.noreply.github.com
+            ${{ needs.metadata.outputs.actor }}@users.noreply.github.com
 
       - name: Notify on Slack
         uses: slackapi/slack-github-action@v1.24.0
@@ -93,7 +97,7 @@ jobs:
           slack-message: |
             Bumped ${{ steps.inputs.outputs.service }} tag to
             ${{ steps.inputs.outputs.tag }} on ${{ steps.inputs.outputs.env }}
-            (done by ${{ steps.inputs.outputs.actor }}) 🎉
+            (done by ${{ needs.metadata.outputs.actor }}) 🎉
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
@@ -140,7 +144,6 @@ jobs:
           echo ::set-output name=message::${{ env.message }}. 🎉
 
       - name: Create Pull Request
-        if: steps.inputs.outputs.actor == 'renovate[bot]'
         id: pr
         uses: peter-evans/create-pull-request@v5
         with:
@@ -160,7 +163,6 @@ jobs:
             ${{ steps.changelog.outputs.changelog }}
 
       - name: Send Slack notification
-        if: steps.inputs.outputs.actor == 'renovate[bot]'
         uses: slackapi/slack-github-action@v1.24.0
         with:
           payload: >-
