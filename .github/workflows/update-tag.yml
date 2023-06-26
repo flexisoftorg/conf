@@ -46,7 +46,32 @@ jobs:
           repository: flexisoftorg/${{ steps.inputs.outputs.service }}
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
 
+      - name: Commit changes
+        if: steps.inputs.outputs.actor != 'renovate[bot]'
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: |
+            Bump ${{ steps.inputs.outputs.service }} tag to ${{ steps.inputs.outputs.tag }} on ${{ matrix.env }}
+          commit_options: '--no-verify'
+          commit_user_name: ${{ steps.inputs.outputs.actor }}
+          commit_user_email:
+            ${{ steps.inputs.outputs.actor }}@users.noreply.github.com
+
+      - name: Send custom JSON data to Slack workflow
+        if: steps.inputs.outputs.actor != 'renovate[bot]'
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          slack-message: |
+            Bumped ${{ steps.inputs.outputs.service }} tag to
+            ${{ steps.inputs.outputs.tag }} on ${{ matrix.env }}
+            (done by ${{ steps.inputs.outputs.actor }})
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+
       - name: Create Pull Request
+        if: steps.inputs.outputs.actor == 'renovate[bot]'
+        id: pr
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
@@ -61,3 +86,44 @@ jobs:
             Automated tag change on ${{ matrix.env }}. 🎉
 
             ${{ steps.changelog.outputs.changelog }}
+
+      - name: Send custom JSON data to Slack workflow
+        if: steps.inputs.outputs.actor == 'renovate[bot]'
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: >-
+            {
+              "text": "Automated PR created to bump ${{
+            steps.inputs.outputs.service }} tag to ${{
+            steps.inputs.outputs.tag }} on ${{ matrix.env }}",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "Automated PR created to bump ${{
+            steps.inputs.outputs.service }} tag to ${{
+            steps.inputs.outputs.tag }} on ${{ matrix.env }}"
+                  }
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "Go to PR ⟶",
+                        "emoji": true
+                      },
+                      "value": "go-to-pr",
+                      "url": "${{ steps.pr.outputs.pull-request-url }}",
+                      "action_id": "go-to-pr-action"
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
