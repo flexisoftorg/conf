@@ -162,13 +162,13 @@ jobs:
         with:
           payload: >-
             {
-              "text": "${{ needs.metadata.outputs.message }}",
+              "text": "Automated PR Created: ${{ needs.metadata.outputs.message }}",
               "blocks": [
                 {
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "${{ needs.metadata.outputs.message }}"
+                    "text": "Automated PR Created: ${{ needs.metadata.outputs.message }}"
                   }
                 },
                 {
