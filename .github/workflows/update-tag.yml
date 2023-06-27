@@ -43,6 +43,9 @@ jobs:
     permissions: write-all
     steps:
       - uses: actions/checkout@v3
+        with:
+          # get default branch from context
+          ref: ${{ github.event.repository.default_branch }}
 
       - uses: simenandre/setup-inputs@v1
         id: inputs
