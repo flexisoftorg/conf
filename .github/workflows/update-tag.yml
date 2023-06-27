@@ -28,9 +28,9 @@ jobs:
     outputs:
       actor: ${{ steps.inputs.outputs.actor || github.actor }}
       env: ${{ github.event.inputs.env }}
-      message: |
-        bump ${{ steps.inputs.outputs.service }} tag to
-        ${{ steps.inputs.outputs.tag }} on ${{ steps.inputs.outputs.env }}
+      message:
+        bump ${{ steps.inputs.outputs.service }} tag to ${{
+        steps.inputs.outputs.tag }} on ${{ steps.inputs.outputs.env }}
     steps:
       - uses: simenandre/setup-inputs@v1
         id: inputs
@@ -151,8 +151,7 @@ jobs:
           branch:
             bump-tag-${{ steps.inputs.outputs.service }}-${{
             steps.inputs.outputs.env }}
-          title:
-            'chore: ${{ needs.metadata.outputs.message }}'
+          title: 'chore: ${{ needs.metadata.outputs.message }}'
           body: |
             ${{ needs.metadata.outputs.message }}
 
