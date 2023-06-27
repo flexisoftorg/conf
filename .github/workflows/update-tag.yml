@@ -104,10 +104,10 @@ jobs:
               "text": "${{ env.message }}"
             }
         env:
-          message: |
-            Bumped ${{ steps.inputs.outputs.service }} tag to
-            ${{ steps.inputs.outputs.tag }} on ${{ steps.inputs.outputs.env }}
-            (done by ${{ needs.metadata.outputs.actor }}) 🎉
+          message:
+            Bumped ${{ steps.inputs.outputs.service }} tag to ${{
+            steps.inputs.outputs.tag }} on ${{ steps.inputs.outputs.env }} (done
+            by ${{ needs.metadata.outputs.actor }}) 🎉
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
 
@@ -162,13 +162,15 @@ jobs:
         with:
           payload: >-
             {
-              "text": "Automated PR Created: ${{ needs.metadata.outputs.message }}",
+              "text": "Automated PR Created: ${{ needs.metadata.outputs.message
+            }}",
               "blocks": [
                 {
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "Automated PR Created: ${{ needs.metadata.outputs.message }}"
+                    "text": "Automated PR Created: ${{
+            needs.metadata.outputs.message }}"
                   }
                 },
                 {
