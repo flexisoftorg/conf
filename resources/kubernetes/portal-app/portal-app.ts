@@ -1,10 +1,11 @@
+import * as k8s from '@pulumi/kubernetes';
 import * as pulumi from '@pulumi/pulumi';
 import { interpolate } from '@pulumi/pulumi';
 import { DeploymentComponent } from '../../components/deployment';
 import { artifactRepoUrl } from '../../shared/google/artifact-registry';
 import { provider as kubernetesProvider } from '../../shared/kubernetes/provider';
-import { customerConfigMap } from '../customer-config';
-import { namespace } from '../namespace';
+import { cleanPortalApiDomain } from './config';
+import { namespace } from './namespace';
 
 const config = new pulumi.Config('portal-app');
 
@@ -13,9 +14,8 @@ export const portalApp = new DeploymentComponent(
   {
     image: interpolate`${artifactRepoUrl}/portal-app`,
     tag: config.require('tag'),
-    logLevel: config.get('log-level'),
+    host: cleanPortalApiDomain,
     namespace: namespace.metadata.name,
-    envFrom: [{ configMapRef: { name: customerConfigMap.metadata.name } }],
     port: 8000,
     resources: {
       requests: {
@@ -26,6 +26,41 @@ export const portalApp = new DeploymentComponent(
         cpu: '200m',
         memory: '256Mi',
       },
+    },
+  },
+  { provider: kubernetesProvider },
+);
+
+new k8s.networking.v1.Ingress(
+  'wildcard-ingress',
+  {
+    metadata: {
+      name: 'app-wildcard',
+      namespace: namespace.metadata.name,
+      annotations: {
+        'kubernetes.io/ingress.class': 'caddy',
+      },
+    },
+    spec: {
+      rules: [
+        {
+          host: `*.app.${cleanPortalApiDomain}`,
+          http: {
+            paths: [
+              {
+                path: '/',
+                pathType: 'Prefix',
+                backend: {
+                  service: {
+                    name: portalApp.service.metadata.name,
+                    port: { number: portalApp.port },
+                  },
+                },
+              },
+            ],
+          },
+        },
+      ],
     },
   },
   { provider: kubernetesProvider },

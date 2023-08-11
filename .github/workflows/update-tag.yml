@@ -1,7 +1,7 @@
 name: Update Service tag
 permissions:
   id-token: write
-  contents: write
+  contents: read
 on:
   workflow_dispatch:
     inputs:
@@ -11,114 +11,15 @@ on:
       service:
         description: Which service
         required: true
-      env:
-        type: choice
-        description: Environment
-        required: true
-        default: prod
-        options:
-          - prod
-
   repository_dispatch:
     types: [update-tag]
 jobs:
-  metadata:
-    name: Prepare metadata
-    runs-on: ubuntu-latest
-    outputs:
-      actor: ${{ steps.inputs.outputs.actor || github.actor }}
-      env: ${{ github.event.inputs.env }}
-      message:
-        bump ${{ steps.inputs.outputs.service }} tag to ${{
-        steps.inputs.outputs.tag }} on ${{ steps.inputs.outputs.env }}
-    steps:
-      - uses: simenandre/setup-inputs@v1
-        id: inputs
   update-app-tag:
-    name: Update app tag (by ${{ needs.metadata.outputs.actor }})
+    name: Update app tag
     runs-on: ubuntu-latest
-    concurrency: pulumi-Bjerk/${{ needs.metadata.outputs.env }}
-    needs: metadata
-    if: needs.metadata.outputs.actor != 'renovate[bot]'
-    permissions: write-all
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          # get default branch from context
-          ref: ${{ github.event.repository.default_branch }}
-
-      - uses: simenandre/setup-inputs@v1
-        id: inputs
-
-      - run: echo ${{ steps.inputs.outputs.payload }}
-
-      - uses: simenandre/pulumi-config@v2
-        id: config
-        env:
-          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
-        with:
-          stack-name: Bjerk/${{ steps.inputs.outputs.env }}
-          key: ${{ steps.inputs.outputs.service }}:tag
-          value: ${{ steps.inputs.outputs.tag }}
-
-      - name: Authenticate with Google 🔑
-        uses: google-github-actions/auth@v1
-        with:
-          project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
-          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
-
-      - uses: simenandre/setup-gke-gcloud-auth-plugin@v1
-
-      - name: Use Node LTS
-        uses: actions/setup-node@v3
-        with:
-          node-version: lts/*
-          cache: yarn
-
-      - name: Install dependencies
-        run: yarn install
-
-      - uses: pulumi/actions@v4
-        env:
-          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
-        with:
-          command: up
-          stack-name: Bjerk/${{ steps.inputs.outputs.env }}
-          target:
-            urn:pulumi:prod::flexisoft-portal::flexisoft:deployment::${{
-            steps.inputs.outputs.service }}
-          target-dependents: true
-
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: ${{ needs.metadata.outputs.message }}
-          commit_options: '--no-verify'
-          commit_user_name: ${{ needs.metadata.outputs.actor }}
-          commit_user_email:
-            ${{ needs.metadata.outputs.actor }}@users.noreply.github.com
-
-      - name: Notify on Slack
-        uses: slackapi/slack-github-action@v1.24.0
-        with:
-          payload: |
-            { 
-              "text": "${{ env.message }}"
-            }
-        env:
-          message:
-            Bumped ${{ steps.inputs.outputs.service }} tag to ${{
-            steps.inputs.outputs.tag }} on ${{ steps.inputs.outputs.env }} (done
-            by ${{ needs.metadata.outputs.actor }}) 🎉
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
-
-  open-tag-pr:
-    name: Create tag update PR
-    runs-on: ubuntu-latest
-    needs: metadata
-    if: needs.metadata.outputs.actor == 'renovate[bot]'
+    strategy:
+      matrix:
+        env: [prod] # If we have more environments, add them here
     steps:
       - uses: actions/checkout@v3
 
@@ -132,7 +33,7 @@ jobs:
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
         with:
-          stack-name: Bjerk/${{ steps.inputs.outputs.env }}
+          stack-name: Bjerk/${{ matrix.env }}
           key: ${{ steps.inputs.outputs.service }}:tag
           value: ${{ steps.inputs.outputs.tag }}
 
@@ -146,54 +47,17 @@ jobs:
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
 
       - name: Create Pull Request
-        id: pr
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
-          commit-message: ${{ needs.metadata.outputs.message }}
-          branch:
-            bump-tag-${{ steps.inputs.outputs.service }}-${{
-            steps.inputs.outputs.env }}
-          title: 'chore: ${{ needs.metadata.outputs.message }}'
+          commit-message:
+            bump ${{ steps.inputs.outputs.service }} to ${{
+            steps.inputs.outputs.tag }} on ${{ matrix.env }}
+          branch: bump-tag-${{ steps.inputs.outputs.service }}-${{ matrix.env }}
+          title:
+            'chore: bump ${{ steps.inputs.outputs.service }} tag to `${{
+            steps.inputs.outputs.tag }}` on ${{ matrix.env }}'
           body: |
-            ${{ needs.metadata.outputs.message }}
+            Automated tag change on ${{ matrix.env }}. 🎉
 
             ${{ steps.changelog.outputs.changelog }}
-
-      - name: Send Slack notification
-        uses: slackapi/slack-github-action@v1.24.0
-        with:
-          payload: >-
-            {
-              "text": "Automated PR Created: ${{ needs.metadata.outputs.message
-            }}",
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "Automated PR Created: ${{
-            needs.metadata.outputs.message }}"
-                  }
-                },
-                {
-                  "type": "actions",
-                  "elements": [
-                    {
-                      "type": "button",
-                      "text": {
-                        "type": "plain_text",
-                        "text": "Go to PR ⟶",
-                        "emoji": true
-                      },
-                      "value": "go-to-pr",
-                      "url": "${{ steps.pr.outputs.pull-request-url }}",
-                      "action_id": "go-to-pr-action"
-                    }
-                  ]
-                }
-              ]
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
