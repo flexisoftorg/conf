@@ -63,15 +63,3 @@ new gcp.dns.RecordSet(
   },
   { provider },
 );
-
-new gcp.dns.RecordSet(
-  'wildcard',
-  {
-    managedZone: zone.name,
-    name: wildcardSubDomain,
-    type: 'A',
-    ttl: 300,
-    rrdatas: [ingressIpAddress],
-  },
-  { provider },
-);

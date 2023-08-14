@@ -9,6 +9,7 @@ import { artifactRepoUrl } from '../../shared/google/artifact-registry';
 import { provider as kubernetesProvider } from '../../shared/kubernetes/provider';
 import { namespace } from './namespace';
 import { redis } from './redis';
+import { customerConfigMap } from '../../shared/kubernetes/customer-config';
 
 const config = new pulumi.Config('portal-api');
 
@@ -33,20 +34,6 @@ const portalApiEnvSecrets = new kubernetes.core.v1.Secret(
   { provider: kubernetesProvider },
 );
 
-const portalApiCustomerConfigMap = new kubernetes.core.v1.ConfigMap(
-  'portal-api-customer-config-map',
-  {
-    metadata: {
-      name: 'portal-api-customer-config-map',
-      namespace: namespace.metadata.name,
-    },
-    data: {
-      CUSTOMERS: customers.apply(customers => JSON.stringify(customers)),
-    },
-  },
-  { provider: kubernetesProvider },
-);
-
 export const portalApi = new DeploymentComponent(
   'portal-api',
   {
@@ -57,7 +44,7 @@ export const portalApi = new DeploymentComponent(
     port: 8000,
     envFrom: [
       { secretRef: { name: portalApiEnvSecrets.metadata.name } },
-      { configMapRef: { name: portalApiCustomerConfigMap.metadata.name } },
+      { configMapRef: { name: customerConfigMap.metadata.name } },
     ],
     env: [
       {

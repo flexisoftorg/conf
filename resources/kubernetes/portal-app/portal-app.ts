@@ -6,6 +6,7 @@ import { artifactRepoUrl } from '../../shared/google/artifact-registry';
 import { provider as kubernetesProvider } from '../../shared/kubernetes/provider';
 import { cleanPortalApiDomain } from './config';
 import { namespace } from './namespace';
+import { customerConfigMap } from '../../shared/kubernetes/customer-config';
 
 const config = new pulumi.Config('portal-app');
 
@@ -17,6 +18,9 @@ export const portalApp = new DeploymentComponent(
     host: cleanPortalApiDomain,
     namespace: namespace.metadata.name,
     port: 8000,
+    envFrom: [
+      { configMapRef: { name: customerConfigMap.metadata.name } },
+    ],
     resources: {
       requests: {
         cpu: '100m',
