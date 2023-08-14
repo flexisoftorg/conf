@@ -82,7 +82,7 @@ export class DeploymentComponent extends pulumi.ComponentResource {
     this.deployment = new k8s.apps.v1.Deployment(
       name,
       {
-        metadata: { namespace, labels: { environment } },
+        metadata: { name, namespace, labels: { environment } },
         spec: {
           replicas: 1,
           selector: { matchLabels },
@@ -96,19 +96,17 @@ export class DeploymentComponent extends pulumi.ComponentResource {
                   imagePullPolicy: 'IfNotPresent',
                   ports: [{ containerPort: port }],
                   envFrom,
-                  env: pulumi
-                    .all([env, logLevel])
-                    .apply(([uwEnv, uwLoglevel]) => [
-                      {
-                        name: 'PORT',
-                        value: String(port),
-                      },
-                      {
-                        name: 'LOG_LEVEL',
-                        value: uwLoglevel,
-                      },
-                      ...uwEnv,
-                    ]),
+                  env: pulumi.output(env).apply(_env => [
+                    {
+                      name: 'PORT',
+                      value: String(port),
+                    },
+                    {
+                      name: 'LOG_LEVEL',
+                      value: logLevel,
+                    },
+                    ..._env,
+                  ]),
                   resources,
                 },
               ],
