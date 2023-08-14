@@ -16,9 +16,7 @@ export const portalApp = new DeploymentComponent(
     tag: config.require('tag'),
     namespace: namespace.metadata.name,
     port: 8000,
-    envFrom: [
-      { configMapRef: { name: customerConfigMap.metadata.name } },
-    ],
+    envFrom: [{ configMapRef: { name: customerConfigMap.metadata.name } }],
     resources: {
       requests: {
         cpu: '100m',
@@ -28,41 +26,6 @@ export const portalApp = new DeploymentComponent(
         cpu: '200m',
         memory: '256Mi',
       },
-    },
-  },
-  { provider: kubernetesProvider },
-);
-
-new k8s.networking.v1.Ingress(
-  'wildcard-ingress',
-  {
-    metadata: {
-      name: 'app-wildcard',
-      namespace: namespace.metadata.name,
-      annotations: {
-        'kubernetes.io/ingress.class': 'caddy',
-      },
-    },
-    spec: {
-      rules: [
-        {
-          host: `*.app.${cleanPortalApiDomain}`,
-          http: {
-            paths: [
-              {
-                path: '/',
-                pathType: 'Prefix',
-                backend: {
-                  service: {
-                    name: portalApp.service.metadata.name,
-                    port: { number: portalApp.port },
-                  },
-                },
-              },
-            ],
-          },
-        },
-      ],
     },
   },
   { provider: kubernetesProvider },

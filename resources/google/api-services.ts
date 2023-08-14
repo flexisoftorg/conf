@@ -13,7 +13,6 @@ const apis = [
   'monitoring.googleapis.com',
   'cloudtrace.googleapis.com',
   'clouderrorreporting.googleapis.com',
-  'clouddebugger.googleapis.com',
   'cloudprofiler.googleapis.com',
   'sqladmin.googleapis.com',
   'cloudkms.googleapis.com',
@@ -28,6 +27,7 @@ const apis = [
   'firestore.googleapis.com',
   'artifactregistry.googleapis.com',
   'redis.googleapis.com',
+  'eventarc.googleapis.com',
 ];
 
 export const apiServices = apis.map(
