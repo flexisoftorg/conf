@@ -1,8 +1,8 @@
 import * as k8s from '@pulumi/kubernetes';
 import { customers } from '../../get-customers';
 import { provider } from '../../shared/kubernetes/provider';
+import { namespace } from '../namespace';
 import { portalApi } from '../portal-api/portal-api';
-import { namespace } from './namespace';
 import { portalApp } from './portal-app';
 
 customers.apply(customers =>
@@ -11,14 +11,18 @@ customers.apply(customers =>
     .map(
       customer =>
         new k8s.networking.v1.Ingress(
-          `${customer.slug.current}-ingress`,
+          `${customer.ident.current}-ingress`,
           {
             metadata: {
-              name: `customer-${customer.slug.current}`,
+              name: `customer-${customer.ident.current}`,
               namespace: namespace.metadata.name,
               annotations: {
                 'kubernetes.io/ingress.class': 'caddy',
               },
+              labels: {
+                customer: customer.ident.current,
+                kind: 'customer-domain',
+              }
             },
             spec: {
               rules: [

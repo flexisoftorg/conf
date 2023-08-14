@@ -1,14 +1,12 @@
 import * as k8s from '@pulumi/kubernetes';
-import { provider } from '../../shared/kubernetes/provider';
+import { provider } from '../shared/kubernetes/provider';
 
-const name = 'portal-api';
+const name = 'portal-prod';
 
 export const namespace = new k8s.core.v1.Namespace(
   name,
   {
-    metadata: {
-      name,
-    },
+    metadata: { name },
   },
   { provider },
 );

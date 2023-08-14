@@ -3,11 +3,11 @@ import * as pulumi from '@pulumi/pulumi';
 import { interpolate } from '@pulumi/pulumi';
 import { DeploymentComponent } from '../../components/deployment';
 import { portalAppDomain } from '../../config';
-import { customers } from '../../get-customers';
 import { rootDomain } from '../../shared/config';
 import { artifactRepoUrl } from '../../shared/google/artifact-registry';
 import { provider as kubernetesProvider } from '../../shared/kubernetes/provider';
-import { namespace } from './namespace';
+import { customerConfigMap } from '../customer-config';
+import { namespace } from '../namespace';
 import { redis } from './redis';
 
 const config = new pulumi.Config('portal-api');
@@ -33,20 +33,6 @@ const portalApiEnvSecrets = new kubernetes.core.v1.Secret(
   { provider: kubernetesProvider },
 );
 
-const portalApiCustomerConfigMap = new kubernetes.core.v1.ConfigMap(
-  'portal-api-customer-config-map',
-  {
-    metadata: {
-      name: 'portal-api-customer-config-map',
-      namespace: namespace.metadata.name,
-    },
-    data: {
-      CUSTOMERS: customers.apply(customers => JSON.stringify(customers)),
-    },
-  },
-  { provider: kubernetesProvider },
-);
-
 export const portalApi = new DeploymentComponent(
   'portal-api',
   {
@@ -57,7 +43,7 @@ export const portalApi = new DeploymentComponent(
     port: 8000,
     envFrom: [
       { secretRef: { name: portalApiEnvSecrets.metadata.name } },
-      { configMapRef: { name: portalApiCustomerConfigMap.metadata.name } },
+      { configMapRef: { name: customerConfigMap.metadata.name } },
     ],
     env: [
       {
