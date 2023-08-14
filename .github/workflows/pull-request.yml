@@ -1,5 +1,9 @@
 name: On Pull Request
 
+permissions:
+  id-token: write
+  contents: read
+
 on: pull_request
 
 jobs:
