@@ -1,10 +1,6 @@
 name: On Pull Request
 
-on:
-  pull_request:
-    # TODO: Fix the preview workflow
-    branches:
-      - do_not_run
+on: pull_request
 
 jobs:
   preview-changes:
