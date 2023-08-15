@@ -98,7 +98,7 @@ export class DeploymentComponent extends pulumi.ComponentResource {
             spec: {
               containers: [
                 {
-                  name: 'api',
+                  name,
                   image: interpolate`${image}:${tag}`,
                   imagePullPolicy: 'IfNotPresent',
                   ports: [{ containerPort: port }],
@@ -108,10 +108,10 @@ export class DeploymentComponent extends pulumi.ComponentResource {
                       name: 'PORT',
                       value: String(port),
                     },
-                    // {
-                    //   name: 'LOG_LEVEL',
-                    //   value: logLevel,
-                    // },
+                    {
+                      name: 'LOG_LEVEL',
+                      value: logLevel,
+                    },
                     ..._env,
                   ]),
                   resources,
