@@ -1,6 +1,6 @@
 import './resources/shared/google/gke';
 import './resources/shared/google/ip-address';
-import './resources/shared/kubernetes/ingress-controller';
+import './resources/shared/kubernetes/ingress-controller.chart';
 import './resources/kubernetes/portal-api/redis';
 import './resources/kubernetes/portal-api/portal-api';
 import './resources/kubernetes/portal-app/portal-app';
