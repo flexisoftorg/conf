@@ -18,7 +18,7 @@ const cookieSecret = config.requireSecret('cookie-secret');
 export const portalApiDomain = config.require('domain');
 const cleanPortalApiDomain = portalApiDomain.slice(0, -1);
 
-const portalApiEnvSecrets = new kubernetes.core.v1.Secret(
+export const portalApiEnvSecrets = new kubernetes.core.v1.Secret(
   'portal-api-env-secrets',
   {
     metadata: {
