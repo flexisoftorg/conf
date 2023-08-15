@@ -6,7 +6,12 @@ const name = 'portal-prod';
 export const namespace = new k8s.core.v1.Namespace(
   name,
   {
-    metadata: { name },
+    metadata: {
+      name,
+      annotations: {
+        'pulumi.com/skipAwait': 'true',
+      },
+    },
   },
   { provider },
 );

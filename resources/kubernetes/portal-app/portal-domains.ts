@@ -18,6 +18,8 @@ customers.apply(customers =>
               namespace: namespace.metadata.name,
               annotations: {
                 'kubernetes.io/ingress.class': 'caddy',
+
+                'pulumi.com/skipAwait': 'true',
               },
               labels: {
                 customer: customer.ident.current,

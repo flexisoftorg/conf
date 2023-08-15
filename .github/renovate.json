@@ -1,7 +1,28 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:base"],
-  "lockFileMaintenance": { "enabled": true, "automerge": true },
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true
+  },
   "rangeStrategy": "replace",
-  "postUpdateOptions": ["yarnDedupeHighest"]
+  "regexManagers": [
+    {
+      "description": "Match default config.",
+      "datasourceTemplate": "helm",
+      "fileMatch": ["(^|/).+\\.chart\\.ts$"],
+      "matchStrings": [
+        "// renovate: depName=(?<depName>.+?)(?: packageName=(?<packageName>.+?))?(?: registryUrl=(?<registryUrl>.+?))?(?: depType=(?<depType>.+?))?(?: extractVersion=(?<extractVersion>.+?))?(?: versioning=(?<versioning>.+?))?\\s+.+?: '(?<currentValue>.+?)',\\s"
+      ],
+      "depTypeTemplate": "{{#if depType}}{{depType}}{{else}}config{{/if}}",
+      "extractVersionTemplate": "{{#if extractVersion}}{{{extractVersion}}}{{else}}^v?(?<version>.+)${{/if}}"
+    },
+    {
+      "fileMatch": ["^Pulumi.*\\.yaml$"],
+      "matchStrings": [
+        "(?<depName>[\\w.-]+:ext-image):\\s+(?<lookupName>[\\w.-]+/[\\w.-]+):(?<currentValue>[\\w.-]+)"
+      ],
+      "datasourceTemplate": "docker"
+    }
+  ]
 }

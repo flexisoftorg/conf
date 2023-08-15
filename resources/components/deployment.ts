@@ -82,7 +82,14 @@ export class DeploymentComponent extends pulumi.ComponentResource {
     this.deployment = new k8s.apps.v1.Deployment(
       name,
       {
-        metadata: { name, namespace, labels: { environment } },
+        metadata: {
+          name,
+          namespace,
+          labels: { environment },
+          annotations: {
+            'pulumi.com/skipAwait': 'true',
+          },
+        },
         spec: {
           replicas: 1,
           selector: { matchLabels },

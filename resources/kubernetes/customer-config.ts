@@ -8,6 +8,9 @@ export const customerConfigMap = new kubernetes.core.v1.ConfigMap(
   {
     metadata: {
       namespace: namespace.metadata.name,
+      annotations: {
+        'pulumi.com/skipAwait': 'true',
+      },
     },
     data: {
       CUSTOMERS: customers.apply(customers => JSON.stringify(customers)),
