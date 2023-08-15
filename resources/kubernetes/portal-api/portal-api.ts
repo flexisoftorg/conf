@@ -41,6 +41,7 @@ export const portalApi = new DeploymentComponent(
     host: cleanPortalApiDomain,
     namespace: namespace.metadata.name,
     port: 8000,
+    logLevel: config.get('log-level'),
     envFrom: [
       { secretRef: { name: portalApiEnvSecrets.metadata.name } },
       { configMapRef: { name: customerConfigMap.metadata.name } },
@@ -49,10 +50,6 @@ export const portalApi = new DeploymentComponent(
       {
         name: 'FRONTEND_URL',
         value: interpolate`https://${portalAppDomain.slice(0, -1)}`,
-      },
-      {
-        name: 'LOG_LEVEL',
-        value: config.get('log-level') || 'info',
       },
       { name: 'SELF_DOMAIN', value: rootDomain.slice(0, -1) },
       { name: 'SELF_URL', value: interpolate`https://${cleanPortalApiDomain}` },
