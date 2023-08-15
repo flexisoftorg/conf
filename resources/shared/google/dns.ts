@@ -3,7 +3,7 @@ import { portalAppDomain } from '../../config';
 import { apiServices } from '../../google/api-services';
 import { provider } from '../../google/provider';
 import { portalApiDomain } from '../../kubernetes/portal-api/portal-api';
-import { domain, studioSubDomain, wildcardSubDomain } from '../config';
+import { domain, studioSubDomain } from '../config';
 import { ipAddress } from './ip-address';
 
 const ingressIpAddress = ipAddress.address;
