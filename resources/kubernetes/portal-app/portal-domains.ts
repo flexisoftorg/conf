@@ -22,7 +22,7 @@ customers.apply(customers =>
               labels: {
                 customer: customer.ident.current,
                 kind: 'customer-domain',
-              }
+              },
             },
             spec: {
               rules: [

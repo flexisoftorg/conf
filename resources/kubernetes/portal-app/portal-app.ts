@@ -1,4 +1,3 @@
-import * as k8s from '@pulumi/kubernetes';
 import * as pulumi from '@pulumi/pulumi';
 import { interpolate } from '@pulumi/pulumi';
 import { DeploymentComponent } from '../../components/deployment';
