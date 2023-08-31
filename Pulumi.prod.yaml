@@ -14,7 +14,7 @@ config:
   portal-api:log-level: debug
   portal-api:tag: main-7a381f8
   portal-app:domain: flexisoft.bjerk.dev.
-  portal-app:tag: main-3527d48
+  portal-app:tag: main-e86e81f
   pulumi:disable-default-providers:
     - '*'
   shared:domain: flexisoft.bjerk.dev.
