@@ -4,7 +4,7 @@ config:
   flexisoft-portal:owner: flexisoftorg
   flexisoft-portal:system-email: developers@bjerk.io
   flexisoft-portal:token:
-    secure: AAABAOA+ChOjz5oCw42wZcEwH4iDddMox1gBdlv4y7Y3g5Fj3wRw71XkGSRZvUZ9+FCDuY0VKdl0RT260G+H4Lsw9h28sdfT
+    secure: AAABALnO3M8JjRQp1FpPMl8LGVdJX0Zp7/g/YBsNB+pUkLN3k3pwW6Rk9JJDRchYHuG7Cpl/0kpYLxcu995bLm59oYXtZ1QKnC/6jaOvdmMQ3BnqFo+2ryuGW1pPE8fFm07Ar4tMFaGiWj6bqHUarSYUr7gsRK7fvfkkcjM=
   google:project: flexisoft-app
   portal-api:auth-sign-secret:
     secure: AAABAGNx2AH3V5QmwfBOzUjXpZ5OBSBNbdL+QgB0I5a37lHMMcsUVz+vl4snxg+thegbVzM0plRWgiALUupL88JvEkrLB4zodEhXFD4S9xNzOSZXkbUaXSroU/ZOoAhZ
