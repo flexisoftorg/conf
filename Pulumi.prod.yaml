@@ -4,7 +4,7 @@ config:
   flexisoft-portal:owner: flexisoftorg
   flexisoft-portal:system-email: developers@bjerk.io
   flexisoft-portal:token:
-    secure: AAABAOA+ChOjz5oCw42wZcEwH4iDddMox1gBdlv4y7Y3g5Fj3wRw71XkGSRZvUZ9+FCDuY0VKdl0RT260G+H4Lsw9h28sdfT
+    secure: AAABALnO3M8JjRQp1FpPMl8LGVdJX0Zp7/g/YBsNB+pUkLN3k3pwW6Rk9JJDRchYHuG7Cpl/0kpYLxcu995bLm59oYXtZ1QKnC/6jaOvdmMQ3BnqFo+2ryuGW1pPE8fFm07Ar4tMFaGiWj6bqHUarSYUr7gsRK7fvfkkcjM=
   google:project: flexisoft-app
   portal-api:auth-sign-secret:
     secure: AAABAGNx2AH3V5QmwfBOzUjXpZ5OBSBNbdL+QgB0I5a37lHMMcsUVz+vl4snxg+thegbVzM0plRWgiALUupL88JvEkrLB4zodEhXFD4S9xNzOSZXkbUaXSroU/ZOoAhZ
@@ -12,9 +12,9 @@ config:
     secure: AAABADy2iSkKwef0IiFd0IDXze14jO0VtDr6oM53MXgdadia3pK7wN0U2AArLuQ0GooGBzS6GxGuvCPSgZV2MdfaumwMzdzpoe1OHNN9jP5NGQaJP/RpQRPhlx4r3YnH
   portal-api:domain: api.flexisoft.bjerk.dev.
   portal-api:log-level: debug
-  portal-api:tag: main-bd98e2a
+  portal-api:tag: main-8b74820
   portal-app:domain: flexisoft.bjerk.dev.
-  portal-app:tag: main-b552363
+  portal-app:tag: main-c6f5ebb
   pulumi:disable-default-providers:
     - '*'
   shared:domain: flexisoft.bjerk.dev.
