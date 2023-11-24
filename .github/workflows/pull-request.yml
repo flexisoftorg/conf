@@ -46,4 +46,4 @@ jobs:
         with:
           command: preview
           stack-name: ${{ matrix.stack }}
-          comment-on-pr: true
+          comment-on-pr: false
