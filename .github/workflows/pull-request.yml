@@ -47,4 +47,3 @@ jobs:
           command: preview
           stack-name: ${{ matrix.stack }}
           comment-on-pr: true
-          github-token: ${{ secrets.BOT_GITHUB_TOKEN }}
