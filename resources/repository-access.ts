@@ -60,7 +60,7 @@ const debitorPortalAppAccess = new GitHubAccess(
   {
     identityPoolName: identityPool.name,
     identityPoolProviderName: identityPoolProvider.name,
-    repositories: ['portal-app'],
+    repositories: ['debitor-portal-app'],
   },
   { providers: [googleProvider, githubProvider] },
 );
