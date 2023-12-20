@@ -21,3 +21,13 @@ new github.ActionsSecret(
   },
   { provider },
 );
+
+new github.ActionsSecret(
+  'debitor-portal-app-artifact-secret',
+  {
+    repository: 'debitor-portal-app',
+    secretName: 'CONTAINER_REGISTRY',
+    plaintextValue: artifactRepoUrl,
+  },
+  { provider },
+);
