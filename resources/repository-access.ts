@@ -54,3 +54,23 @@ new gcp.artifactregistry.RepositoryIamMember(
   },
   { provider: googleProvider },
 );
+
+const debitorPortalAppAccess = new GitHubAccess(
+  'debitor-portal-app',
+  {
+    identityPoolName: identityPool.name,
+    identityPoolProviderName: identityPoolProvider.name,
+    repositories: ['portal-app'],
+  },
+  { providers: [googleProvider, githubProvider] },
+);
+
+new gcp.artifactregistry.RepositoryIamMember(
+  'debitor-portal-app-artifact-registry-access',
+  {
+    repository: repository.id,
+    member: pulumi.interpolate`serviceAccount:${debitorPortalAppAccess.serviceAccount.email}`,
+    role: 'roles/artifactregistry.writer',
+  },
+  { provider: googleProvider },
+);
