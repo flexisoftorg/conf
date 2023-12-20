@@ -66,7 +66,7 @@ const debitorPortalAppAccess = new GitHubAccess(
 );
 
 new gcp.artifactregistry.RepositoryIamMember(
-  'portal-app-artifact-registry-access',
+  'debitor-portal-app-artifact-registry-access',
   {
     repository: repository.id,
     member: pulumi.interpolate`serviceAccount:${debitorPortalAppAccess.serviceAccount.email}`,
