@@ -1,4 +1,5 @@
 config:
+  debitor-portal-app:tag: dummy-value
   flexisoft-portal:developers:
     - group:developers@bjerk.io
   flexisoft-portal:owner: flexisoftorg
