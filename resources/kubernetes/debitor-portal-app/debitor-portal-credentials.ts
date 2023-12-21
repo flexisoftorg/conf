@@ -1,6 +1,7 @@
 import * as k8s from '@pulumi/kubernetes';
 import * as pulumi from '@pulumi/pulumi';
 import { provider } from '../../shared/kubernetes/provider';
+import { namespace } from '../namespace';
 
 const config = new pulumi.Config('debitor-portal-app');
 
@@ -12,6 +13,7 @@ export const debitorPortalCredentials = new k8s.core.v1.Secret(
   {
     metadata: {
       name: 'debitor-portal-database-credentials',
+      namespace: namespace.metadata.name,
     },
     stringData: {
       PORTAL_USERNAME: portalUsername,
