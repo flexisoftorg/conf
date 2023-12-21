@@ -1,4 +1,5 @@
 config:
+  debitor-portal-app:domain: debitor.flexisoft.bjerk.dev.
   debitor-portal-app:portalPassword:
     secure: AAABAGsNZo0DH9+ae7CURvYoYvtHqs/ceFIfbXw/HicrbTPPo8axhvWhYn1a
   debitor-portal-app:portalUsername: DEBPORTAL
