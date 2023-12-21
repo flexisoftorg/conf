@@ -1,6 +1,8 @@
 import './resources/shared/google/gke';
 import './resources/shared/google/ip-address';
 import './resources/shared/kubernetes/ingress-controller.chart';
+import './resources/kubernetes/debitor-portal-app/debitor-portal-app';
+import './resources/kubernetes/debitor-portal-app/debitor-portal-credentials';
 import './resources/kubernetes/portal-api/redis';
 import './resources/kubernetes/portal-api/portal-api';
 import './resources/kubernetes/portal-app/portal-app';
