@@ -9,12 +9,16 @@ import { debitorPortalCredentials } from './debitor-portal-credentials';
 
 const config = new pulumi.Config('debitor-portal-app');
 
+export const debitorPortalAppDomain = config.require('domain');
+const cleanDebitorPortalAppDomain = debitorPortalAppDomain.slice(0, -1);
+
 export const debitorPortalApp = new DeploymentComponent(
   'debitor-portal-app',
   {
     image: interpolate`${artifactRepoUrl}/debitor-portal-app`,
     tag: config.require('tag'),
     namespace: namespace.metadata.name,
+    host: cleanDebitorPortalAppDomain,
     port: 8000,
     envFrom: [
       { configMapRef: { name: customerConfigMap.metadata.name } },
