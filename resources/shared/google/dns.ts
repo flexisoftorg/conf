@@ -1,5 +1,5 @@
 import * as gcp from '@pulumi/gcp';
-import { portalAppDomain } from '../../config';
+import { debitorPortalAppDomain, portalAppDomain } from '../../config';
 import { apiServices } from '../../google/api-services';
 import { provider } from '../../google/provider';
 import { portalApiDomain } from '../../kubernetes/portal-api/portal-api';
@@ -33,6 +33,17 @@ new gcp.dns.RecordSet(
   {
     managedZone: zone.name,
     name: portalAppDomain,
+    type: 'A',
+    ttl: 300,
+    rrdatas: [ingressIpAddress],
+  },
+  { provider },
+);
+new gcp.dns.RecordSet(
+  'debitor-portal-app-ipv4',
+  {
+    managedZone: zone.name,
+    name: debitorPortalAppDomain,
     type: 'A',
     ttl: 300,
     rrdatas: [ingressIpAddress],

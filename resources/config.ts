@@ -9,3 +9,7 @@ export const environment = pulumi.getStack();
 const portalAppConfig = new pulumi.Config('portal-app');
 
 export const portalAppDomain = portalAppConfig.require('domain');
+
+const debitorPortalAppConfig = new pulumi.Config('debitor-portal-app');
+
+export const debitorPortalAppDomain = debitorPortalAppConfig.require('domain');
