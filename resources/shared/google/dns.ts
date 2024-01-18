@@ -39,6 +39,17 @@ new gcp.dns.RecordSet(
   },
   { provider },
 );
+// new gcp.dns.RecordSet(
+//   'debitor-portal-app-ipv4',
+//   {
+//     managedZone: zone.name,
+//     name: debitorPortalAppDomain,
+//     type: 'A',
+//     ttl: 300,
+//     rrdatas: [ingressIpAddress],
+//   },
+//   { provider },
+// );
 
 new gcp.dns.RecordSet(
   'portal-api',
