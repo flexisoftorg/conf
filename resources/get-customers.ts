@@ -14,6 +14,11 @@ const portalCustomer = z.object({
   database: z.string(),
   domain: z.string().optional(),
   logoUrl: z.string().nullable(),
+  organizationNumber: z.string().nullish(),
+  phoneNumber: z.string().nullish(),
+  email: z.string().nullish(),
+  address: z.string().nullish(),
+  description: z.string().nullish()
 });
 
 export type PortalCustomer = z.infer<typeof portalCustomer>;
