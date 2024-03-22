@@ -38,7 +38,12 @@ export function getCustomers(): pulumi.Output<PortalCustomer[]> {
           port,
           database,
           domain,
-          "logoUrl": logo.asset->url
+          "logoUrl": logo.asset->url,
+          organizationNumber,
+          phoneNumber,
+          email,
+          address,
+          description
       }
     `);
     const customers = result
