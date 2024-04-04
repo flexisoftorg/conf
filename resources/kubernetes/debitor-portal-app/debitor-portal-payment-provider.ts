@@ -6,14 +6,16 @@ import { namespace } from '../namespace';
 const config = new pulumi.Config('debitor-portal-app');
 const paymentProviderUrl = config.require('paymentProviderUrl');
 
-export const debitorPaymentProvider = new k8s.core.v1.Secret(
+export const debitorPaymentProvider = new k8s.core.v1.ConfigMap(
     'debitor-portal-payment-provider',
     {
       metadata: {
-        name: 'debitor-portal-payment-provider',
         namespace: namespace.metadata.name,
+        annotations: {
+          'pulumi.com/skipAwait': 'true',
+        },
       },
-      stringData: {
+      data: {
         PAYMENT_PROVIDER_URL: paymentProviderUrl,
       },
     },
