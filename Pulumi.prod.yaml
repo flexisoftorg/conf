@@ -1,10 +1,10 @@
 config:
   debitor-portal-app:domain: debitor.flexisoft.bjerk.dev.
+  debitor-portal-app:paymentProviderUrl: https://epayment.nets.eu
   debitor-portal-app:portalPassword:
     secure: AAABAGsNZo0DH9+ae7CURvYoYvtHqs/ceFIfbXw/HicrbTPPo8axhvWhYn1a
   debitor-portal-app:portalUsername: DEBPORTAL
-  debitor-portal-app:paymentProviderUrl: https://epayment.nets.eu
-  debitor-portal-app:tag: main-81849d4
+  debitor-portal-app:tag: main-2f19fa1
   flexisoft-portal:developers:
     - group:developers@bjerk.io
   flexisoft-portal:owner: flexisoftorg
