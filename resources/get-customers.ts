@@ -18,7 +18,9 @@ const portalCustomer = z.object({
   phoneNumber: z.string().nullish(),
   email: z.string().nullish(),
   address: z.string().nullish(),
-  description: z.string().nullish()
+  description: z.string().nullish(),
+  merchantId: z.string().nullish(),
+  merchantApiKey: z.string().nullish(),
 });
 
 export type PortalCustomer = z.infer<typeof portalCustomer>;
@@ -48,7 +50,9 @@ export function getCustomers(): pulumi.Output<PortalCustomer[]> {
           phoneNumber,
           email,
           address,
-          description
+          description,
+          merchantId,
+          merchantApiKey
       }
     `);
     const customers = result
