@@ -6,6 +6,7 @@ import { provider as kubernetesProvider } from '../../shared/kubernetes/provider
 import { customerConfigMap } from '../customer-config';
 import { namespace } from '../namespace';
 import { debitorPortalCredentials } from './debitor-portal-credentials';
+import {debitorPaymentProvider} from './debitor-portal-payment-provider';
 
 const config = new pulumi.Config('debitor-portal-app');
 
@@ -23,6 +24,7 @@ export const debitorPortalApp = new DeploymentComponent(
     envFrom: [
       { configMapRef: { name: customerConfigMap.metadata.name } },
       { secretRef: { name: debitorPortalCredentials.metadata.name } },
+      { configMapRef: { name: debitorPaymentProvider.metadata.name } },
     ],
     resources: {
       requests: {
