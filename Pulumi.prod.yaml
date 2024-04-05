@@ -4,7 +4,7 @@ config:
   debitor-portal-app:portalPassword:
     secure: AAABAGsNZo0DH9+ae7CURvYoYvtHqs/ceFIfbXw/HicrbTPPo8axhvWhYn1a
   debitor-portal-app:portalUsername: DEBPORTAL
-  debitor-portal-app:tag: main-cb03ea2
+  debitor-portal-app:tag: main-171da51
   flexisoft-portal:developers:
     - group:developers@bjerk.io
   flexisoft-portal:owner: flexisoftorg
