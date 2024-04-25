@@ -29,15 +29,16 @@ jobs:
           node-version: lts/*
           cache: yarn
 
+      - uses: 'google-github-actions/setup-gcloud@v2'
+        with:
+          install_components: 'gke-gcloud-auth-plugin'
+
       - name: Authenticate with Google 🔑
         uses: google-github-actions/auth@v1
         with:
           project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
           workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
-
-      - uses: simenandre/setup-gke-gcloud-auth-plugin@v1
-
       - run: yarn install
 
       - uses: pulumi/actions@v4
