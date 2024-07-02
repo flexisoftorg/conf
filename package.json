@@ -8,7 +8,7 @@
   },
   "prettier": "@simenandre/prettier",
   "dependencies": {
-    "@pulumi/gcp": "^6.0.0",
+    "@pulumi/gcp": "^7.0.0",
     "@pulumi/github": "^5.16.0",
     "@pulumi/google-native": "^0.31.0",
     "@pulumi/kubernetes": "^4.0.3",
