@@ -60,7 +60,7 @@ new gcp.dns.RecordSet(
  * api -> api.fpx.no
  */
 new gcp.dns.RecordSet(
-  'debitor-portal-app-ipv4',
+  'new-debitor-portal-app-ipv4',
   {
     managedZone: zone.name,
     name: newDebitorPortalAppDomain,
@@ -72,7 +72,7 @@ new gcp.dns.RecordSet(
 );
 
 new gcp.dns.RecordSet(
-  'portal-app-ipv4',
+  'new-portal-app-ipv4',
   {
     managedZone: zone.name,
     name: newPortalAppDomain,
