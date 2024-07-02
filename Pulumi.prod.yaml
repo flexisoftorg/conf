@@ -1,5 +1,6 @@
 config:
   debitor-portal-app:domain: debitor.flexisoft.bjerk.dev.
+  debitor-portal-app:newDomain: fpx.no.
   debitor-portal-app:paymentProviderUrl: https://epayment.nets.eu
   debitor-portal-app:portalPassword:
     secure: AAABAGsNZo0DH9+ae7CURvYoYvtHqs/ceFIfbXw/HicrbTPPo8axhvWhYn1a
@@ -21,6 +22,7 @@ config:
   portal-api:log-level: debug
   portal-api:tag: main-27be4ca
   portal-app:domain: flexisoft.bjerk.dev.
+  portal-app:newDomain: creditor.fpx.no.
   portal-app:tag: main-34638b4
   pulumi:disable-default-providers:
     - '*'
