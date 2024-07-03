@@ -72,11 +72,11 @@ new gcp.dns.RecordSet(
 );
 
 export const zone = new gcp.dns.ManagedZone(
-  'main-zone',
+  'root-zone',
   {
-    name: 'main-zone',
+    name: 'root-zone',
     dnsName: rootDomain,
-    description: 'DNS zone for domain used internally/for development',
+    description: 'DNS zone for root domain for production use',
   },
   { provider, dependsOn: apiServices },
 );
