@@ -1,26 +1,22 @@
 import * as gcp from '@pulumi/gcp';
-import { debitorPortalAppDomain, portalAppDomain } from '../../config';
+import { debitorPortalAppDevDomain, portalAppDevDomain } from '../../config';
 import { apiServices } from '../../google/api-services';
 import { provider } from '../../google/provider';
-import { portalApiDomain } from '../../kubernetes/portal-api/portal-api';
-import { domain, studioSubDomain } from '../config';
+import { portalApiDevDomain } from '../../kubernetes/portal-api/portal-api';
+import { devDomain, studioDevSubDomain } from '../config';
 import { ipAddress } from './ip-address';
 
 const ingressIpAddress = ipAddress.address;
 
-export const zone = new gcp.dns.ManagedZone(
+export const devZone = new gcp.dns.ManagedZone(
   'main-zone',
   {
     name: 'main-zone',
-    dnsName: domain,
+    dnsName: devDomain,
     description: 'Main zone',
   },
   { provider, dependsOn: apiServices },
 );
-
-/**
- * Note: Portal API DNS records are managed in resources/services/portal-api.ts
- */
 
 /**
  * Portal App DNS records
@@ -31,8 +27,8 @@ export const zone = new gcp.dns.ManagedZone(
 new gcp.dns.RecordSet(
   'portal-app-ipv4',
   {
-    managedZone: zone.name,
-    name: portalAppDomain,
+    managedZone: devZone.name,
+    name: portalAppDevDomain,
     type: 'A',
     ttl: 300,
     rrdatas: [ingressIpAddress],
@@ -42,8 +38,8 @@ new gcp.dns.RecordSet(
 new gcp.dns.RecordSet(
   'debitor-portal-app-ipv4',
   {
-    managedZone: zone.name,
-    name: debitorPortalAppDomain,
+    managedZone: devZone.name,
+    name: debitorPortalAppDevDomain,
     type: 'A',
     ttl: 300,
     rrdatas: [ingressIpAddress],
@@ -54,8 +50,8 @@ new gcp.dns.RecordSet(
 new gcp.dns.RecordSet(
   'portal-api',
   {
-    managedZone: zone.name,
-    name: portalApiDomain,
+    managedZone: devZone.name,
+    name: portalApiDevDomain,
     type: 'A',
     ttl: 300,
     rrdatas: [ingressIpAddress],
@@ -66,8 +62,8 @@ new gcp.dns.RecordSet(
 new gcp.dns.RecordSet(
   'studio',
   {
-    managedZone: zone.name,
-    name: studioSubDomain,
+    managedZone: devZone.name,
+    name: studioDevSubDomain,
     type: 'CNAME',
     ttl: 300,
     rrdatas: ['flexisoftorg.github.io.'],
