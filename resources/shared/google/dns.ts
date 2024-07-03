@@ -9,11 +9,11 @@ import { ipAddress } from './ip-address';
 const ingressIpAddress = ipAddress.address;
 
 export const devZone = new gcp.dns.ManagedZone(
-  'dev-zone',
+  'main-zone',
   {
-    name: 'dev-zone',
+    name: 'main-zone',
     dnsName: devDomain,
-    description: 'DNS zone for domain used internally/for development',
+    description: 'Main zone',
   },
   { provider, dependsOn: apiServices },
 );
@@ -25,7 +25,7 @@ export const devZone = new gcp.dns.ManagedZone(
  */
 
 new gcp.dns.RecordSet(
-  'portal-app-ipv4-dev',
+  'portal-app-ipv4',
   {
     managedZone: devZone.name,
     name: portalAppDevDomain,
@@ -36,7 +36,7 @@ new gcp.dns.RecordSet(
   { provider },
 );
 new gcp.dns.RecordSet(
-  'debitor-portal-app-ipv4-dev',
+  'debitor-portal-app-ipv4',
   {
     managedZone: devZone.name,
     name: debitorPortalAppDevDomain,
@@ -48,7 +48,7 @@ new gcp.dns.RecordSet(
 );
 
 new gcp.dns.RecordSet(
-  'portal-api-dev',
+  'portal-api',
   {
     managedZone: devZone.name,
     name: portalApiDevDomain,
