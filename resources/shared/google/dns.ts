@@ -3,7 +3,7 @@ import { debitorPortalAppDevDomain, portalAppDevDomain } from '../../config';
 import { apiServices } from '../../google/api-services';
 import { provider } from '../../google/provider';
 import { portalApiDevDomain } from '../../kubernetes/portal-api/portal-api';
-import { devDomain, studioDevSubDomain } from '../config';
+import { devDomain, rootDomain, studioDevSubDomain } from '../config';
 import { ipAddress } from './ip-address';
 
 const ingressIpAddress = ipAddress.address;
@@ -69,4 +69,14 @@ new gcp.dns.RecordSet(
     rrdatas: ['flexisoftorg.github.io.'],
   },
   { provider },
+);
+
+export const zone = new gcp.dns.ManagedZone(
+  'root-zone',
+  {
+    name: 'root-zone',
+    dnsName: rootDomain,
+    description: 'DNS zone for root domain for production use',
+  },
+  { provider, dependsOn: apiServices },
 );
