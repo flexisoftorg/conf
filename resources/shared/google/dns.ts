@@ -18,16 +18,6 @@ export const devZone = new gcp.dns.ManagedZone(
   { provider, dependsOn: apiServices },
 );
 
-export const zone = new gcp.dns.ManagedZone(
-  'main-zone',
-  {
-    name: 'main-zone',
-    dnsName: devDomain,
-    description: 'Main zone',
-  },
-  { provider, dependsOn: apiServices },
-);
-
 /**
  * Portal App DNS records
  * ----------------------
