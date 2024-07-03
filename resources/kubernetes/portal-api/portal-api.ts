@@ -3,7 +3,7 @@ import * as pulumi from '@pulumi/pulumi';
 import { interpolate } from '@pulumi/pulumi';
 import { DeploymentComponent } from '../../components/deployment';
 import { portalAppDomain } from '../../config';
-import { rootDomain } from '../../shared/config';
+import { rootDevDomain } from '../../shared/config';
 import { artifactRepoUrl } from '../../shared/google/artifact-registry';
 import { provider as kubernetesProvider } from '../../shared/kubernetes/provider';
 import { customerConfigMap } from '../customer-config';
@@ -15,7 +15,7 @@ const config = new pulumi.Config('portal-api');
 const authSignSecret = config.requireSecret('auth-sign-secret');
 const cookieSecret = config.requireSecret('cookie-secret');
 
-export const portalApiDomain = config.require('domain');
+export const portalApiDomain = config.require('dev-domain');
 const cleanPortalApiDomain = portalApiDomain.slice(0, -1);
 
 export const portalApiEnvSecrets = new kubernetes.core.v1.Secret(
@@ -51,7 +51,7 @@ export const portalApi = new DeploymentComponent(
         name: 'FRONTEND_URL',
         value: interpolate`https://${portalAppDomain.slice(0, -1)}`,
       },
-      { name: 'SELF_DOMAIN', value: rootDomain.slice(0, -1) },
+      { name: 'SELF_DOMAIN', value: rootDevDomain.slice(0, -1) },
       { name: 'SELF_URL', value: interpolate`https://${cleanPortalApiDomain}` },
       {
         name: 'REDIS_URL',

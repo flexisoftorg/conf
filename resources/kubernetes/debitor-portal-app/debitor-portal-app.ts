@@ -6,11 +6,11 @@ import { provider as kubernetesProvider } from '../../shared/kubernetes/provider
 import { customerConfigMap } from '../customer-config';
 import { namespace } from '../namespace';
 import { debitorPortalCredentials } from './debitor-portal-credentials';
-import {debitorPaymentProvider} from './debitor-portal-payment-provider';
+import { debitorPaymentProvider } from './debitor-portal-payment-provider';
 
 const config = new pulumi.Config('debitor-portal-app');
 
-export const debitorPortalAppDomain = config.require('domain');
+export const debitorPortalAppDomain = config.require('dev-domain');
 const cleanDebitorPortalAppDomain = debitorPortalAppDomain.slice(0, -1);
 
 export const debitorPortalApp = new DeploymentComponent(
