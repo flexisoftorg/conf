@@ -3,7 +3,7 @@ import { debitorPortalAppDevDomain, portalAppDevDomain } from '../../config';
 import { apiServices } from '../../google/api-services';
 import { provider } from '../../google/provider';
 import { portalApiDevDomain } from '../../kubernetes/portal-api/portal-api';
-import { devDomain, studioSubDomain } from '../config';
+import { devDomain, studioDevSubDomain } from '../config';
 import { ipAddress } from './ip-address';
 
 const ingressIpAddress = ipAddress.address;
@@ -63,7 +63,7 @@ new gcp.dns.RecordSet(
   'studio',
   {
     managedZone: devZone.name,
-    name: studioSubDomain,
+    name: studioDevSubDomain,
     type: 'CNAME',
     ttl: 300,
     rrdatas: ['flexisoftorg.github.io.'],
