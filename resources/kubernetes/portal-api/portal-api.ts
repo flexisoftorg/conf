@@ -15,8 +15,8 @@ const config = new pulumi.Config('portal-api');
 const authSignSecret = config.requireSecret('auth-sign-secret');
 const cookieSecret = config.requireSecret('cookie-secret');
 
-export const portalApiDomain = config.require('dev-domain');
-const cleanPortalApiDomain = portalApiDomain.slice(0, -1);
+export const portalApiDevDomain = config.require('dev-domain');
+const cleanPortalApiDomain = portalApiDevDomain.slice(0, -1);
 
 export const portalApiEnvSecrets = new kubernetes.core.v1.Secret(
   'portal-api-env-secrets',
