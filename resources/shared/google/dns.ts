@@ -13,7 +13,7 @@ export const devZone = new gcp.dns.ManagedZone(
   {
     name: 'main-zone',
     dnsName: devDomain,
-    description: 'DNS zone for domain used internally/for development',
+    description: 'Main zone',
   },
   { provider, dependsOn: apiServices },
 );
