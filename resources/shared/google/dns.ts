@@ -1,22 +1,9 @@
 import * as gcp from '@pulumi/gcp';
-import {
-  debitorPortalAppDevDomain,
-  debitorPortalAppDomain,
-  portalAppDevDomain,
-  portalAppDomain,
-} from '../../config';
+import { debitorPortalAppDomain, portalAppDomain } from '../../config';
 import { apiServices } from '../../google/api-services';
 import { provider } from '../../google/provider';
-import {
-  portalApiDevDomain,
-  portalApiDomain,
-} from '../../kubernetes/portal-api/portal-api';
-import {
-  devDomain,
-  studioDevSubDomain,
-  rootDomain,
-  studioSubDomain,
-} from '../config';
+import { portalApiDomain } from '../../kubernetes/portal-api/portal-api';
+import { rootDomain, studioSubDomain } from '../config';
 import { ipAddress } from './ip-address';
 
 export const ingressIpAddress = ipAddress.address;
