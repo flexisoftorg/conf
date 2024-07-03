@@ -6,5 +6,9 @@ export const devDomain = config.require('dev-domain');
 export const rootDevDomain = config.require('root-dev-domain');
 export const studioDevSubDomain = config.require('studio-dev-sub-domain');
 
+export const studioSubDomain = config.require('studio-sub-domain');
+
 export const sanityApiToken = config.requireSecret('sanity-api-token');
 export const sanityProjectId = config.require('sanity-project-id');
+
+export const rootDomain = config.require('root-domain');

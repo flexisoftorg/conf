@@ -1,12 +1,25 @@
 import * as gcp from '@pulumi/gcp';
-import { debitorPortalAppDevDomain, portalAppDevDomain } from '../../config';
+import {
+  debitorPortalAppDevDomain,
+  debitorPortalAppDomain,
+  portalAppDevDomain,
+  portalAppDomain,
+} from '../../config';
 import { apiServices } from '../../google/api-services';
 import { provider } from '../../google/provider';
-import { portalApiDevDomain } from '../../kubernetes/portal-api/portal-api';
-import { devDomain, studioDevSubDomain } from '../config';
+import {
+  portalApiDevDomain,
+  portalApiDomain,
+} from '../../kubernetes/portal-api/portal-api';
+import {
+  devDomain,
+  studioDevSubDomain,
+  rootDomain,
+  studioSubDomain,
+} from '../config';
 import { ipAddress } from './ip-address';
 
-const ingressIpAddress = ipAddress.address;
+export const ingressIpAddress = ipAddress.address;
 
 export const devZone = new gcp.dns.ManagedZone(
   'dev-zone',
@@ -64,6 +77,67 @@ new gcp.dns.RecordSet(
   {
     managedZone: devZone.name,
     name: studioDevSubDomain,
+    type: 'CNAME',
+    ttl: 300,
+    rrdatas: ['flexisoftorg.github.io.'],
+  },
+  { provider },
+);
+
+/**
+ * DNS records for production zone
+ */
+
+export const zone = new gcp.dns.ManagedZone(
+  'main-zone',
+  {
+    name: 'main-zone',
+    dnsName: rootDomain,
+    description: 'Main zone for production use',
+  },
+  { provider, dependsOn: apiServices },
+);
+
+new gcp.dns.RecordSet(
+  'portal-app-ipv4',
+  {
+    managedZone: devZone.name,
+    name: portalAppDomain,
+    type: 'A',
+    ttl: 300,
+    rrdatas: [ingressIpAddress],
+  },
+  { provider },
+);
+new gcp.dns.RecordSet(
+  'debitor-portal-app-ipv4',
+  {
+    managedZone: devZone.name,
+    name: debitorPortalAppDomain,
+    type: 'A',
+    ttl: 300,
+    rrdatas: [ingressIpAddress],
+  },
+  { provider },
+);
+
+new gcp.dns.RecordSet(
+  'portal-api',
+  {
+    managedZone: devZone.name,
+    name: portalApiDomain,
+    type: 'A',
+    ttl: 300,
+    rrdatas: [ingressIpAddress],
+  },
+  { provider },
+);
+
+new gcp.dns.RecordSet(
+  'studio',
+  {
+    managedZone: devZone.name,
+    name: studioSubDomain,
     type: 'CNAME',
     ttl: 300,
     rrdatas: ['flexisoftorg.github.io.'],
