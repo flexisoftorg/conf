@@ -9,9 +9,9 @@ import { ipAddress } from './ip-address';
 const ingressIpAddress = ipAddress.address;
 
 export const devZone = new gcp.dns.ManagedZone(
-  'dev-zone',
+  'main-zone',
   {
-    name: 'dev-zone',
+    name: 'main-zone',
     dnsName: devDomain,
     description: 'DNS zone for domain used internally/for development',
   },

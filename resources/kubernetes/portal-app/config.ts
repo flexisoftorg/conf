@@ -1,3 +1,3 @@
-import { portalAppDomain } from '../../config';
+import { portalAppDevDomain } from '../../config';
 
-export const cleanPortalApiDomain = portalAppDomain.slice(0, -1);
+export const cleanPortalApiDomain = portalAppDevDomain.slice(0, -1);
