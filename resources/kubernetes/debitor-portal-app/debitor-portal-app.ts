@@ -20,6 +20,7 @@ export const debitorPortalApp = new DeploymentComponent(
     tag: config.require('tag'),
     namespace: namespace.metadata.name,
     host: cleanDebitorPortalAppDomain,
+    legacyHost: 'debitor.flexisoft.bjerk.dev',
     port: 8000,
     envFrom: [
       { configMapRef: { name: customerConfigMap.metadata.name } },
