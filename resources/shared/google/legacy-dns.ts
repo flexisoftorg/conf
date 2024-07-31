@@ -8,7 +8,7 @@ const ingressIpAddress = ipAddress.address;
 // Legacy DNS records, to be deleted as they are only used by older tenants
 // who have their own DNS records poiting to bjerk.dev
 
-export const devZone = new gcp.dns.ManagedZone(
+const legacyZone = new gcp.dns.ManagedZone(
   'main-zone',
   {
     name: 'main-zone',
@@ -21,7 +21,7 @@ export const devZone = new gcp.dns.ManagedZone(
 new gcp.dns.RecordSet(
   'portal-app-ipv4',
   {
-    managedZone: devZone.name,
+    managedZone: legacyZone.name,
     name: 'flexisoft.bjerk.dev.',
     type: 'A',
     ttl: 300,
@@ -33,7 +33,7 @@ new gcp.dns.RecordSet(
 new gcp.dns.RecordSet(
   'debitor-portal-app-ipv4',
   {
-    managedZone: devZone.name,
+    managedZone: legacyZone.name,
     name: 'debitor.flexisoft.bjerk.dev.',
     type: 'A',
     ttl: 300,
@@ -45,11 +45,23 @@ new gcp.dns.RecordSet(
 new gcp.dns.RecordSet(
   'portal-api',
   {
-    managedZone: devZone.name,
+    managedZone: legacyZone.name,
     name: 'api.flexisoft.bjerk.dev.',
     type: 'A',
     ttl: 300,
     rrdatas: [ingressIpAddress],
+  },
+  { provider },
+);
+
+new gcp.dns.RecordSet(
+  'studio',
+  {
+    managedZone: legacyZone.name,
+    name: 'studio.flexisoft.bjerk.dev.',
+    type: 'CNAME',
+    ttl: 300,
+    rrdatas: ['flexisoftorg.github.io.'],
   },
   { provider },
 );

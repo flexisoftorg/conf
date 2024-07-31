@@ -58,7 +58,7 @@ new gcp.dns.RecordSet(
 );
 
 new gcp.dns.RecordSet(
-  'studio',
+  'studio-a',
   {
     managedZone: zone.name,
     name: studioSubDomain,
