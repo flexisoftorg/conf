@@ -1,18 +1,19 @@
 import * as k8s from '@pulumi/kubernetes';
 import * as gcp from '@pulumi/gcp';
 import { customers } from '../../get-customers';
+import { provider as gcpProvider } from '../../google/provider';
+import { rootDomain } from '../../shared/config';
 import { provider } from '../../shared/kubernetes/provider';
 import { debitorPortalApp } from '../debitor-portal-app/debitor-portal-app';
 import { namespace } from '../namespace';
 import { portalApi } from '../portal-api/portal-api';
 import { portalApp } from './portal-app';
 import { ingressIpAddress, zone } from '../../shared/google/dns';
-import { rootDomain } from '../../shared/config';
 
 customers.apply(customers =>
   customers.map(customer => {
     const domain = customer.domain
-      ? customer.domain
+      ? `${customer.domain}.`
       : `${customer.ident.current}.${rootDomain}`;
 
     const hasCustomDomain = Boolean(customer.domain?.trim());
@@ -33,7 +34,7 @@ customers.apply(customers =>
           ttl: 300,
           rrdatas: [ingressIpAddress],
         },
-        { provider },
+        { provider: gcpProvider },
       );
       new gcp.dns.RecordSet(
         `${customer.ident.current}-debitor-portal`,
@@ -44,7 +45,7 @@ customers.apply(customers =>
           ttl: 300,
           rrdatas: [ingressIpAddress],
         },
-        { provider },
+        { provider: gcpProvider },
       );
 
       new gcp.dns.RecordSet(
@@ -56,7 +57,7 @@ customers.apply(customers =>
           ttl: 300,
           rrdatas: [ingressIpAddress],
         },
-        { provider },
+        { provider: gcpProvider },
       );
     }
 
@@ -79,7 +80,7 @@ customers.apply(customers =>
         spec: {
           rules: [
             {
-              host: creditorPortalDomain,
+              host: creditorPortalDomain.slice(0, -1),
               http: {
                 paths: [
                   {
@@ -96,7 +97,7 @@ customers.apply(customers =>
               },
             },
             {
-              host: apiDomain,
+              host: apiDomain.slice(0, -1),
               http: {
                 paths: [
                   {
@@ -113,7 +114,7 @@ customers.apply(customers =>
               },
             },
             {
-              host: debitorPortalDomain,
+              host: debitorPortalDomain.slice(0, -1),
               http: {
                 paths: [
                   {

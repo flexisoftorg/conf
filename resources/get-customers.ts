@@ -12,7 +12,7 @@ const portalCustomer = z.object({
   name: z.string(),
   port: z.number(),
   database: z.string(),
-  domain: z.string().optional(),
+  domain: z.string().nullable(),
   logoUrl: z.string().nullable(),
   organizationNumber: z.string().nullish(),
   phoneNumber: z.string().nullish(),
