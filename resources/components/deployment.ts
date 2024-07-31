@@ -148,7 +148,51 @@ export class DeploymentComponent extends pulumi.ComponentResource {
       },
     );
 
+    const ingressRules: pulumi.Input<
+      pulumi.Input<k8s.types.input.networking.v1.IngressRule>[]
+    > = [];
+
     if (host) {
+      ingressRules.push({
+        host,
+        http: {
+          paths: [
+            {
+              path: '/',
+              pathType: 'Prefix',
+              backend: {
+                service: {
+                  name: this.service.metadata.name,
+                  port: { number: port },
+                },
+              },
+            },
+          ],
+        },
+      });
+    }
+
+    if (legacyHost) {
+      ingressRules.push({
+        host: legacyHost,
+        http: {
+          paths: [
+            {
+              path: '/',
+              pathType: 'Prefix',
+              backend: {
+                service: {
+                  name: this.service.metadata.name,
+                  port: { number: port },
+                },
+              },
+            },
+          ],
+        },
+      });
+    }
+
+    if (ingressRules.length > 0) {
       this.ingress = new k8s.networking.v1.Ingress(
         `${name}-main-ingress`,
         {
@@ -161,25 +205,7 @@ export class DeploymentComponent extends pulumi.ComponentResource {
             },
           },
           spec: {
-            rules: [
-              {
-                host,
-                http: {
-                  paths: [
-                    {
-                      path: '/',
-                      pathType: 'Prefix',
-                      backend: {
-                        service: {
-                          name: this.service.metadata.name,
-                          port: { number: port },
-                        },
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
+            rules: ingressRules,
           },
         },
         {
@@ -187,47 +213,6 @@ export class DeploymentComponent extends pulumi.ComponentResource {
           deleteBeforeReplace: true,
         },
       );
-      // TODO: Remove this once we no longer need to support legacy custom domains
-      if (legacyHost) {
-        this.ingress = new k8s.networking.v1.Ingress(
-          `${name}-ingress`,
-          {
-            metadata: {
-              name,
-              namespace,
-              labels: { environment },
-              annotations: {
-                'kubernetes.io/ingress.class': 'caddy',
-              },
-            },
-            spec: {
-              rules: [
-                {
-                  host: legacyHost,
-                  http: {
-                    paths: [
-                      {
-                        path: '/',
-                        pathType: 'Prefix',
-                        backend: {
-                          service: {
-                            name: this.service.metadata.name,
-                            port: { number: port },
-                          },
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            parent: this,
-            deleteBeforeReplace: true,
-          },
-        );
-      }
     }
   }
 }
