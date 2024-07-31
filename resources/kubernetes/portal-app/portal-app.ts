@@ -17,7 +17,6 @@ export const portalApp = new DeploymentComponent(
     image: interpolate`${artifactRepoUrl}/portal-app`,
     tag: config.require('tag'),
     host: cleanPortalAppDomain,
-    legacyHost: 'flexisoft.bjerk.dev',
     namespace: namespace.metadata.name,
     port: 8000,
     envFrom: [{ configMapRef: { name: customerConfigMap.metadata.name } }],
