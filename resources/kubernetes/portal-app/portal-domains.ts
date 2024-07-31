@@ -73,7 +73,7 @@ customers.apply(customers =>
           },
           labels: {
             customer: customer.ident.current,
-            domainKind: hasCustomDomain ? 'custom' : 'standard',
+            kind: 'customer-domain',
           },
         },
         spec: {
