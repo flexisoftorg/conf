@@ -49,12 +49,6 @@ export const portalApi = new DeploymentComponent(
     ],
     env: [
       {
-        name: 'FRONTEND_URL',
-        value: interpolate`https://${portalAppDomain.slice(0, -1)}`,
-      },
-      { name: 'SELF_DOMAIN', value: rootDomain.slice(0, -1) },
-      { name: 'SELF_URL', value: interpolate`https://${cleanPortalApiDomain}` },
-      {
         name: 'REDIS_URL',
         value: interpolate`redis://${redis.service.metadata.name}.${redis.service.metadata.namespace}.svc.cluster.local:6379`,
       },
