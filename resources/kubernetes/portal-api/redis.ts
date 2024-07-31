@@ -12,12 +12,12 @@ export const redis = new DeploymentComponent(
     port: 6379,
     resources: {
       requests: {
-        cpu: '100m',
-        memory: '128Mi',
+        cpu: '250m',
+        memory: '512Mi',
       },
       limits: {
-        cpu: '200m',
-        memory: '256Mi',
+        cpu: '250m',
+        memory: '512Mi',
       },
     },
   },
