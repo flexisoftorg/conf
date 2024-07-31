@@ -23,7 +23,7 @@ export const zone = new gcp.dns.ManagedZone(
 );
 
 new gcp.dns.RecordSet(
-  'portal-app-ipv4',
+  'portal-app-a',
   {
     managedZone: zone.name,
     name: portalAppDomain,
@@ -34,7 +34,7 @@ new gcp.dns.RecordSet(
   { provider },
 );
 new gcp.dns.RecordSet(
-  'debitor-portal-app-ipv4',
+  'debitor-portal-app-a',
   {
     managedZone: zone.name,
     name: debitorPortalAppDomain,
@@ -46,7 +46,7 @@ new gcp.dns.RecordSet(
 );
 
 new gcp.dns.RecordSet(
-  'portal-api',
+  'portal-api-a',
   {
     managedZone: zone.name,
     name: portalApiDomain,
