@@ -5,4 +5,5 @@
 import './github/bot-secret';
 import './google/artifact-registry';
 import './google/dns';
+import './google/legacy-dns';
 import './github/portal-api-secrets';

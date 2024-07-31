@@ -26,6 +26,11 @@ export interface AppComponentArgs {
   host?: pulumi.Input<string>;
 
   /**
+   * If applied, an ingress will be setup
+   */
+  legacyHost?: pulumi.Input<string>;
+
+  /**
    * @default latest
    */
   tag?: pulumi.Input<string>;
@@ -67,6 +72,7 @@ export class DeploymentComponent extends pulumi.ComponentResource {
       env = [],
       envFrom = [],
       host,
+      legacyHost,
       tag = 'latest',
       logLevel = 'info',
       port = 8000,
@@ -144,7 +150,7 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 
     if (host) {
       this.ingress = new k8s.networking.v1.Ingress(
-        `${name}-ingress`,
+        `${name}-main-ingress`,
         {
           metadata: {
             name,
@@ -181,6 +187,47 @@ export class DeploymentComponent extends pulumi.ComponentResource {
           deleteBeforeReplace: true,
         },
       );
+      // TODO: Remove this once we no longer need to support legacy custom domains
+      if (legacyHost) {
+        this.ingress = new k8s.networking.v1.Ingress(
+          `${name}-ingress`,
+          {
+            metadata: {
+              name,
+              namespace,
+              labels: { environment },
+              annotations: {
+                'kubernetes.io/ingress.class': 'caddy',
+              },
+            },
+            spec: {
+              rules: [
+                {
+                  host: legacyHost,
+                  http: {
+                    paths: [
+                      {
+                        path: '/',
+                        pathType: 'Prefix',
+                        backend: {
+                          service: {
+                            name: this.service.metadata.name,
+                            port: { number: port },
+                          },
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            parent: this,
+            deleteBeforeReplace: true,
+          },
+        );
+      }
     }
   }
 }
