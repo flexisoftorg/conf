@@ -60,12 +60,12 @@ export const portalApi = new DeploymentComponent(
     ],
     resources: {
       requests: {
-        cpu: '100m',
-        memory: '128Mi',
+        cpu: '250m',
+        memory: '512Mi',
       },
       limits: {
-        cpu: '200m',
-        memory: '256Mi',
+        cpu: '250m',
+        memory: '512Mi',
       },
     },
   },
