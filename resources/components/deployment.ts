@@ -194,7 +194,7 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 
     if (ingressRules.length > 0) {
       this.ingress = new k8s.networking.v1.Ingress(
-        `${name}-main-ingress`,
+        `${name}-ingress`,
         {
           metadata: {
             name,
