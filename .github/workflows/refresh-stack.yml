@@ -23,6 +23,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - uses: pnpm/action-setup@v4
+
       - uses: 'google-github-actions/setup-gcloud@v2'
         with:
           install_components: 'gke-gcloud-auth-plugin'
