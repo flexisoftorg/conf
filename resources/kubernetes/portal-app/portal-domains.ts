@@ -1,6 +1,7 @@
 import * as k8s from '@pulumi/kubernetes';
 import * as gcp from '@pulumi/gcp';
 import { customers } from '../../get-customers';
+import { provider as gcpProvider } from '../../google/provider';
 import { provider } from '../../shared/kubernetes/provider';
 import { debitorPortalApp } from '../debitor-portal-app/debitor-portal-app';
 import { namespace } from '../namespace';
@@ -33,7 +34,7 @@ customers.apply(customers =>
           ttl: 300,
           rrdatas: [ingressIpAddress],
         },
-        { provider },
+        { provider: gcpProvider },
       );
       new gcp.dns.RecordSet(
         `${customer.ident.current}-debitor-portal`,
@@ -44,7 +45,7 @@ customers.apply(customers =>
           ttl: 300,
           rrdatas: [ingressIpAddress],
         },
-        { provider },
+        { provider: gcpProvider },
       );
 
       new gcp.dns.RecordSet(
@@ -56,7 +57,7 @@ customers.apply(customers =>
           ttl: 300,
           rrdatas: [ingressIpAddress],
         },
-        { provider },
+        { provider: gcpProvider },
       );
     }
 
