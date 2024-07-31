@@ -10,11 +10,13 @@ import { portalApp } from './portal-app';
 import { ingressIpAddress, zone } from '../../shared/google/dns';
 import { rootDomain } from '../../shared/config';
 
+const cleanRootDomain = rootDomain.slice(0, -1);
+
 customers.apply(customers =>
   customers.map(customer => {
     const domain = customer.domain
       ? customer.domain
-      : `${customer.ident.current}.${rootDomain}`;
+      : `${customer.ident.current}.${cleanRootDomain}`;
 
     const hasCustomDomain = Boolean(customer.domain?.trim());
 
