@@ -79,7 +79,7 @@ customers.apply(customers =>
         spec: {
           rules: [
             {
-              host: `kred.${domain}`,
+              host: creditorPortalDomain,
               http: {
                 paths: [
                   {
@@ -96,7 +96,7 @@ customers.apply(customers =>
               },
             },
             {
-              host: `api.${domain}`,
+              host: apiDomain,
               http: {
                 paths: [
                   {
@@ -113,7 +113,7 @@ customers.apply(customers =>
               },
             },
             {
-              host: `${domain}`,
+              host: debitorPortalDomain,
               http: {
                 paths: [
                   {
