@@ -7,6 +7,7 @@
     "lint": "eslint --ext .ts,.tsx ."
   },
   "prettier": "@simenandre/prettier",
+  "packageManager": "pnpm@8.15.8",
   "dependencies": {
     "@pulumi/gcp": "^6.0.0",
     "@pulumi/github": "^5.16.0",

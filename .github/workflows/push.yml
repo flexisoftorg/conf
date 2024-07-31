@@ -28,6 +28,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - uses: pnpm/action-setup@v4
+
       - uses: 'google-github-actions/setup-gcloud@v2'
         with:
           install_components: 'gke-gcloud-auth-plugin'
@@ -43,13 +45,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: lts/*
-          cache: yarn
+          cache: pnpm
 
       - name: Install dependencies
-        run: yarn install
+        run: pnpm install
 
       # - name: Lint
-      #   run: yarn lint
+      #   run: pnpm lint
 
       - uses: pulumi/actions@v4
         env:

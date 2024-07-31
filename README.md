@@ -16,7 +16,7 @@ We mainly use Kubernetes, _currently_ deployed at Google Cloud Platform.
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 - [docker](https://docs.docker.com/get-docker/)
 - [nodejs](https://nodejs.org/en/download/)
-- [yarn](https://classic.yarnpkg.com/en/docs/install/#debian-stable)
+- [pnpm](https://pnpm.io/installation)
 
 ## Architecture
 

@@ -23,11 +23,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - uses: pnpm/action-setup@v4
+
       - name: Use Node LTS
         uses: actions/setup-node@v3
         with:
           node-version: lts/*
-          cache: yarn
+          cache: pnpm
 
       - uses: 'google-github-actions/setup-gcloud@v2'
         with:
@@ -39,7 +41,7 @@ jobs:
           project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
           workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
-      - run: yarn install
+      - run: pnpm install
 
       - uses: pulumi/actions@v4
         env:
