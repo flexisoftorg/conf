@@ -2,6 +2,7 @@ import * as kubernetes from '@pulumi/kubernetes';
 import * as pulumi from '@pulumi/pulumi';
 import { interpolate } from '@pulumi/pulumi';
 import { DeploymentComponent } from '../../components/deployment';
+import { portalAppDomain } from '../../config';
 import { rootDomain } from '../../shared/config';
 import { artifactRepoUrl } from '../../shared/google/artifact-registry';
 import { provider as kubernetesProvider } from '../../shared/kubernetes/provider';
@@ -48,7 +49,7 @@ export const portalApi = new DeploymentComponent(
     env: [
       {
         name: 'FRONTEND_URL',
-        value: interpolate`https://${portalApiDomain.slice(0, -1)}`,
+        value: interpolate`https://${portalAppDomain.slice(0, -1)}`,
       },
       { name: 'SELF_DOMAIN', value: rootDomain.slice(0, -1) },
       { name: 'SELF_URL', value: interpolate`https://${cleanPortalApiDomain}` },
