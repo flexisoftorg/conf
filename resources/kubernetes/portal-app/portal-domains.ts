@@ -13,7 +13,7 @@ import { ingressIpAddress, zone } from '../../shared/google/dns';
 customers.apply(customers =>
   customers.map(customer => {
     const domain = customer.domain
-      ? customer.domain
+      ? `${customer.domain}.`
       : `${customer.ident.current}.${rootDomain}`;
 
     const hasCustomDomain = Boolean(customer.domain?.trim());
