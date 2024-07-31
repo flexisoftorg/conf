@@ -11,16 +11,19 @@ import { rootDomain } from '../../shared/config';
 
 customers.apply(customers =>
   customers.map(customer => {
-    const customerDomain = customer.domain
+    const domain = customer.domain
       ? customer.domain
       : `${customer.ident.current}.${rootDomain}`;
 
-    const domainKind = customer.domain ? 'customer-domain' : 'root-domain';
-    const debitorPortalDomain = customerDomain;
-    const creditorPortalDomain = `kred.${customerDomain}`;
-    const apiDomain = `api.${customerDomain}`;
+    const hasCustomDomain = Boolean(customer.domain?.trim());
 
-    if (!customer.domain) {
+    // TODO: Revise this logic once it is safe to do so (every customer is using non custom domains)
+    const debitorPortalDomain = hasCustomDomain ? `debitor.${domain}` : domain;
+    const creditorPortalDomain = hasCustomDomain ? domain : `kred.${domain}`;
+    const apiDomain = `api.${domain}`;
+
+    if (!hasCustomDomain) {
+      // we need to create DNS records for the customer's subdomains under the root domain zone
       new gcp.dns.RecordSet(
         `${customer.ident.current}-creditor-portal`,
         {
@@ -70,13 +73,13 @@ customers.apply(customers =>
           },
           labels: {
             customer: customer.ident.current,
-            kind: domainKind,
+            domainKind: hasCustomDomain ? 'custom' : 'standard',
           },
         },
         spec: {
           rules: [
             {
-              host: `kred.${customerDomain}`,
+              host: `kred.${domain}`,
               http: {
                 paths: [
                   {
@@ -93,7 +96,7 @@ customers.apply(customers =>
               },
             },
             {
-              host: `api.${customerDomain}`,
+              host: `api.${domain}`,
               http: {
                 paths: [
                   {
@@ -110,7 +113,7 @@ customers.apply(customers =>
               },
             },
             {
-              host: `${customerDomain}`,
+              host: `${domain}`,
               http: {
                 paths: [
                   {
