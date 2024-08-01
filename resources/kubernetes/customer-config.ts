@@ -16,9 +16,11 @@ export const customerConfigMap = new kubernetes.core.v1.ConfigMap(
     data: {
       CUSTOMERS: customers.apply(customers => {
         const customersWithDomain = customers.map(customer => {
+          const cleanRootDomain = rootDomain.slice(0, -1);
+
           const domain = customer.domain
-            ? `${customer.domain}.`
-            : `${customer.ident.current}.${rootDomain}`;
+            ? customer.domain
+            : `${customer.ident.current}.${cleanRootDomain}`;
 
           const hasCustomDomain = Boolean(customer.domain?.trim());
 
