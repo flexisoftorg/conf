@@ -3,18 +3,20 @@ import * as gcp from '@pulumi/gcp';
 import { customers } from '../../get-customers';
 import { provider as gcpProvider } from '../../google/provider';
 import { rootDomain } from '../../shared/config';
+import { ingressIpAddress, zone } from '../../shared/google/dns';
 import { provider } from '../../shared/kubernetes/provider';
 import { debitorPortalApp } from '../debitor-portal-app/debitor-portal-app';
 import { namespace } from '../namespace';
 import { portalApi } from '../portal-api/portal-api';
 import { portalApp } from './portal-app';
-import { ingressIpAddress, zone } from '../../shared/google/dns';
 
 customers.apply(customers =>
   customers.map(customer => {
+    const cleanRootDomain = rootDomain.slice(0, -1);
+
     const domain = customer.domain
-      ? `${customer.domain}.`
-      : `${customer.ident.current}.${rootDomain}`;
+      ? customer.domain
+      : `${customer.ident.current}.${cleanRootDomain}`;
 
     const hasCustomDomain = Boolean(customer.domain?.trim());
 
