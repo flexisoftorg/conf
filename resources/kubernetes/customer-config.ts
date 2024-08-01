@@ -16,15 +16,27 @@ export const customerConfigMap = new kubernetes.core.v1.ConfigMap(
     data: {
       CUSTOMERS: customers.apply(customers => {
         const customersWithDomain = customers.map(customer => {
-          if (customer.domain) {
-            return customer;
-          }
+          const domain = customer.domain
+            ? `${customer.domain}.`
+            : `${customer.ident.current}.${rootDomain}`;
 
-          const domain = `${customer.ident.current}.${rootDomain}`;
+          const hasCustomDomain = Boolean(customer.domain?.trim());
+
+          // TODO: Revise this logic once it is safe to do so (every customer is using non custom domains)
+          const debitorPortalDomain = hasCustomDomain
+            ? `debitor.${domain}`
+            : domain;
+          const creditorPortalDomain = hasCustomDomain
+            ? domain
+            : `kred.${domain}`;
+          const apiDomain = `api.${domain}`;
 
           return {
             ...customer,
             domain,
+            debitorPortalDomain,
+            creditorPortalDomain,
+            apiDomain,
           };
         });
         return JSON.stringify(customersWithDomain);
