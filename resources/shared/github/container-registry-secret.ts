@@ -17,6 +17,6 @@ repositoriesWithArtifacts.forEach(repository => {
       secretName: 'CONTAINER_REGISTRY',
       plaintextValue: artifactRepoUrl,
     },
-    { provider },
+    { provider, aliases: [{ name: 'artifact-secret' }] },
   );
 });
