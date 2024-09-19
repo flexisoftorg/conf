@@ -1,10 +1,9 @@
-
 import * as pulumi from '@pulumi/pulumi';
 import * as k8s from '@pulumi/kubernetes';
 import { namespace } from '../namespace';
 import { provider } from '../../google/provider';
-import {  sanityProjectId } from '../../shared/config';
- 
+import { sanityProjectId } from '../../shared/config';
+
 const config = new pulumi.Config('registration-app');
 
 const sanityApiToken = config.requireSecret('sanity-api-token');
