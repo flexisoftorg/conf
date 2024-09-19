@@ -1,5 +1,9 @@
 import * as gcp from '@pulumi/gcp';
-import { debitorPortalAppDomain, portalAppDomain } from '../../config';
+import {
+  debitorPortalAppDomain,
+  portalAppDomain,
+  registrationAppDomain,
+} from '../../config';
 import { apiServices } from '../../google/api-services';
 import { provider } from '../../google/provider';
 import { portalApiDomain } from '../../kubernetes/portal-api/portal-api';
@@ -65,6 +69,18 @@ new gcp.dns.RecordSet(
     type: 'CNAME',
     ttl: 300,
     rrdatas: ['flexisoftorg.github.io.'],
+  },
+  { provider },
+);
+
+new gcp.dns.RecordSet(
+  'registration-app-a',
+  {
+    managedZone: zone.name,
+    name: registrationAppDomain,
+    type: 'A',
+    ttl: 300,
+    rrdatas: [ingressIpAddress],
   },
   { provider },
 );
