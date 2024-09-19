@@ -76,7 +76,7 @@ new gcp.artifactregistry.RepositoryIamMember(
 );
 
 const registrationFormAppAccess = new GitHubAccess(
-  'registration-form-app',
+  'registration-form',
   {
     identityPoolName: identityPool.name,
     identityPoolProviderName: identityPoolProvider.name,
