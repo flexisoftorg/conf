@@ -68,3 +68,15 @@ new gcp.dns.RecordSet(
   },
   { provider },
 );
+
+new gcp.dns.RecordSet(
+  'registration-app-a',
+  {
+    managedZone: zone.name,
+    name: 'registration.' + rootDomain,
+    type: 'A',
+    ttl: 300,
+    rrdatas: [ingressIpAddress],
+  },
+  { provider },
+);
