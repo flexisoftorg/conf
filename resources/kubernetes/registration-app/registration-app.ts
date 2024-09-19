@@ -4,12 +4,13 @@ import { DeploymentComponent } from '../../components/deployment';
 import { registrationAppDomain } from '../../config';
 import { artifactRepoUrl } from '../../shared/google/artifact-registry';
 import { provider as kubernetesProvider } from '../../shared/kubernetes/provider';
-import { customerConfigMap } from '../customer-config';
 import { namespace } from '../namespace';
+import { registrationAppSanityCredentials } from './sanity-credentials';
 
 const config = new pulumi.Config('registration-app');
 
 const cleanregistrationAppDomain = registrationAppDomain.slice(0, -1);
+
 
 export const registrationApp = new DeploymentComponent(
   'registration-app',
@@ -19,25 +20,8 @@ export const registrationApp = new DeploymentComponent(
     host: cleanregistrationAppDomain,
     namespace: namespace.metadata.name,
     port: 8000,
-    env: [
-    {
-      name: 'SANITY_API_KEY',
-      valueFrom: {
-        configMapKeyRef: {
-      name: customerConfigMap.metadata.name,
-      key: 'sanityApiKey',
-        },
-      },
-    },
-    {
-      name: 'SANITY_PROJECT_ID',
-      valueFrom: {
-        configMapKeyRef: {
-      name: customerConfigMap.metadata.name,
-      key: 'sanityProjectId',
-        },
-      },
-    },
+    envFrom: [
+      { secretRef: { name: registrationAppSanityCredentials.metadata.name } },
     ],
     resources: {
       requests: {
