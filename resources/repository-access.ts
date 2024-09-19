@@ -74,3 +74,23 @@ new gcp.artifactregistry.RepositoryIamMember(
   },
   { provider: googleProvider },
 );
+
+const registrationFormAppAccess = new GitHubAccess(
+  'registration-form',
+  {
+    identityPoolName: identityPool.name,
+    identityPoolProviderName: identityPoolProvider.name,
+    repositories: ['registration-form'],
+  },
+  { providers: [googleProvider, githubProvider] },
+);
+
+new gcp.artifactregistry.RepositoryIamMember(
+  'registration-form-artifact-registry-access',
+  {
+    repository: repository.id,
+    member: pulumi.interpolate`serviceAccount:${registrationFormAppAccess.serviceAccount.email}`,
+    role: 'roles/artifactregistry.writer',
+  },
+  { provider: googleProvider },
+);
