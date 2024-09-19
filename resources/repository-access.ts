@@ -86,7 +86,7 @@ const registrationFormAppAccess = new GitHubAccess(
 );
 
 new gcp.artifactregistry.RepositoryIamMember(
-  'registration-form-app-artifact-registry-access',
+  'registration-form-artifact-registry-access',
   {
     repository: repository.id,
     member: pulumi.interpolate`serviceAccount:${registrationFormAppAccess.serviceAccount.email}`,
