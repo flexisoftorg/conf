@@ -19,7 +19,26 @@ export const registrationApp = new DeploymentComponent(
     host: cleanregistrationAppDomain,
     namespace: namespace.metadata.name,
     port: 8000,
-    envFrom: [{ configMapRef: { name: customerConfigMap.metadata.name } }],
+    env: [
+    {
+      name: 'SANITY_API_KEY',
+      valueFrom: {
+        configMapKeyRef: {
+      name: customerConfigMap.metadata.name,
+      key: 'sanityApiKey',
+        },
+      },
+    },
+    {
+      name: 'SANITY_PROJECT_ID',
+      valueFrom: {
+        configMapKeyRef: {
+      name: customerConfigMap.metadata.name,
+      key: 'sanityProjectId',
+        },
+      },
+    },
+    ],
     resources: {
       requests: {
         cpu: '250m',
