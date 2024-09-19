@@ -13,3 +13,7 @@ export const portalAppDomain = portalAppConfig.require('domain');
 const debitorPortalAppConfig = new pulumi.Config('debitor-portal-app');
 
 export const debitorPortalAppDomain = debitorPortalAppConfig.require('domain');
+
+const registrationAppConfig = new pulumi.Config('registration-app');
+
+export const registrationAppDomain = registrationAppConfig.require('domain');
