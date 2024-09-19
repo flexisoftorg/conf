@@ -73,7 +73,7 @@ new gcp.dns.RecordSet(
   'registration-app-a',
   {
     managedZone: zone.name,
-    name: 'reg.' + rootDomain,
+    name: rootDomain,
     type: 'A',
     ttl: 300,
     rrdatas: [ingressIpAddress],
