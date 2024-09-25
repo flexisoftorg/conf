@@ -7,6 +7,7 @@ const repositoriesWithArtifacts = [
   'portal-app',
   'debitor-portal-app',
   'registration-app',
+  'auth-app',
 ];
 
 repositoriesWithArtifacts.forEach(repository => {
