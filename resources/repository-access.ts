@@ -15,7 +15,7 @@ import { repository } from './shared/google/artifact-registry';
  * repository (or group of repositories).
  */
 
-const ApiAccess = new GitHubAccess(
+const apiAccess = new GitHubAccess(
   'api',
   {
     identityPoolName: identityPool.name,
@@ -29,7 +29,7 @@ new gcp.artifactregistry.RepositoryIamMember(
   'api-artifact-registry-access',
   {
     repository: repository.id,
-    member: pulumi.interpolate`serviceAccount:${ApiAccess.serviceAccount.email}`,
+    member: pulumi.interpolate`serviceAccount:${apiAccess.serviceAccount.email}`,
     role: 'roles/artifactregistry.writer',
   },
   { provider: googleProvider },
