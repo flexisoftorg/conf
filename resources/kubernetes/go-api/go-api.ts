@@ -6,14 +6,14 @@ import { artifactRepoUrl } from '../../shared/google/artifact-registry';
 import { provider as kubernetesProvider } from '../../shared/kubernetes/provider';
 import { namespace } from '../namespace';
 
-const config = new pulumi.Config('go-api');
+const config = new pulumi.Config('api');
 
 const cleanGoApiDomain = goApiDomain.slice(0, -1);
 
 export const goApi = new DeploymentComponent(
-  'go-api',
+  'api',
   {
-    image: interpolate`${artifactRepoUrl}/go-api`,
+    image: interpolate`${artifactRepoUrl}/api`,
     tag: config.require('tag'),
     host: cleanGoApiDomain,
     namespace: namespace.metadata.name,

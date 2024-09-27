@@ -87,7 +87,7 @@ new gcp.dns.RecordSet(
 );
 
 new gcp.dns.RecordSet(
-  'go-api-a',
+  'api-a',
   {
     managedZone: zone.name,
     name: goApiDomain,

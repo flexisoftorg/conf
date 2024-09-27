@@ -12,8 +12,8 @@ config:
   flexisoft-portal:token:
     secure: AAABADnGNOlQyi0xkXljdX9WEqtN3tkY+hj3V4QE2uQWYeYoNUsZw0DLQjSR9l2+6ulXrkfSyqugHIfhyAAp7FBY5bQconlUKzBRTzf2bpWdkViv5GQeKjDTWJx2r8ZivkYQcxJ/qw1y1jrh7gHOeNOs+OfSiS/pm7r+JzI=
   github:owner: flexisoftorg
-  go-api:domain: go.fpx.no.
-  go-api:tag: abc
+  api:domain: rest.fpx.no.
+  api:tag: abc
   google:project: flexisoft-app
   portal-api:auth-sign-secret:
     secure: AAABAGNx2AH3V5QmwfBOzUjXpZ5OBSBNbdL+QgB0I5a37lHMMcsUVz+vl4snxg+thegbVzM0plRWgiALUupL88JvEkrLB4zodEhXFD4S9xNzOSZXkbUaXSroU/ZOoAhZ
