@@ -17,3 +17,7 @@ export const debitorPortalAppDomain = debitorPortalAppConfig.require('domain');
 const registrationAppConfig = new pulumi.Config('registration-app');
 
 export const registrationAppDomain = registrationAppConfig.require('domain');
+
+const goApiConfig = new pulumi.Config('go-api');
+
+export const goApiDomain = goApiConfig.require('domain');
