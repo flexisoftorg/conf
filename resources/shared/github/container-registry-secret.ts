@@ -3,6 +3,7 @@ import { provider } from '../../github/provider';
 import { artifactRepoUrl } from '../google/artifact-registry';
 
 const repositoriesWithArtifacts = [
+  'api',
   'portal-api',
   'portal-app',
   'debitor-portal-app',
