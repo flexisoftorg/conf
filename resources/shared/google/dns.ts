@@ -3,7 +3,7 @@ import {
   debitorPortalAppDomain,
   portalAppDomain,
   registrationAppDomain,
-  goApiDomain,
+  apiDomain,
 } from '../../config';
 import { apiServices } from '../../google/api-services';
 import { provider } from '../../google/provider';
@@ -90,7 +90,7 @@ new gcp.dns.RecordSet(
   'api-a',
   {
     managedZone: zone.name,
-    name: goApiDomain,
+    name: apiDomain,
     type: 'A',
     ttl: 300,
     rrdatas: [ingressIpAddress],
