@@ -5,6 +5,7 @@ import { apiDomain } from '../../config';
 import { artifactRepoUrl } from '../../shared/google/artifact-registry';
 import { provider as kubernetesProvider } from '../../shared/kubernetes/provider';
 import { namespace } from '../namespace';
+import { registrationAppSanityCredentials } from '../registration-app/sanity-credentials';
 
 const config = new pulumi.Config('api');
 
@@ -17,6 +18,9 @@ export const Api = new DeploymentComponent(
     tag: config.require('tag'),
     host: cleanApiDomain,
     namespace: namespace.metadata.name,
+    envFrom: [
+      { secretRef: { name: registrationAppSanityCredentials.metadata.name } },
+    ],
     port: 8000,
     resources: {
       requests: {
