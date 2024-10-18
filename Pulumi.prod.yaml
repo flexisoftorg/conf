@@ -39,3 +39,4 @@ config:
     secure: AAABAP0i2LEFsOZ2YLW6LasJg7R1m+DaL0nhcByNCS8X6bgGE2zlkJLNS+rRfWvBvb88bBhEpx0m98fKKc2eeA==
 environment:
   - secrets
+  - flexisoft-secrets
