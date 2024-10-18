@@ -5,6 +5,7 @@ import { registrationAppDomain } from '../../config';
 import { artifactRepoUrl } from '../../shared/google/artifact-registry';
 import { provider as kubernetesProvider } from '../../shared/kubernetes/provider';
 import { namespace } from '../namespace';
+import { registrationAppDatabaseCredentials } from './database-credentials';
 import { registrationAppSanityCredentials } from './sanity-credentials';
 
 const config = new pulumi.Config('registration-app');
@@ -21,6 +22,7 @@ export const registrationApp = new DeploymentComponent(
     port: 8000,
     envFrom: [
       { secretRef: { name: registrationAppSanityCredentials.metadata.name } },
+      { secretRef: { name: registrationAppDatabaseCredentials.metadata.name } },
     ],
     resources: {
       requests: {
