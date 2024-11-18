@@ -10,14 +10,14 @@ import { registrationAppSanityCredentials } from './sanity-credentials';
 
 const config = new pulumi.Config('registration-app');
 
-const cleanregistrationAppDomain = registrationAppDomain.slice(0, -1);
+const cleanRegistrationAppDomain = registrationAppDomain.slice(0, -1);
 
 export const registrationApp = new DeploymentComponent(
   'registration-app',
   {
     image: interpolate`${artifactRepoUrl}/registration-app`,
     tag: config.require('tag'),
-    host: cleanregistrationAppDomain,
+    host: cleanRegistrationAppDomain,
     namespace: namespace.metadata.name,
     port: 8000,
     envFrom: [
@@ -27,7 +27,7 @@ export const registrationApp = new DeploymentComponent(
     env: [
       {
         name: 'SELF_URL',
-        value: `https://${cleanregistrationAppDomain}`,
+        value: `https://${cleanRegistrationAppDomain}`,
       },
     ],
     resources: {
