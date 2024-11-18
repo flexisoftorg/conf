@@ -12,7 +12,7 @@ const config = new pulumi.Config('registration-app');
 
 const cleanregistrationAppDomain = registrationAppDomain.slice(0, -1);
 
-const selfUrl = new URL(`https://${registrationAppDomain.slice(0, -1)}`);
+const selfUrl = new URL(`https://${cleanregistrationAppDomain}`);
 
 export const registrationApp = new DeploymentComponent(
   'registration-app',
