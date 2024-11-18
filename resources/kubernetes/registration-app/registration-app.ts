@@ -29,6 +29,10 @@ export const registrationApp = new DeploymentComponent(
         name: 'SELF_URL',
         value: `https://${cleanRegistrationAppDomain}`,
       },
+      {
+        name: 'APP_ENV',
+        value: 'production',
+      },
     ],
     resources: {
       requests: {
