@@ -26,7 +26,7 @@ config:
   registration-app:domain: reg.fpx.no.
   registration-app:sanity-api-token:
     secure: AAABANuui5u1lVTB5Yn1TCypvrU2M8dQBZm6U11ROf03oru/wEQEzTmMQ91yWOsAoTZXpGDu5J2pm+9iJogrzoiIbmHUjKQAZ0CafrX1gZ07JNbccLPv+ey3VD780ePFE0FxXf3yoro86ZD2YqHcR3lXr032d7H5wsimIyV5z6rIbdlUrfOXAqj85rmBuV9sqBXTwEykNzYowf+bnKM8aXv2nEUEnE1JBvdRnw38stMFG99bEv3VrDNjgdUB/eyAW40/m7ACD6RRXD7qg5u7l+jNibE=
-  registration-app:tag: main-1b4ca6e
+  registration-app:tag: main-a0dbc55
   shared:root-domain: fpx.no.
   shared:sanity-api-token:
     secure: AAABAKNUxuIL0P20L2+jSx+8ltTNOjlOc6QPadK5RvVmbRjvuyQdVE0usE8NDTvDULKHUvccqXXy8++71QO4+Knmr3f8Cm4f5jug/ArWfAh55OIU+l0ewtwczJatw781PQuDvBLz+Z9+Bn13sjSQpIJIpKUw+YCytxUA9o9vmhlGHtTAc3GnswmMOv5X5dUvvwe7NtDwrlRvkVw20kniJGqNZF2v1ETYbERDx/gm2f8d0H2jMqIMpqNykO1+YyD0kSo4YsQN02wW/kknQclxy/bkd/A=
