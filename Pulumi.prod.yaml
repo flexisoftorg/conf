@@ -20,7 +20,7 @@ config:
   portal-api:log-level: debug
   portal-api:tag: main-26a994c
   portal-app:domain: creditor.fpx.no.
-  portal-app:tag: main-cc1cb7d
+  portal-app:tag: main-db5d51a
   pulumi:disable-default-providers:
     - '*'
   registration-app:domain: reg.fpx.no.
