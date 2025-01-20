@@ -12,7 +12,7 @@ const config = new pulumi.Config('portal-app');
 const agGridLicenseKey = config.requireSecret('ag-grid-license-key');
 
 export const portalAppEnvSecrets = new kubernetes.core.v1.Secret(
-  'portal-api-env-secrets',
+  'portal-app-env-secrets',
   {
     metadata: {
       name: 'portal-app-env-secrets',
