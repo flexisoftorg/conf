@@ -20,7 +20,7 @@ export const portalAppEnvSecrets = new kubernetes.core.v1.Secret(
       namespace: namespace.metadata.name,
     },
     stringData: {
-      AG_GRID_LICENSE_KEY: agGridLicenseKey,
+      NEXT_PUBLIC_AG_GRID_LICENSE_KEY: agGridLicenseKey,
     },
   },
   { provider: kubernetesProvider },
