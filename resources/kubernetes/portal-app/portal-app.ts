@@ -9,7 +9,8 @@ import { customerConfigMap } from '../customer-config';
 import { namespace } from '../namespace';
 
 const config = new pulumi.Config('portal-app');
-const agGridLicenseKey = config.requireSecret('ag-grid-license-key');
+const base64EncodedValue = config.requireSecret('ag-grid-license-key');
+const agGridLicenseKey = base64EncodedValue.apply((licenseKey) => Buffer.from(licenseKey, 'base64').toString('utf-8'));
 
 export const portalAppEnvSecrets = new kubernetes.core.v1.Secret(
   'portal-app-env-secrets',
