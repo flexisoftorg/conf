@@ -9,6 +9,9 @@ import { customerConfigMap } from '../customer-config';
 import { namespace } from '../namespace';
 
 const config = new pulumi.Config('portal-app');
+
+// In order to store the license key in a way k8s can consume it, we need to base64 encode it.
+// In order to use it in pulumi, we need to decode it.
 const base64EncodedValue = config.requireSecret('ag-grid-license-key');
 const agGridLicenseKey = base64EncodedValue.apply((licenseKey) => Buffer.from(licenseKey, 'base64').toString('utf-8'));
 
