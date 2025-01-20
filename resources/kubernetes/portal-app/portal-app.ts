@@ -10,8 +10,6 @@ import { namespace } from '../namespace';
 
 const config = new pulumi.Config('portal-app');
 
-// In order to store the license key in a way k8s can consume it, we need to base64 encode it.
-// In order to use it in pulumi, we need to decode it.
 const agGridLicenseKey = config.requireSecret('ag-grid-license-key');
 
 export const portalAppEnvSecrets = new kubernetes.core.v1.Secret(
@@ -21,7 +19,7 @@ export const portalAppEnvSecrets = new kubernetes.core.v1.Secret(
       name: 'portal-app-env-secrets',
       namespace: namespace.metadata.name,
     },
-    data: {
+    stringData: {
       AG_GRID_LICENSE_KEY: agGridLicenseKey,
     },
   },
