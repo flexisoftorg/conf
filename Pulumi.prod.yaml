@@ -18,7 +18,7 @@ config:
     secure: AAABADy2iSkKwef0IiFd0IDXze14jO0VtDr6oM53MXgdadia3pK7wN0U2AArLuQ0GooGBzS6GxGuvCPSgZV2MdfaumwMzdzpoe1OHNN9jP5NGQaJP/RpQRPhlx4r3YnH
   portal-api:domain: api.fpx.no.
   portal-api:log-level: debug
-  portal-api:tag: main-940915d
+  portal-api:tag: main-e15fbb4
   portal-app:domain: creditor.fpx.no.
   portal-app:tag: main-3595049
   pulumi:disable-default-providers:
