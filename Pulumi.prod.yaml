@@ -3,7 +3,7 @@ config:
   api:tag: main-08d6868
   debitor-portal-app:domain: debitor.fpx.no.
   debitor-portal-app:paymentProviderUrl: https://epayment.nets.eu
-  debitor-portal-app:tag: main-3d6bb45
+  debitor-portal-app:tag: main-7545e9e
   flexisoft-portal:developers:
     - group:developers@bjerk.io
   flexisoft-portal:owner: flexisoftorg
