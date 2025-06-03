@@ -14,7 +14,7 @@
     "@pulumi/google-native": "^0.32.0",
     "@pulumi/kubernetes": "^4.0.3",
     "@pulumi/pulumi": "^3.0.0",
-    "@sanity/client": "^6.0.0",
+    "@sanity/client": "^7.0.0",
     "@simenandre/prettier": "^5.0.0",
     "zod": "^3.22.0"
   },
