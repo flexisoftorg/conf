@@ -114,3 +114,23 @@ new gcp.artifactregistry.RepositoryIamMember(
   },
   { provider: googleProvider },
 );
+
+const authAppAccess = new GitHubAccess(
+  'auth-app',
+  {
+    identityPoolName: identityPool.name,
+    identityPoolProviderName: identityPoolProvider.name,
+    repositories: ['auth-app'],
+  },
+  { providers: [googleProvider, githubProvider] },
+);
+
+new gcp.artifactregistry.RepositoryIamMember(
+  'auth-app-artifact-registry-access',
+  {
+    repository: repository.id,
+    member: pulumi.interpolate`serviceAccount:${authAppAccess.serviceAccount.email}`,
+    role: 'roles/artifactregistry.writer',
+  },
+  { provider: googleProvider },
+);
