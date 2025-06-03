@@ -12,8 +12,8 @@ importers:
         specifier: ^8.0.0
         version: 8.32.1(typescript@5.8.3)
       '@pulumi/github':
-        specifier: ^5.16.0
-        version: 5.26.0(typescript@5.8.3)
+        specifier: ^6.0.0
+        version: 6.7.2(typescript@5.8.3)
       '@pulumi/google-native':
         specifier: ^0.32.0
         version: 0.32.0(typescript@5.8.3)
@@ -326,8 +326,8 @@ packages:
   '@pulumi/gcp@8.32.1':
     resolution: {integrity: sha512-4v7+FaprU/Hnc+GOdnKhMR25522uoV4e/4hmOQkuYviaKNWPsBhWj82uMa813UjcXLsJ+9QC9PUcFbyfhxcRBA==}
 
-  '@pulumi/github@5.26.0':
-    resolution: {integrity: sha512-4n+GxMbZedRTlG5C1bAYHJXr/OYU5QZ0Y2P5W9WG55EnKT29bzevk/o7XgR36wbt1hqejSe8F5E1hiltUK2aCg==}
+  '@pulumi/github@6.7.2':
+    resolution: {integrity: sha512-dsaCLKQXqTVChE5gsowDoI7J3ZcN+WQ2zamFqHeYbSTJ2NJ06ENK+INkwbrUnEqtLA5t6lfOIu2F97Yz0+LsRQ==}
 
   '@pulumi/google-native@0.32.0':
     resolution: {integrity: sha512-7PJrCGHhmN/WnscNoImQtJPd1y817F/678KcgT8JhtTo4Af5enFpKXbQP4owoA9ngoJ4s+0lopBJHDbQi528Zw==}
@@ -2665,7 +2665,7 @@ snapshots:
       - ts-node
       - typescript
 
-  '@pulumi/github@5.26.0(typescript@5.8.3)':
+  '@pulumi/github@6.7.2(typescript@5.8.3)':
     dependencies:
       '@pulumi/pulumi': 3.173.0(typescript@5.8.3)
     transitivePeerDependencies:
