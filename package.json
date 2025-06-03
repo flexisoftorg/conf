@@ -7,11 +7,11 @@
     "lint": "eslint --ext .ts,.tsx ."
   },
   "prettier": "@simenandre/prettier",
-  "packageManager": "pnpm@8.15.8",
+  "packageManager": "pnpm@10.11.1",
   "dependencies": {
     "@pulumi/gcp": "^6.0.0",
     "@pulumi/github": "^5.16.0",
-    "@pulumi/google-native": "^0.31.0",
+    "@pulumi/google-native": "^0.32.0",
     "@pulumi/kubernetes": "^4.0.3",
     "@pulumi/pulumi": "^3.0.0",
     "@sanity/client": "^6.0.0",
@@ -21,7 +21,7 @@
   "devDependencies": {
     "@bjerk/eslint-config": "^6.0.1",
     "@types/node": "^18.0.0",
-    "eslint": "^8.37.0",
+    "eslint": "^9.0.0",
     "prettier": "^3.0.1"
   }
 }

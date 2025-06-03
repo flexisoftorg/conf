@@ -1,12 +1,9 @@
 config:
   api:domain: rest.fpx.no.
-  api:tag: main-08d6868
+  api:tag: main-4896241
   debitor-portal-app:domain: debitor.fpx.no.
   debitor-portal-app:paymentProviderUrl: https://epayment.nets.eu
-  debitor-portal-app:portalPassword:
-    secure: AAABAGsNZo0DH9+ae7CURvYoYvtHqs/ceFIfbXw/HicrbTPPo8axhvWhYn1a
-  debitor-portal-app:portalUsername: DEBPORTAL
-  debitor-portal-app:tag: main-3d6bb45
+  debitor-portal-app:tag: main-4581be5
   flexisoft-portal:developers:
     - group:developers@bjerk.io
   flexisoft-portal:owner: flexisoftorg
@@ -21,15 +18,15 @@ config:
     secure: AAABADy2iSkKwef0IiFd0IDXze14jO0VtDr6oM53MXgdadia3pK7wN0U2AArLuQ0GooGBzS6GxGuvCPSgZV2MdfaumwMzdzpoe1OHNN9jP5NGQaJP/RpQRPhlx4r3YnH
   portal-api:domain: api.fpx.no.
   portal-api:log-level: debug
-  portal-api:tag: main-6d6fee5
+  portal-api:tag: main-3cf32dd
   portal-app:domain: creditor.fpx.no.
-  portal-app:tag: main-c075e1f
+  portal-app:tag: main-f558b9f
   pulumi:disable-default-providers:
     - '*'
   registration-app:domain: reg.fpx.no.
   registration-app:sanity-api-token:
     secure: AAABANuui5u1lVTB5Yn1TCypvrU2M8dQBZm6U11ROf03oru/wEQEzTmMQ91yWOsAoTZXpGDu5J2pm+9iJogrzoiIbmHUjKQAZ0CafrX1gZ07JNbccLPv+ey3VD780ePFE0FxXf3yoro86ZD2YqHcR3lXr032d7H5wsimIyV5z6rIbdlUrfOXAqj85rmBuV9sqBXTwEykNzYowf+bnKM8aXv2nEUEnE1JBvdRnw38stMFG99bEv3VrDNjgdUB/eyAW40/m7ACD6RRXD7qg5u7l+jNibE=
-  registration-app:tag: main-da66c36
+  registration-app:tag: main-54523d0
   shared:root-domain: fpx.no.
   shared:sanity-api-token:
     secure: AAABAKNUxuIL0P20L2+jSx+8ltTNOjlOc6QPadK5RvVmbRjvuyQdVE0usE8NDTvDULKHUvccqXXy8++71QO4+Knmr3f8Cm4f5jug/ArWfAh55OIU+l0ewtwczJatw781PQuDvBLz+Z9+Bn13sjSQpIJIpKUw+YCytxUA9o9vmhlGHtTAc3GnswmMOv5X5dUvvwe7NtDwrlRvkVw20kniJGqNZF2v1ETYbERDx/gm2f8d0H2jMqIMpqNykO1+YyD0kSo4YsQN02wW/kknQclxy/bkd/A=
@@ -37,5 +34,8 @@ config:
   shared:studio-sub-domain: studio.fpx.no.
   slack:bot-oauth-token:
     secure: AAABAP0i2LEFsOZ2YLW6LasJg7R1m+DaL0nhcByNCS8X6bgGE2zlkJLNS+rRfWvBvb88bBhEpx0m98fKKc2eeA==
+  portal-app:ag-grid-license-key:
+    secure: AAABAI2CaP2746yNaybw5rWI+bix0tKh/ZoJrWYG6EpPeDU0qGz2nGifDdnkNLZNcrnjsFuv4hU9z9Y5f2K2lmU+oJRKH2stMbuTxcwD4S0aHO3iJ5YhMiWlEBh+fATeCAfMRaMQ3i0pBNl04lfoDZyvJy4vTHt1eP4rEThpdaWAostPcHkAKZwvf+gV0PRTrrCgMLFit7VIQPFaKcKx3jbhX6aRD3D4OyUC801vkKabEe4H4AEbCcHyu5Eb8UM7IsuTyUUQdXwFpHGJY3DCIbjlAI7jVuJYQ6AksEfPvMfLTwadrEs+ZKXCj8jeTUc3GJpDoMqN7bZUz3ilYtqzhi/+pnCfdIFSo/S9H/9Cpsr6g/WCTkWhvZVzglKfanTwEqinsLyYhyNjKKxohJa5nM7X1RdSxartfkVnGE6yViJ6FmQRIOxwNo2SS4rKApudxh83IPINpy3RWEUCFZbBaZz61DF4hjFjsbbLAUas8COoqe/MGGLTxlCYNnPrrpqeZnBvA1T3PAVbWwfH6vNYvgUGx6ISN5t1/9/OqdCqB63X+lJOCPxg8C7A2GqywNfR0rJXa/rDQ/eX5mUwPfJJ6w7nDlowE5/GhcPsJDptfOCwP/IGmEAgdhbeF2HAIzmJ0gt36EhMTsTwM6ZvdA3Gf3cg03fOLGV6Qe+lUDjpxVmPS+fKms40+0McJJl0XXvhshM81T3VAo0uU3uk5hKGG4fbFl9khfbq61AHCBDG1R8IkunnQnh1X9rh8bx4y1vqAoJ7DYR93uap0xWsnzm2ZdbDv61nCaAsINfZFRk3QSqpoyIpjYC4fRqXvrdmJpAb/YRp1mbkOsIq1mKqve+3n2WgbFXiY8lyDAWfRdE1dAJRDE3BAdVbV/oSxdMiYUEqVHwQFYuuHT0+RPV/QQPtgKWQgJb9WEzAZXW1IroJ1AeMuWZJUXoeGhEDxZ4QZboIBH13+Jt8R2O6x+A7QOKSmxOlJz9h4vXCpvSu9h9PlF+5
 environment:
   - secrets
+  - flexisoft-secrets

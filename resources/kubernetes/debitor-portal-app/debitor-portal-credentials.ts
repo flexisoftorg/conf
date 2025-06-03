@@ -5,8 +5,8 @@ import { namespace } from '../namespace';
 
 const config = new pulumi.Config('debitor-portal-app');
 
-const portalUsername = config.requireSecret('portalUsername');
-const portalPassword = config.requireSecret('portalPassword');
+const user = config.requireSecret('database-user');
+const password = config.requireSecret('database-password');
 
 export const debitorPortalCredentials = new k8s.core.v1.Secret(
   'debitor-portal-database-credentials',
@@ -16,8 +16,8 @@ export const debitorPortalCredentials = new k8s.core.v1.Secret(
       namespace: namespace.metadata.name,
     },
     stringData: {
-      PORTAL_USERNAME: portalUsername,
-      PORTAL_PASSWORD: portalPassword,
+      PORTAL_USERNAME: user,
+      PORTAL_PASSWORD: password,
     },
   },
   { provider },
