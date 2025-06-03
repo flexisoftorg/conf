@@ -9,7 +9,7 @@
   "prettier": "@simenandre/prettier",
   "packageManager": "pnpm@10.11.1",
   "dependencies": {
-    "@pulumi/gcp": "^6.0.0",
+    "@pulumi/gcp": "^8.0.0",
     "@pulumi/github": "^5.16.0",
     "@pulumi/google-native": "^0.32.0",
     "@pulumi/kubernetes": "^4.0.3",
