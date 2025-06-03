@@ -21,7 +21,7 @@ jobs:
       matrix:
         env: [prod] # If we have more environments, add them here
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: simenandre/setup-inputs@v1
         id: inputs
@@ -50,13 +50,11 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
-          commit-message:
-            bump ${{ steps.inputs.outputs.service }} to ${{
+          commit-message: bump ${{ steps.inputs.outputs.service }} to ${{
             steps.inputs.outputs.tag }} on ${{ matrix.env }}
           branch: bump-tag-${{ steps.inputs.outputs.service }}-${{ matrix.env }}
-          title:
-            'chore: bump ${{ steps.inputs.outputs.service }} tag to `${{
-            steps.inputs.outputs.tag }}` on ${{ matrix.env }}'
+          title: "chore: bump ${{ steps.inputs.outputs.service }} tag to `${{
+            steps.inputs.outputs.tag }}` on ${{ matrix.env }}"
           body: |
             Automated tag change on ${{ matrix.env }}. 🎉
 
