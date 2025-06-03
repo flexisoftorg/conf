@@ -9,39 +9,39 @@ importers:
   .:
     dependencies:
       '@pulumi/gcp':
-        specifier: ^8.0.0
+        specifier: ^8.32.1
         version: 8.32.1(ts-node@10.9.2(@types/node@22.15.29)(typescript@5.8.3))(typescript@5.8.3)
       '@pulumi/github':
-        specifier: ^6.0.0
+        specifier: ^6.7.2
         version: 6.7.2(ts-node@10.9.2(@types/node@22.15.29)(typescript@5.8.3))(typescript@5.8.3)
       '@pulumi/google-native':
         specifier: ^0.32.0
         version: 0.32.0(ts-node@10.9.2(@types/node@22.15.29)(typescript@5.8.3))(typescript@5.8.3)
       '@pulumi/kubernetes':
-        specifier: ^4.0.3
+        specifier: ^4.23.0
         version: 4.23.0(ts-node@10.9.2(@types/node@22.15.29)(typescript@5.8.3))(typescript@5.8.3)
       '@pulumi/pulumi':
-        specifier: ^3.0.0
+        specifier: ^3.173.0
         version: 3.173.0(ts-node@10.9.2(@types/node@22.15.29)(typescript@5.8.3))(typescript@5.8.3)
       '@sanity/client':
-        specifier: ^7.0.0
+        specifier: ^7.4.0
         version: 7.4.0
       ts-node:
         specifier: ^10.9.2
         version: 10.9.2(@types/node@22.15.29)(typescript@5.8.3)
       zod:
-        specifier: ^3.22.0
+        specifier: ^3.25.49
         version: 3.25.49
     devDependencies:
       '@types/node':
-        specifier: ^22.0.0
+        specifier: ^22.15.29
         version: 22.15.29
       prettier:
         specifier: ^3.5.3
         version: 3.5.3
       xo:
         specifier: ^1.0.5
-        version: 1.0.5(@types/eslint@8.56.12)(@typescript-eslint/utils@8.33.1(eslint@9.28.0)(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(typescript@5.8.3)
+        version: 1.0.5(@types/eslint@8.56.12)(@typescript-eslint/utils@8.33.1(eslint@9.28.0)(typescript@5.8.3))(typescript@5.8.3)
 
 packages:
 
@@ -954,14 +954,6 @@ packages:
     resolution: {integrity: sha512-BS8PfmtDGnrgYdOonGZQdLZslWIeCGFP9tpan0hi1Co2Zr2NKADsvGYA8XxuG/4UWgJ6Cjtv+YJnB6MM69QGlQ==}
     engines: {node: '>= 0.4'}
 
-  debug@3.2.7:
-    resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==}
-    peerDependencies:
-      supports-color: '*'
-    peerDependenciesMeta:
-      supports-color:
-        optional: true
-
   debug@4.4.1:
     resolution: {integrity: sha512-KcKCqiftBJcZr++7ykoDIEwSa3XWowTfNPo92BYxjXiyYEVrUQh2aLyhxBCwww+heortUFxEJYcRzosstTEBYQ==}
     engines: {node: '>=6.0'}
@@ -1148,9 +1140,6 @@ packages:
     peerDependenciesMeta:
       unrs-resolver:
         optional: true
-
-  eslint-import-resolver-node@0.3.9:
-    resolution: {integrity: sha512-WFj2isz22JahUv+B788TlO3N6zL3nNJGU8CcZbPZvVEkBPaJdCV4vy5wyghty5ROFbCRnm132v8BScu5/1BQ8g==}
 
   eslint-plugin-ava@15.0.1:
     resolution: {integrity: sha512-eRX7mLFPvalGDWztJ4zm+anez2X6J/88r9CqLFfPAIMvFlGyJ+dUoFppoohgUQZLV09mIBNz5guP07zFJOLF8g==}
@@ -1978,6 +1967,10 @@ packages:
   min-indent@1.0.1:
     resolution: {integrity: sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg==}
     engines: {node: '>=4'}
+
+  minimatch@10.0.1:
+    resolution: {integrity: sha512-ethXTt3SGGR+95gudmqJ1eNhRO7eGEGIgYA9vnPatK4/etz2MEVDno5GMCibdMTuBMyElzIlgxMna3K94XDIDQ==}
+    engines: {node: 20 || >=22}
 
   minimatch@3.1.2:
     resolution: {integrity: sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==}
@@ -4000,11 +3993,6 @@ snapshots:
       es-errors: 1.3.0
       is-data-view: 1.0.2
 
-  debug@3.2.7:
-    dependencies:
-      ms: 2.1.3
-    optional: true
-
   debug@4.4.1:
     dependencies:
       ms: 2.1.3
@@ -4252,15 +4240,6 @@ snapshots:
     optionalDependencies:
       unrs-resolver: 1.7.9
 
-  eslint-import-resolver-node@0.3.9:
-    dependencies:
-      debug: 3.2.7
-      is-core-module: 2.16.1
-      resolve: 1.22.10
-    transitivePeerDependencies:
-      - supports-color
-    optional: true
-
   eslint-plugin-ava@15.0.1(eslint@9.28.0):
     dependencies:
       enhance-visitors: 1.0.0
@@ -4280,7 +4259,7 @@ snapshots:
       eslint: 9.28.0
       eslint-compat-utils: 0.5.1(eslint@9.28.0)
 
-  eslint-plugin-import-x@4.15.0(@typescript-eslint/utils@8.33.1(eslint@9.28.0)(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(eslint@9.28.0):
+  eslint-plugin-import-x@4.15.0(@typescript-eslint/utils@8.33.1(eslint@9.28.0)(typescript@5.8.3))(eslint@9.28.0):
     dependencies:
       '@typescript-eslint/types': 8.33.1
       comment-parser: 1.4.1
@@ -4288,13 +4267,12 @@ snapshots:
       eslint: 9.28.0
       eslint-import-context: 0.1.6(unrs-resolver@1.7.9)
       is-glob: 4.0.3
-      minimatch: 9.0.5
+      minimatch: 10.0.1
       semver: 7.7.2
       stable-hash: 0.0.5
       unrs-resolver: 1.7.9
     optionalDependencies:
       '@typescript-eslint/utils': 8.33.1(eslint@9.28.0)(typescript@5.8.3)
-      eslint-import-resolver-node: 0.3.9
     transitivePeerDependencies:
       - supports-color
 
@@ -5144,6 +5122,10 @@ snapshots:
   mimic-response@3.1.0: {}
 
   min-indent@1.0.1: {}
+
+  minimatch@10.0.1:
+    dependencies:
+      brace-expansion: 2.0.1
 
   minimatch@3.1.2:
     dependencies:
@@ -6156,7 +6138,7 @@ snapshots:
       imurmurhash: 0.1.4
       signal-exit: 4.1.0
 
-  xo@1.0.5(@types/eslint@8.56.12)(@typescript-eslint/utils@8.33.1(eslint@9.28.0)(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(typescript@5.8.3):
+  xo@1.0.5(@types/eslint@8.56.12)(@typescript-eslint/utils@8.33.1(eslint@9.28.0)(typescript@5.8.3))(typescript@5.8.3):
     dependencies:
       '@eslint-community/eslint-plugin-eslint-comments': 4.5.0(eslint@9.28.0)
       '@sindresorhus/tsconfig': 7.0.0
@@ -6171,7 +6153,7 @@ snapshots:
       eslint-config-xo-typescript: 7.0.0(eslint@9.28.0)(typescript@5.8.3)
       eslint-formatter-pretty: 6.0.1
       eslint-plugin-ava: 15.0.1(eslint@9.28.0)
-      eslint-plugin-import-x: 4.15.0(@typescript-eslint/utils@8.33.1(eslint@9.28.0)(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(eslint@9.28.0)
+      eslint-plugin-import-x: 4.15.0(@typescript-eslint/utils@8.33.1(eslint@9.28.0)(typescript@5.8.3))(eslint@9.28.0)
       eslint-plugin-n: 17.19.0(eslint@9.28.0)(typescript@5.8.3)
       eslint-plugin-no-use-extend-native: 0.7.2(eslint@9.28.0)
       eslint-plugin-prettier: 5.4.1(@types/eslint@8.56.12)(eslint-config-prettier@10.1.5(eslint@9.28.0))(eslint@9.28.0)(prettier@3.5.3)

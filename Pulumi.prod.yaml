@@ -5,7 +5,7 @@ config:
   debitor-portal-app:paymentProviderUrl: https://epayment.nets.eu
   debitor-portal-app:tag: main-4581be5
   flexisoft-portal:developers:
-    - group:developers@bjerk.io
+    - group:team-developers@bjerk.io
   flexisoft-portal:owner: flexisoftorg
   flexisoft-portal:system-email: developers@bjerk.io
   flexisoft-portal:token:
