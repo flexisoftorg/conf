@@ -1,4 +1,4 @@
-import { Config } from '@pulumi/pulumi';
+import {Config} from '@pulumi/pulumi';
 
 const config = new Config();
 

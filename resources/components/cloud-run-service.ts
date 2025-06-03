@@ -1,19 +1,19 @@
-import * as gcp from '@pulumi/gcp';
-import * as pulumi from '@pulumi/pulumi';
-import { environment } from '../config.js';
-import { region } from '../google/config.js';
+import * as gcp from "@pulumi/gcp";
+import * as pulumi from "@pulumi/pulumi";
+import { environment } from "../config.js";
+import { region } from "../google/config.js";
 
-export interface CloudRunServiceProps {
+export type CloudRunServiceProps = {
   imageName: pulumi.Input<string>;
 
   tag?: pulumi.Input<string>;
   location?: pulumi.Input<string>;
   serviceAccount?: gcp.serviceaccount.Account;
-  invokers?: pulumi.Input<string>[];
+  invokers?: Array<pulumi.Input<string>>;
   secrets?: gcp.types.input.cloudrun.ServiceTemplateSpecContainerEnv[];
   envs?: gcp.types.input.cloudrun.ServiceTemplateSpecContainerEnv[];
   isPublic?: boolean;
-}
+};
 
 export class CloudRunService extends pulumi.ComponentResource {
   readonly serviceAccount: gcp.serviceaccount.Account;
@@ -23,15 +23,15 @@ export class CloudRunService extends pulumi.ComponentResource {
   constructor(
     name: string,
     args: CloudRunServiceProps,
-    opts?: pulumi.ComponentResourceOptions,
+    options?: pulumi.ComponentResourceOptions,
   ) {
-    super('cloudrun-service', name, args, opts);
+    super("cloudrun-service", name, args, options);
     const {
       location = region,
       imageName,
       tag,
       envs = [],
-      // serviceAccount,
+      // ServiceAccount,
       isPublic = true,
       invokers = [],
     } = args;
@@ -76,29 +76,29 @@ export class CloudRunService extends pulumi.ComponentResource {
         {
           location,
           service: this.service.name,
-          member: 'allUsers',
-          role: 'roles/run.invoker',
+          member: "allUsers",
+          role: "roles/run.invoker",
         },
         { parent: this },
       );
     }
 
-    invokers.map(wrappedInvoker =>
+    invokers.map((wrappedInvoker) =>
       pulumi.output(wrappedInvoker).apply(
-        invoker =>
+        (invoker) =>
           new gcp.cloudrun.IamMember(
             `${name}-${invoker}`,
             {
               location,
               service: this.service.name,
               member: invoker,
-              role: 'roles/run.invoker',
+              role: "roles/run.invoker",
             },
             { parent: this },
           ),
       ),
     );
 
-    this.url = this.service.statuses[0].apply(s => s?.url);
+    this.url = this.service.statuses[0].apply((s) => s?.url);
   }
 }

@@ -1,17 +1,17 @@
-import * as gcp from '@pulumi/gcp';
-import * as k8s from '@pulumi/kubernetes';
-import { customers } from '../../get-customers.js';
-import { provider as gcpProvider } from '../../google/provider.js';
-import { rootDomain } from '../../shared/config.js';
-import { ingressIpAddress, zone } from '../../shared/google/dns.js';
-import { provider } from '../../shared/kubernetes/provider.js';
-import { debitorPortalApp } from '../debitor-portal-app/debitor-portal-app.js';
-import { namespace } from '../namespace.js';
-import { portalApi } from '../portal-api/portal-api.js';
-import { portalApp } from './portal-app.js';
+import * as gcp from "@pulumi/gcp";
+import * as k8s from "@pulumi/kubernetes";
+import { customers } from "../../get-customers.js";
+import { provider as gcpProvider } from "../../google/provider.js";
+import { rootDomain } from "../../shared/config.js";
+import { ingressIpAddress, zone } from "../../shared/google/dns.js";
+import { provider } from "../../shared/kubernetes/provider.js";
+import { debitorPortalApp } from "../debitor-portal-app/debitor-portal-app.js";
+import { namespace } from "../namespace.js";
+import { portalApi } from "../portal-api/portal-api.js";
+import { portalApp } from "./portal-app.js";
 
-customers.apply(customers =>
-  customers.map(customer => {
+customers.apply((customers) =>
+  customers.map((customer) => {
     const domain = customer.domain
       ? `${customer.domain}.`
       : `${customer.ident.current}.${rootDomain}`;
@@ -24,13 +24,13 @@ customers.apply(customers =>
     const apiDomain = `api.${domain}`;
 
     if (!hasCustomDomain) {
-      // we need to create DNS records for the customer's subdomains under the root domain zone
+      // We need to create DNS records for the customer's subdomains under the root domain zone
       new gcp.dns.RecordSet(
         `${customer.ident.current}-creditor-portal`,
         {
           managedZone: zone.name,
           name: creditorPortalDomain,
-          type: 'A',
+          type: "A",
           ttl: 300,
           rrdatas: [ingressIpAddress],
         },
@@ -41,7 +41,7 @@ customers.apply(customers =>
         {
           managedZone: zone.name,
           name: debitorPortalDomain,
-          type: 'A',
+          type: "A",
           ttl: 300,
           rrdatas: [ingressIpAddress],
         },
@@ -53,7 +53,7 @@ customers.apply(customers =>
         {
           managedZone: zone.name,
           name: apiDomain,
-          type: 'A',
+          type: "A",
           ttl: 300,
           rrdatas: [ingressIpAddress],
         },
@@ -68,13 +68,13 @@ customers.apply(customers =>
           name: `customer-${customer.ident.current}`,
           namespace: namespace.metadata.name,
           annotations: {
-            'kubernetes.io/ingress.class': 'caddy',
+            "kubernetes.io/ingress.class": "caddy",
 
-            'pulumi.com/skipAwait': 'true',
+            "pulumi.com/skipAwait": "true",
           },
           labels: {
             customer: customer.ident.current,
-            kind: 'customer-domain',
+            kind: "customer-domain",
           },
         },
         spec: {
@@ -84,8 +84,8 @@ customers.apply(customers =>
               http: {
                 paths: [
                   {
-                    path: '/',
-                    pathType: 'Prefix',
+                    path: "/",
+                    pathType: "Prefix",
                     backend: {
                       service: {
                         name: portalApp.service.metadata.name,
@@ -101,8 +101,8 @@ customers.apply(customers =>
               http: {
                 paths: [
                   {
-                    path: '/',
-                    pathType: 'Prefix',
+                    path: "/",
+                    pathType: "Prefix",
                     backend: {
                       service: {
                         name: portalApi.service.metadata.name,
@@ -118,8 +118,8 @@ customers.apply(customers =>
               http: {
                 paths: [
                   {
-                    path: '/',
-                    pathType: 'Prefix',
+                    path: "/",
+                    pathType: "Prefix",
                     backend: {
                       service: {
                         name: debitorPortalApp.service.metadata.name,

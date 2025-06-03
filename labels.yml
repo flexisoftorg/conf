@@ -16,7 +16,7 @@
 - name: impact/breaking
   description: Backwards incompatible
 - name: impact/approved-breaking-change
-  description: 'Backwards incompatible changes that are approved'
+  description: "Backwards incompatible changes that are approved"
   color: bfe5bf
 - name: impact/changelog
   description: Changelog related
@@ -115,8 +115,8 @@
   description: Estimated effort to complete (1-2 days).
   color: 85e89d
 - name: dependencies/github_actions
-  description: ''
+  description: ""
   color: 88E1CD
 - name: dependencies/javascript
-  description: ''
+  description: ""
   color: 88E1CD

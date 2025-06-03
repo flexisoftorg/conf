@@ -2,9 +2,9 @@
   "compilerOptions": {
     "strict": true,
     "outDir": "bin",
-    "target": "es2016",
-    "module": "esnext",
-    "moduleResolution": "node10",
+    "target": "esnext",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "sourceMap": true,
     "experimentalDecorators": true,
     "pretty": true,

@@ -1,13 +1,13 @@
-import * as gcp from '@pulumi/gcp';
-import * as pulumi from '@pulumi/pulumi';
-import { apiServices } from './api-services.js';
-import { project } from './config.js';
-import { provider } from './provider.js';
+import * as gcp from "@pulumi/gcp";
+import * as pulumi from "@pulumi/pulumi";
+import { apiServices } from "./api-services.js";
+import { project } from "./config.js";
+import { provider } from "./provider.js";
 
-const config = new pulumi.Config('slack');
-const name = 'flexi-soft';
-const slackAgentTag = 'v3.1.0';
-const channel = 'C05CQ64DGBE'; // #flexi-soft-notifications
+const config = new pulumi.Config("slack");
+const name = "flexi-soft";
+const slackAgentTag = "v3.1.0";
+const channel = "C05CQ64DGBE"; // #flexi-soft-notifications
 
 const topic = new gcp.pubsub.Topic(name, {}, { provider });
 
@@ -23,7 +23,7 @@ const service = new gcp.cloudrunv2.Service(
   name,
   {
     name: `slack-logger-${name}`,
-    location: 'europe-west1',
+    location: "europe-west1",
     description: `Slack logger – ${name}`,
     template: {
       serviceAccount: serviceAccount.email,
@@ -32,11 +32,11 @@ const service = new gcp.cloudrunv2.Service(
           image: `docker.io/bjerkbot/google-cloud-logger-slack:${slackAgentTag}`,
           envs: [
             {
-              name: 'SLACK_TOKEN',
-              value: config.requireSecret('bot-oauth-token'),
+              name: "SLACK_TOKEN",
+              value: config.requireSecret("bot-oauth-token"),
             },
             {
-              name: 'DEFAULT_CHANNEL',
+              name: "DEFAULT_CHANNEL",
               value: channel,
             },
           ],
@@ -50,7 +50,7 @@ const service = new gcp.cloudrunv2.Service(
 new gcp.eventarc.Trigger(
   name,
   {
-    location: 'europe-west1',
+    location: "europe-west1",
     transport: {
       pubsub: {
         topic: topic.name,
@@ -58,15 +58,15 @@ new gcp.eventarc.Trigger(
     },
     matchingCriterias: [
       {
-        attribute: 'type',
-        value: 'google.cloud.pubsub.topic.v1.messagePublished',
+        attribute: "type",
+        value: "google.cloud.pubsub.topic.v1.messagePublished",
       },
     ],
     serviceAccount: serviceAccount.email,
     destination: {
       cloudRunService: {
         service: service.name,
-        region: 'europe-west1',
+        region: "europe-west1",
       },
     },
   },
@@ -76,8 +76,8 @@ new gcp.eventarc.Trigger(
 new gcp.projects.IAMMember(
   name,
   {
-    project: project,
-    role: 'roles/eventarc.eventReceiver',
+    project,
+    role: "roles/eventarc.eventReceiver",
     member: pulumi.interpolate`serviceAccount:${serviceAccount.email}`,
   },
   { provider },
@@ -87,8 +87,8 @@ new gcp.cloudrunv2.ServiceIamMember(
   name,
   {
     name: service.name,
-    location: 'europe-west1',
-    role: 'roles/run.invoker',
+    location: "europe-west1",
+    role: "roles/run.invoker",
     member: pulumi.interpolate`serviceAccount:${serviceAccount.email}`,
   },
   { provider },
@@ -109,7 +109,7 @@ new gcp.pubsub.TopicIAMMember(
   name,
   {
     topic: topic.name,
-    role: 'roles/pubsub.publisher',
+    role: "roles/pubsub.publisher",
     member: logSink.writerIdentity,
   },
   { protect: true, provider },
