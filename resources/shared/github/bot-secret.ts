@@ -1,6 +1,6 @@
-import * as github from '@pulumi/github';
-import { owner, token } from '../../github/config';
-import { provider } from '../../github/provider';
+import * as github from "@pulumi/github";
+import { owner, token } from "../../github/config.js";
+import { provider } from "../../github/provider.js";
 
 const allRepositories = github.getRepositories(
   {
@@ -9,16 +9,17 @@ const allRepositories = github.getRepositories(
   { provider },
 );
 
+// eslint-disable-next-line @typescript-eslint/no-floating-promises, unicorn/prefer-top-level-await
 allRepositories.then(({ names }) => {
-  names.forEach(repository => {
+  for (const repository of names) {
     new github.ActionsSecret(
       `bot-secret-${repository}`,
       {
         repository,
-        secretName: 'BOT_GITHUB_TOKEN',
+        secretName: "BOT_GITHUB_TOKEN",
         plaintextValue: token,
       },
       { provider },
     );
-  });
+  }
 });

@@ -1,27 +1,33 @@
 {
   "name": "@flexisoftorg/conf",
+  "type": "module",
   "main": "index.ts",
   "scripts": {
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lint": "eslint --ext .ts,.tsx ."
+    "lint": "xo --fix"
   },
-  "prettier": "@simenandre/prettier",
   "packageManager": "pnpm@10.11.1",
   "dependencies": {
-    "@pulumi/gcp": "^8.0.0",
-    "@pulumi/github": "^6.0.0",
+    "@pulumi/gcp": "^8.32.1",
+    "@pulumi/github": "^6.7.2",
     "@pulumi/google-native": "^0.32.0",
-    "@pulumi/kubernetes": "^4.0.3",
-    "@pulumi/pulumi": "^3.0.0",
-    "@sanity/client": "^7.0.0",
-    "@simenandre/prettier": "^5.0.0",
-    "zod": "^3.22.0"
+    "@pulumi/kubernetes": "^4.23.0",
+    "@pulumi/pulumi": "^3.173.0",
+    "@sanity/client": "^7.4.0",
+    "ts-node": "^10.9.2",
+    "zod": "^3.25.49"
   },
   "devDependencies": {
-    "@bjerk/eslint-config": "^6.0.1",
-    "@types/node": "^22.0.0",
-    "eslint": "^9.0.0",
-    "prettier": "^3.0.1"
+    "@types/node": "^22.15.29",
+    "prettier": "^3.5.3",
+    "xo": "^1.0.5"
+  },
+  "xo": {
+    "rules": {
+      "import-x/no-unassigned-import": "off",
+      "no-new": "off",
+      "@typescript-eslint/naming-convention": "off"
+    }
   }
 }

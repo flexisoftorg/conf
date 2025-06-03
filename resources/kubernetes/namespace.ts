@@ -1,7 +1,7 @@
-import * as k8s from '@pulumi/kubernetes';
-import { provider } from '../shared/kubernetes/provider';
+import * as k8s from "@pulumi/kubernetes";
+import { provider } from "../shared/kubernetes/provider.js";
 
-const name = 'portal-prod';
+const name = "portal-prod";
 
 export const namespace = new k8s.core.v1.Namespace(
   name,
@@ -9,7 +9,7 @@ export const namespace = new k8s.core.v1.Namespace(
     metadata: {
       name,
       annotations: {
-        'pulumi.com/skipAwait': 'true',
+        "pulumi.com/skipAwait": "true",
       },
     },
   },

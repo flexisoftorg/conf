@@ -1,8 +1,8 @@
-import * as k8s from '@pulumi/kubernetes';
-import * as pulumi from '@pulumi/pulumi';
-import { interpolate } from '@pulumi/pulumi';
+import * as k8s from "@pulumi/kubernetes";
+import * as pulumi from "@pulumi/pulumi";
+import { interpolate } from "@pulumi/pulumi";
 
-export interface AppComponentArgs {
+export type AppComponentArgs = {
   image: pulumi.Input<string>;
 
   /**
@@ -13,12 +13,14 @@ export interface AppComponentArgs {
   /**
    * List of environment variables to set in the container. Cannot be updated.
    */
-  env?: pulumi.Input<pulumi.Input<k8s.types.input.core.v1.EnvVar>[]>;
+  env?: pulumi.Input<Array<pulumi.Input<k8s.types.input.core.v1.EnvVar>>>;
 
   /**
    * List of sources to populate environment variables in the container. The keys defined within a source must be a C_IDENTIFIER. All invalid keys will be reported as an event when the container is starting. When a key exists in multiple sources, the value associated with the last source will take precedence. Values defined by an Env with a duplicate key will take precedence. Cannot be updated.
    */
-  envFrom?: pulumi.Input<pulumi.Input<k8s.types.input.core.v1.EnvFromSource>[]>;
+  envFrom?: pulumi.Input<
+    Array<pulumi.Input<k8s.types.input.core.v1.EnvFromSource>>
+  >;
 
   /**
    * If applied, an ingress will be setup
@@ -51,7 +53,7 @@ export interface AppComponentArgs {
   resources: pulumi.Input<k8s.types.input.core.v1.ResourceRequirements>;
 
   namespace?: pulumi.Input<string>;
-}
+};
 
 export class DeploymentComponent extends pulumi.ComponentResource {
   public readonly deployment: k8s.apps.v1.Deployment;
@@ -63,9 +65,9 @@ export class DeploymentComponent extends pulumi.ComponentResource {
   constructor(
     name: string,
     args: AppComponentArgs,
-    opts?: pulumi.ComponentResourceOptions,
+    options?: pulumi.ComponentResourceOptions,
   ) {
-    super('flexisoft:deployment', name, {}, opts);
+    super("flexisoft:deployment", name, {}, options);
 
     const {
       image,
@@ -73,8 +75,8 @@ export class DeploymentComponent extends pulumi.ComponentResource {
       envFrom = [],
       host,
       legacyHost,
-      tag = 'latest',
-      logLevel = 'info',
+      tag = "latest",
+      logLevel = "info",
       port = 8000,
       environment = pulumi.getStack(),
       namespace,
@@ -93,7 +95,7 @@ export class DeploymentComponent extends pulumi.ComponentResource {
           namespace,
           labels: { environment },
           annotations: {
-            'pulumi.com/skipAwait': 'true',
+            "pulumi.com/skipAwait": "true",
           },
         },
         spec: {
@@ -106,16 +108,16 @@ export class DeploymentComponent extends pulumi.ComponentResource {
                 {
                   name,
                   image: interpolate`${image}:${tag}`,
-                  imagePullPolicy: 'IfNotPresent',
+                  imagePullPolicy: "IfNotPresent",
                   ports: [{ containerPort: port }],
                   envFrom,
-                  env: pulumi.output(env).apply(_env => [
+                  env: pulumi.output(env).apply((_env) => [
                     {
-                      name: 'PORT',
-                      value: String(port),
+                      name: "PORT",
+                      value: pulumi.output(port).apply((p) => p.toString()),
                     },
                     {
-                      name: 'LOG_LEVEL',
+                      name: "LOG_LEVEL",
                       value: logLevel,
                     },
                     ..._env,
@@ -149,7 +151,7 @@ export class DeploymentComponent extends pulumi.ComponentResource {
     );
 
     const ingressRules: pulumi.Input<
-      pulumi.Input<k8s.types.input.networking.v1.IngressRule>[]
+      Array<pulumi.Input<k8s.types.input.networking.v1.IngressRule>>
     > = [];
 
     if (host) {
@@ -158,8 +160,8 @@ export class DeploymentComponent extends pulumi.ComponentResource {
         http: {
           paths: [
             {
-              path: '/',
-              pathType: 'Prefix',
+              path: "/",
+              pathType: "Prefix",
               backend: {
                 service: {
                   name: this.service.metadata.name,
@@ -178,8 +180,8 @@ export class DeploymentComponent extends pulumi.ComponentResource {
         http: {
           paths: [
             {
-              path: '/',
-              pathType: 'Prefix',
+              path: "/",
+              pathType: "Prefix",
               backend: {
                 service: {
                   name: this.service.metadata.name,
@@ -201,7 +203,7 @@ export class DeploymentComponent extends pulumi.ComponentResource {
             namespace,
             labels: { environment },
             annotations: {
-              'kubernetes.io/ingress.class': 'caddy',
+              "kubernetes.io/ingress.class": "caddy",
             },
           },
           spec: {
