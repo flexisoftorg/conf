@@ -1,14 +1,14 @@
-import * as k8s from '@pulumi/kubernetes';
 import * as gcp from '@pulumi/gcp';
-import { customers } from '../../get-customers';
-import { provider as gcpProvider } from '../../google/provider';
-import { rootDomain } from '../../shared/config';
-import { provider } from '../../shared/kubernetes/provider';
-import { debitorPortalApp } from '../debitor-portal-app/debitor-portal-app';
-import { namespace } from '../namespace';
-import { portalApi } from '../portal-api/portal-api';
-import { portalApp } from './portal-app';
-import { ingressIpAddress, zone } from '../../shared/google/dns';
+import * as k8s from '@pulumi/kubernetes';
+import { customers } from '../../get-customers.js';
+import { provider as gcpProvider } from '../../google/provider.js';
+import { rootDomain } from '../../shared/config.js';
+import { ingressIpAddress, zone } from '../../shared/google/dns.js';
+import { provider } from '../../shared/kubernetes/provider.js';
+import { debitorPortalApp } from '../debitor-portal-app/debitor-portal-app.js';
+import { namespace } from '../namespace.js';
+import { portalApi } from '../portal-api/portal-api.js';
+import { portalApp } from './portal-app.js';
 
 customers.apply(customers =>
   customers.map(customer => {

@@ -1,12 +1,12 @@
 import * as pulumi from '@pulumi/pulumi';
 import { interpolate } from '@pulumi/pulumi';
-import { DeploymentComponent } from '../../components/deployment';
-import { registrationAppDomain } from '../../config';
-import { artifactRepoUrl } from '../../shared/google/artifact-registry';
-import { provider as kubernetesProvider } from '../../shared/kubernetes/provider';
-import { namespace } from '../namespace';
-import { registrationAppDatabaseCredentials } from './database-credentials';
-import { registrationAppSanityCredentials } from './sanity-credentials';
+import { DeploymentComponent } from '../../components/deployment.js';
+import { registrationAppDomain } from '../../config.js';
+import { artifactRepoUrl } from '../../shared/google/artifact-registry.js';
+import { provider as kubernetesProvider } from '../../shared/kubernetes/provider.js';
+import { namespace } from '../namespace.js';
+import { registrationAppDatabaseCredentials } from './database-credentials.js';
+import { registrationAppSanityCredentials } from './sanity-credentials.js';
 
 const config = new pulumi.Config('registration-app');
 

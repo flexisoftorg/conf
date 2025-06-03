@@ -1,6 +1,7 @@
 {
   "name": "@flexisoftorg/conf",
   "main": "index.ts",
+  "type": "commonjs",
   "scripts": {
     "format": "prettier --write .",
     "format:check": "prettier --check .",

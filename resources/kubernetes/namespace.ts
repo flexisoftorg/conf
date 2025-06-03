@@ -1,5 +1,5 @@
 import * as k8s from '@pulumi/kubernetes';
-import { provider } from '../shared/kubernetes/provider';
+import { provider } from '../shared/kubernetes/provider.js';
 
 const name = 'portal-prod';
 

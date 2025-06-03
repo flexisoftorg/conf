@@ -1,10 +1,10 @@
 import * as gcp from '@pulumi/gcp';
 import * as pulumi from '@pulumi/pulumi';
-import { GitHubAccess } from './components/github-access';
-import { provider as githubProvider } from './github/provider';
-import { identityPool, identityPoolProvider } from './google/identity-pool';
-import { provider as googleProvider } from './google/provider';
-import { repository } from './shared/google/artifact-registry';
+import { GitHubAccess } from './components/github-access.js';
+import { provider as githubProvider } from './github/provider.js';
+import { identityPool, identityPoolProvider } from './google/identity-pool.js';
+import { provider as googleProvider } from './google/provider.js';
+import { repository } from './shared/google/artifact-registry.js';
 
 /**
  * This file is used to give GitHub Action in repositories access

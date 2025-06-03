@@ -1,5 +1,5 @@
 import * as gcp from '@pulumi/gcp';
-import { provider } from './provider';
+import { provider } from './provider.js';
 
 const apis = [
   'servicemanagement.googleapis.com',

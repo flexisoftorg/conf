@@ -1,6 +1,6 @@
 import * as github from '@pulumi/github';
-import { provider } from '../../github/provider';
-import { artifactRepoUrl } from '../google/artifact-registry';
+import { provider } from '../../github/provider.js';
+import { artifactRepoUrl } from '../google/artifact-registry.js';
 
 const repositoriesWithArtifacts = [
   'api',

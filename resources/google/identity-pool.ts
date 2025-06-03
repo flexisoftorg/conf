@@ -1,7 +1,7 @@
 import * as gcp from '@pulumi/gcp';
-import { environment } from '../config';
-import { apiServices } from './api-services';
-import { provider } from './provider';
+import { environment } from '../config.js';
+import { apiServices } from './api-services.js';
+import { provider } from './provider.js';
 
 export const identityPool = new gcp.iam.WorkloadIdentityPool(
   'main-identity-pool',

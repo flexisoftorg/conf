@@ -1,7 +1,7 @@
 import * as google from '@pulumi/google-native';
-import { apiServices } from '../../google/api-services';
-import { region } from '../../google/config';
-import { provider } from './native-provider';
+import { apiServices } from '../../google/api-services.js';
+import { region } from '../../google/config.js';
+import { provider } from './native-provider.js';
 
 export const cluster = new google.container.v1.Cluster(
   'core-cluster',

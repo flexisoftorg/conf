@@ -1,7 +1,7 @@
 import * as k8s from '@pulumi/kubernetes';
-import { ipAddress } from '../google/ip-address';
-import { systemEmail } from './config';
-import { provider } from './provider';
+import { ipAddress } from '../google/ip-address.js';
+import { systemEmail } from './config.js';
+import { provider } from './provider.js';
 
 const namespace = new k8s.core.v1.Namespace(
   'caddy-system',

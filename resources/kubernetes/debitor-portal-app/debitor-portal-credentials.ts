@@ -1,7 +1,7 @@
 import * as k8s from '@pulumi/kubernetes';
 import * as pulumi from '@pulumi/pulumi';
-import { provider } from '../../shared/kubernetes/provider';
-import { namespace } from '../namespace';
+import { provider } from '../../shared/kubernetes/provider.js';
+import { namespace } from '../namespace.js';
 
 const config = new pulumi.Config('debitor-portal-app');
 

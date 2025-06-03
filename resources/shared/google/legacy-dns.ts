@@ -1,7 +1,7 @@
 import * as gcp from '@pulumi/gcp';
-import { apiServices } from '../../google/api-services';
-import { provider } from '../../google/provider';
-import { ipAddress } from './ip-address';
+import { apiServices } from '../../google/api-services.js';
+import { provider } from '../../google/provider.js';
+import { ipAddress } from './ip-address.js';
 
 const ingressIpAddress = ipAddress.address;
 

@@ -1,14 +1,12 @@
 import * as kubernetes from '@pulumi/kubernetes';
 import * as pulumi from '@pulumi/pulumi';
 import { interpolate } from '@pulumi/pulumi';
-import { DeploymentComponent } from '../../components/deployment';
-import { portalAppDomain } from '../../config';
-import { rootDomain } from '../../shared/config';
-import { artifactRepoUrl } from '../../shared/google/artifact-registry';
-import { provider as kubernetesProvider } from '../../shared/kubernetes/provider';
-import { customerConfigMap } from '../customer-config';
-import { namespace } from '../namespace';
-import { redis } from './redis';
+import { DeploymentComponent } from '../../components/deployment.js';
+import { artifactRepoUrl } from '../../shared/google/artifact-registry.js';
+import { provider as kubernetesProvider } from '../../shared/kubernetes/provider.js';
+import { customerConfigMap } from '../customer-config.js';
+import { namespace } from '../namespace.js';
+import { redis } from './redis.js';
 
 const config = new pulumi.Config('portal-api');
 

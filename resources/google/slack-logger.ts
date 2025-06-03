@@ -1,8 +1,8 @@
 import * as gcp from '@pulumi/gcp';
 import * as pulumi from '@pulumi/pulumi';
-import { apiServices } from './api-services';
-import { project } from './config';
-import { provider } from './provider';
+import { apiServices } from './api-services.js';
+import { project } from './config.js';
+import { provider } from './provider.js';
 
 const config = new pulumi.Config('slack');
 const name = 'flexi-soft';

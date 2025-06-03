@@ -1,7 +1,7 @@
 import * as gcp from '@pulumi/gcp';
 import * as pulumi from '@pulumi/pulumi';
-import { environment } from '../config';
-import { region } from '../google/config';
+import { environment } from '../config.js';
+import { region } from '../google/config.js';
 
 export interface CloudRunServiceProps {
   imageName: pulumi.Input<string>;

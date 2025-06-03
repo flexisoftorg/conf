@@ -2,9 +2,9 @@ import * as gcp from '@pulumi/gcp';
 import * as github from '@pulumi/github';
 import * as pulumi from '@pulumi/pulumi';
 import { interpolate } from '@pulumi/pulumi';
-import { environment } from '../config';
-import { owner } from '../github/config';
-import { project } from '../google/config';
+import { environment } from '../config.js';
+import { owner } from '../github/config.js';
+import { project } from '../google/config.js';
 
 export interface GitHubAccessArgs {
   /**

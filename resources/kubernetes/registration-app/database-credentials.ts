@@ -1,7 +1,7 @@
-import * as pulumi from '@pulumi/pulumi';
 import * as k8s from '@pulumi/kubernetes';
-import { namespace } from '../namespace';
-import { provider } from '../../shared/kubernetes/provider';
+import * as pulumi from '@pulumi/pulumi';
+import { provider } from '../../shared/kubernetes/provider.js';
+import { namespace } from '../namespace.js';
 
 const config = new pulumi.Config('registration-app');
 
