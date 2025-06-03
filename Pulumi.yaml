@@ -1,5 +1,5 @@
 name: flexisoft-portal
-runtime: 
+runtime:
   name: nodejs
   options:
     nodeargs: "--loader ts-node/esm --no-warnings"
