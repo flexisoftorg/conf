@@ -10,10 +10,11 @@ import { registrationAppSanityCredentials } from "../registration-app/sanity-cre
 import { redis } from "../portal-api/redis.js";
 
 const config = new pulumi.Config("api");
+const portalApiConfig = new pulumi.Config("portal-api");
 
 const cleanApiDomain = apiDomain.slice(0, -1);
 
-const cookieSecret = config.requireSecret("cookie-secret");
+const cookieSecret = portalApiConfig.requireSecret("cookie-secret");
 
 export const apiEnvSecrets = new kubernetes.core.v1.Secret(
   "api-env-secrets",
