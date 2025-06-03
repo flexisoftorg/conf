@@ -21,7 +21,7 @@ jobs:
       matrix:
         env: [prod] # If we have more environments, add them here
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: simenandre/setup-inputs@v1
         id: inputs
