@@ -51,15 +51,11 @@ new gcp.eventarc.Trigger(
   name,
   {
     location: 'europe-west1',
-    transports: [
-      {
-        pubsubs: [
-          {
-            topic: topic.name,
-          },
-        ],
+    transport: {
+      pubsub: {
+        topic: topic.name,
       },
-    ],
+    },
     matchingCriterias: [
       {
         attribute: 'type',
