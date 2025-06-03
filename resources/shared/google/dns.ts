@@ -1,15 +1,15 @@
-import * as gcp from "@pulumi/gcp";
+import * as gcp from '@pulumi/gcp';
 import {
-  apiDomain,
-  debitorPortalAppDomain,
-  portalAppDomain,
-  registrationAppDomain,
-} from "../../config.js";
-import { apiServices } from "../../google/api-services.js";
-import { provider } from "../../google/provider.js";
-import { portalApiDomain } from "../../kubernetes/portal-api/portal-api.js";
-import { rootDomain, studioSubDomain } from "../config.js";
-import { ipAddress } from "./ip-address.js";
+	apiDomain,
+	debitorPortalAppDomain,
+	portalAppDomain,
+	registrationAppDomain,
+} from '../../config.js';
+import {apiServices} from '../../google/api-services.js';
+import {provider} from '../../google/provider.js';
+import {portalApiDomain} from '../../kubernetes/portal-api/portal-api.js';
+import {rootDomain, studioSubDomain} from '../config.js';
+import {ipAddress} from './ip-address.js';
 
 export const ingressIpAddress = ipAddress.address;
 
@@ -18,82 +18,82 @@ export const ingressIpAddress = ipAddress.address;
  */
 
 export const zone = new gcp.dns.ManagedZone(
-  "root-zone",
-  {
-    name: "root-zone",
-    dnsName: rootDomain,
-    description: "DNS zone for root domain for production use",
-  },
-  { provider, dependsOn: apiServices },
+	'root-zone',
+	{
+		name: 'root-zone',
+		dnsName: rootDomain,
+		description: 'DNS zone for root domain for production use',
+	},
+	{provider, dependsOn: apiServices},
 );
 
 new gcp.dns.RecordSet(
-  "portal-app-a",
-  {
-    managedZone: zone.name,
-    name: portalAppDomain,
-    type: "A",
-    ttl: 300,
-    rrdatas: [ingressIpAddress],
-  },
-  { provider },
+	'portal-app-a',
+	{
+		managedZone: zone.name,
+		name: portalAppDomain,
+		type: 'A',
+		ttl: 300,
+		rrdatas: [ingressIpAddress],
+	},
+	{provider},
 );
 new gcp.dns.RecordSet(
-  "debitor-portal-app-a",
-  {
-    managedZone: zone.name,
-    name: debitorPortalAppDomain,
-    type: "A",
-    ttl: 300,
-    rrdatas: [ingressIpAddress],
-  },
-  { provider },
-);
-
-new gcp.dns.RecordSet(
-  "portal-api-a",
-  {
-    managedZone: zone.name,
-    name: portalApiDomain,
-    type: "A",
-    ttl: 300,
-    rrdatas: [ingressIpAddress],
-  },
-  { provider },
+	'debitor-portal-app-a',
+	{
+		managedZone: zone.name,
+		name: debitorPortalAppDomain,
+		type: 'A',
+		ttl: 300,
+		rrdatas: [ingressIpAddress],
+	},
+	{provider},
 );
 
 new gcp.dns.RecordSet(
-  "studio-a",
-  {
-    managedZone: zone.name,
-    name: studioSubDomain,
-    type: "CNAME",
-    ttl: 300,
-    rrdatas: ["flexisoftorg.github.io."],
-  },
-  { provider },
+	'portal-api-a',
+	{
+		managedZone: zone.name,
+		name: portalApiDomain,
+		type: 'A',
+		ttl: 300,
+		rrdatas: [ingressIpAddress],
+	},
+	{provider},
 );
 
 new gcp.dns.RecordSet(
-  "registration-app-a",
-  {
-    managedZone: zone.name,
-    name: registrationAppDomain,
-    type: "A",
-    ttl: 300,
-    rrdatas: [ingressIpAddress],
-  },
-  { provider },
+	'studio-a',
+	{
+		managedZone: zone.name,
+		name: studioSubDomain,
+		type: 'CNAME',
+		ttl: 300,
+		rrdatas: ['flexisoftorg.github.io.'],
+	},
+	{provider},
 );
 
 new gcp.dns.RecordSet(
-  "api-a",
-  {
-    managedZone: zone.name,
-    name: apiDomain,
-    type: "A",
-    ttl: 300,
-    rrdatas: [ingressIpAddress],
-  },
-  { provider },
+	'registration-app-a',
+	{
+		managedZone: zone.name,
+		name: registrationAppDomain,
+		type: 'A',
+		ttl: 300,
+		rrdatas: [ingressIpAddress],
+	},
+	{provider},
+);
+
+new gcp.dns.RecordSet(
+	'api-a',
+	{
+		managedZone: zone.name,
+		name: apiDomain,
+		type: 'A',
+		ttl: 300,
+		rrdatas: [ingressIpAddress],
+	},
+	{provider},
 );

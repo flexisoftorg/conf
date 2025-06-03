@@ -1,8 +1,7 @@
 {
   "name": "@flexisoftorg/conf",
-  "main": "index.ts",
   "type": "module",
-  "exports": "./index.js",
+  "main": "index.ts",
   "scripts": {
     "format": "prettier --write .",
     "format:check": "prettier --check .",
@@ -16,11 +15,19 @@
     "@pulumi/kubernetes": "^4.0.3",
     "@pulumi/pulumi": "^3.0.0",
     "@sanity/client": "^7.0.0",
+    "ts-node": "^10.9.2",
     "zod": "^3.22.0"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
     "prettier": "^3.5.3",
     "xo": "^1.0.5"
+  },
+  "xo": {
+    "rules": {
+      "import-x/no-unassigned-import": "off",
+      "no-new": "off",
+      "@typescript-eslint/naming-convention": "off"
+    }
   }
 }

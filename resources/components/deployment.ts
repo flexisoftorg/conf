@@ -18,7 +18,9 @@ export type AppComponentArgs = {
 	/**
    * List of sources to populate environment variables in the container. The keys defined within a source must be a C_IDENTIFIER. All invalid keys will be reported as an event when the container is starting. When a key exists in multiple sources, the value associated with the last source will take precedence. Values defined by an Env with a duplicate key will take precedence. Cannot be updated.
    */
-	envFrom?: pulumi.Input<Array<pulumi.Input<k8s.types.input.core.v1.EnvFromSource>>>;
+	envFrom?: pulumi.Input<
+		Array<pulumi.Input<k8s.types.input.core.v1.EnvFromSource>>
+	>;
 
 	/**
    * If applied, an ingress will be setup
@@ -112,7 +114,7 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 									env: pulumi.output(env).apply(_env => [
 										{
 											name: 'PORT',
-											value: String(port),
+											value: pulumi.output(port).apply(p => p.toString()),
 										},
 										{
 											name: 'LOG_LEVEL',
