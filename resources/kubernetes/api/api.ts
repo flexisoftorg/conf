@@ -40,6 +40,7 @@ export const Api = new DeploymentComponent(
     host: cleanApiDomain,
     namespace: namespace.metadata.name,
     envFrom: [
+      { secretRef: { name: apiEnvSecrets.metadata.name } },
       { secretRef: { name: registrationAppSanityCredentials.metadata.name } },
     ],
     env: [
