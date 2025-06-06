@@ -6,6 +6,7 @@ import { apiDomain } from "../../config.js";
 import { artifactRepoUrl } from "../../shared/google/artifact-registry.js";
 import { provider as kubernetesProvider } from "../../shared/kubernetes/provider.js";
 import { namespace } from "../namespace.js";
+import { registrationAppSanityCredentials } from "../registration-app/sanity-credentials.js";
 import { redis } from "../portal-api/redis.js";
 
 const config = new pulumi.Config("api");
@@ -15,7 +16,7 @@ const cleanApiDomain = apiDomain.slice(0, -1);
 
 export const fullApiDomain = interpolate`https://${cleanApiDomain}`;
 
-const cookieSecret = portalApiConfig.requireSecret("cookie-secret");
+const cookieSecret = portalApiConfig.requireSecret("auth-sign-secret");
 
 export const apiEnvSecrets = new kubernetes.core.v1.Secret(
   "api-env-secrets",
@@ -38,7 +39,10 @@ export const Api = new DeploymentComponent(
     tag: config.require("tag"),
     host: cleanApiDomain,
     namespace: namespace.metadata.name,
-    envFrom: [{ secretRef: { name: apiEnvSecrets.metadata.name } }],
+    envFrom: [
+      { secretRef: { name: apiEnvSecrets.metadata.name } },
+      { secretRef: { name: registrationAppSanityCredentials.metadata.name } },
+    ],
     env: [
       {
         name: "REDIS_URL",
