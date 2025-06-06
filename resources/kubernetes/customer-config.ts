@@ -3,6 +3,7 @@ import { customers } from "../get-customers.js";
 import { rootDomain } from "../shared/config.js";
 import { provider as kubernetesProvider } from "../shared/kubernetes/provider.js";
 import { namespace } from "./namespace.js";
+import { fullApiDomain } from "./api/api.js";
 
 export const customerConfigMap = new kubernetes.core.v1.ConfigMap(
   "customer-config-map",
@@ -41,6 +42,7 @@ export const customerConfigMap = new kubernetes.core.v1.ConfigMap(
         });
         return JSON.stringify(customersWithDomain);
       }),
+      REST_API_URL: fullApiDomain,
     },
   },
   { provider: kubernetesProvider },
