@@ -16,7 +16,7 @@ const cleanApiDomain = apiDomain.slice(0, -1);
 
 export const fullApiDomain = interpolate`https://${cleanApiDomain}`;
 
-const cookieSecret = portalApiConfig.requireSecret("auth-sign-secret");
+const cookieSecret = portalApiConfig.requireSecret("cookie-secret");
 
 export const apiEnvSecrets = new kubernetes.core.v1.Secret(
   "api-env-secrets",
