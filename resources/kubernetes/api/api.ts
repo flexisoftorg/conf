@@ -14,6 +14,8 @@ const portalApiConfig = new pulumi.Config("portal-api");
 
 const cleanApiDomain = apiDomain.slice(0, -1);
 
+export const fullApiDomain = interpolate`https://${cleanApiDomain}`;
+
 const cookieSecret = portalApiConfig.requireSecret("cookie-secret");
 
 export const apiEnvSecrets = new kubernetes.core.v1.Secret(
@@ -47,7 +49,7 @@ export const Api = new DeploymentComponent(
       },
       {
         name: "SELF_URL",
-        value: `https://${cleanApiDomain}`,
+        value: fullApiDomain,
       },
     ],
     port: 8000,
