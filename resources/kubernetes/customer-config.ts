@@ -42,7 +42,7 @@ export const customerConfigMap = new kubernetes.core.v1.ConfigMap(
         });
         return JSON.stringify(customersWithDomain);
       }),
-      REST_API_URL: fullApiDomain,
+      NEXT_PUBLIC_REST_API_URL: fullApiDomain,
     },
   },
   { provider: kubernetesProvider },
