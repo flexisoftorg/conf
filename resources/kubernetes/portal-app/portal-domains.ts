@@ -9,6 +9,8 @@ import { debitorPortalApp } from "../debitor-portal-app/debitor-portal-app.js";
 import { namespace } from "../namespace.js";
 import { portalApi } from "../portal-api/portal-api.js";
 import { portalApp } from "./portal-app.js";
+import { restApiApp } from "../api/api.js";
+import { restApiDomain } from "../../config.js";
 
 customers.apply((customers) => {
   for (const customer of customers) {
@@ -123,6 +125,23 @@ customers.apply((customers) => {
                       service: {
                         name: debitorPortalApp.service.metadata.name,
                         port: { number: debitorPortalApp.port },
+                      },
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              host: restApiDomain.slice(0, -1),
+              http: {
+                paths: [
+                  {
+                    path: "/",
+                    pathType: "Prefix",
+                    backend: {
+                      service: {
+                        name: restApiApp.service.metadata.name,
+                        port: { number: restApiApp.port },
                       },
                     },
                   },
