@@ -1,6 +1,6 @@
 import * as gcp from "@pulumi/gcp";
 import {
-  apiDomain,
+  restApiDomain,
   debitorPortalAppDomain,
   portalAppDomain,
   registrationAppDomain,
@@ -94,7 +94,7 @@ new gcp.dns.RecordSet(
   "api-a",
   {
     managedZone: zone.name,
-    name: apiDomain,
+    name: restApiDomain,
     type: "A",
     ttl: 300,
     rrdatas: [ingressIpAddress],
