@@ -10,7 +10,6 @@ import { namespace } from "../namespace.js";
 import { portalApi } from "../portal-api/portal-api.js";
 import { portalApp } from "./portal-app.js";
 import { restApiApp } from "../api/api.js";
-import { restApiDomain } from "../../config.js";
 
 customers.apply((customers) => {
   for (const customer of customers) {
@@ -22,6 +21,7 @@ customers.apply((customers) => {
 
     const debitorPortalDomain = hasCustomDomain ? `debitor.${domain}` : domain;
     const creditorPortalDomain = hasCustomDomain ? domain : `kred.${domain}`;
+    const restApiDomain = `rest.${domain}`;
     const apiDomain = `api.${domain}`;
 
     if (!hasCustomDomain) {
