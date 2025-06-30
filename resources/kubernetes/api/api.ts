@@ -17,6 +17,14 @@ const cleanApiDomain = apiDomain.slice(0, -1);
 export const fullApiDomain = interpolate`https://${cleanApiDomain}`;
 
 const cookieSecret = portalApiConfig.requireSecret("cookie-secret");
+const debitorPortalAppApiKey = config.requireSecret(
+  "debitor-portal-app-api-key",
+);
+
+const debitorPortalAppConfig = new pulumi.Config("debitor-portal-app");
+
+const user = debitorPortalAppConfig.requireSecret("database-user");
+const password = debitorPortalAppConfig.requireSecret("database-password");
 
 export const apiEnvSecrets = new kubernetes.core.v1.Secret(
   "api-env-secrets",
@@ -27,6 +35,9 @@ export const apiEnvSecrets = new kubernetes.core.v1.Secret(
     },
     data: {
       COOKIE_SECRET: cookieSecret,
+      DEBITOR_PORTAL_APP_USERNAME: user,
+      DEBITOR_PORTAL_APP_PASSWORD: password,
+      DEBITOR_PORTAL_APP_API_KEY: debitorPortalAppApiKey,
     },
   },
   { provider: kubernetesProvider },
