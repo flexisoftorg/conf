@@ -10,13 +10,19 @@ import { registrationAppSanityCredentials } from "../registration-app/sanity-cre
 import { redis } from "../portal-api/redis.js";
 
 const config = new pulumi.Config("api");
-const portalApiConfig = new pulumi.Config("portal-api");
 
+const debitorPortalAppApiKey = config.requireSecret(
+  "debitor-portal-app-api-key",
+);
 const cleanApiDomain = apiDomain.slice(0, -1);
-
 export const fullApiDomain = interpolate`https://${cleanApiDomain}`;
 
+const portalApiConfig = new pulumi.Config("portal-api");
 const cookieSecret = portalApiConfig.requireSecret("cookie-secret");
+
+const debitorPortalAppConfig = new pulumi.Config("debitor-portal-app");
+const user = debitorPortalAppConfig.requireSecret("database-user");
+const password = debitorPortalAppConfig.requireSecret("database-password");
 
 export const apiEnvSecrets = new kubernetes.core.v1.Secret(
   "api-env-secrets",
@@ -25,8 +31,11 @@ export const apiEnvSecrets = new kubernetes.core.v1.Secret(
       name: "api-env-secrets",
       namespace: namespace.metadata.name,
     },
-    data: {
+    stringData: {
       COOKIE_SECRET: cookieSecret,
+      DEBITOR_PORTAL_APP_USERNAME: user,
+      DEBITOR_PORTAL_APP_PASSWORD: password,
+      DEBITOR_PORTAL_APP_API_KEY: debitorPortalAppApiKey,
     },
   },
   { provider: kubernetesProvider },
