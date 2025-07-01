@@ -16,7 +16,7 @@ const config = new pulumi.Config("api");
 const debitorPortalAppApiKey = config.requireSecret(
   "debitor-portal-app-api-key",
 );
-const cleanApiDomain = apiDomain.slice(0, -1);
+const cleanApiDomain = restApiDomain.slice(0, -1);
 
 export const fullApiDomain = interpolate`https://${cleanApiDomain}`;
 
