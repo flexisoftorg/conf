@@ -10,6 +10,11 @@ import { registrationAppSanityCredentials } from "../registration-app/sanity-cre
 import { redis } from "../portal-api/redis.js";
 
 const config = new pulumi.Config("api");
+
+const debitorPortalAppApiKey = config.requireSecret(
+  "debitor-portal-app-api-key",
+);
+
 const portalApiConfig = new pulumi.Config("portal-api");
 
 const cleanApiDomain = apiDomain.slice(0, -1);
@@ -17,9 +22,6 @@ const cleanApiDomain = apiDomain.slice(0, -1);
 export const fullApiDomain = interpolate`https://${cleanApiDomain}`;
 
 const cookieSecret = portalApiConfig.requireSecret("cookie-secret");
-const debitorPortalAppApiKey = config.requireSecret(
-  "debitor-portal-app-api-key",
-);
 
 const debitorPortalAppConfig = new pulumi.Config("debitor-portal-app");
 
