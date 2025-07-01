@@ -14,17 +14,13 @@ const config = new pulumi.Config("api");
 const debitorPortalAppApiKey = config.requireSecret(
   "debitor-portal-app-api-key",
 );
-
-const portalApiConfig = new pulumi.Config("portal-api");
-
 const cleanApiDomain = apiDomain.slice(0, -1);
-
 export const fullApiDomain = interpolate`https://${cleanApiDomain}`;
 
+const portalApiConfig = new pulumi.Config("portal-api");
 const cookieSecret = portalApiConfig.requireSecret("cookie-secret");
 
 const debitorPortalAppConfig = new pulumi.Config("debitor-portal-app");
-
 const user = debitorPortalAppConfig.requireSecret("database-user");
 const password = debitorPortalAppConfig.requireSecret("database-password");
 
