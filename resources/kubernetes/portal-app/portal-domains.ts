@@ -61,6 +61,19 @@ customers.apply((customers) => {
         { provider: gcpProvider },
       );
     }
+    if (hasCustomDomain) {
+      new gcp.dns.RecordSet(
+        `${customer.ident.current}-rest-api`,
+        {
+          managedZone: zone.name,
+          name: restApiDomain,
+          type: "A",
+          ttl: 300,
+          rrdatas: [ingressIpAddress],
+        },
+        { provider: gcpProvider },
+      );
+    }
 
     new k8s.networking.v1.Ingress(
       `${customer.ident.current}-ingress`,
@@ -131,23 +144,25 @@ customers.apply((customers) => {
                 ],
               },
             },
-            {
-              host: restApiDomain.slice(0, -1),
-              http: {
-                paths: [
-                  {
-                    path: "/",
-                    pathType: "Prefix",
-                    backend: {
-                      service: {
-                        name: restApiApp.service.metadata.name,
-                        port: { number: restApiApp.port },
+            hasCustomDomain
+              ? {
+                  host: restApiDomain.slice(0, -1),
+                  http: {
+                    paths: [
+                      {
+                        path: "/",
+                        pathType: "Prefix",
+                        backend: {
+                          service: {
+                            name: restApiApp.service.metadata.name,
+                            port: { number: restApiApp.port },
+                          },
+                        },
                       },
-                    },
+                    ],
                   },
-                ],
-              },
-            },
+                }
+              : {},
           ],
         },
       },
