@@ -60,19 +60,19 @@ customers.apply((customers) => {
         },
         { provider: gcpProvider },
       );
-      if (hasCustomDomain) {
-        new gcp.dns.RecordSet(
-          `${customer.ident.current}-rest-api`,
-          {
-            managedZone: zone.name,
-            name: restApiDomain,
-            type: "A",
-            ttl: 300,
-            rrdatas: [ingressIpAddress],
-          },
-          { provider: gcpProvider },
-        );
-      }
+    }
+    if (hasCustomDomain) {
+      new gcp.dns.RecordSet(
+        `${customer.ident.current}-rest-api`,
+        {
+          managedZone: zone.name,
+          name: restApiDomain,
+          type: "A",
+          ttl: 300,
+          rrdatas: [ingressIpAddress],
+        },
+        { provider: gcpProvider },
+      );
     }
 
     new k8s.networking.v1.Ingress(
