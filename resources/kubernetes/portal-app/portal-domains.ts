@@ -62,80 +62,6 @@ customers.apply((customers) => {
       );
     }
 
-    const rules = [
-      {
-        host: creditorPortalDomain.slice(0, -1),
-        http: {
-          paths: [
-            {
-              path: "/",
-              pathType: "Prefix",
-              backend: {
-                service: {
-                  name: portalApp.service.metadata.name,
-                  port: { number: portalApp.port },
-                },
-              },
-            },
-          ],
-        },
-      },
-      {
-        host: apiDomain.slice(0, -1),
-        http: {
-          paths: [
-            {
-              path: "/",
-              pathType: "Prefix",
-              backend: {
-                service: {
-                  name: portalApi.service.metadata.name,
-                  port: { number: portalApi.port },
-                },
-              },
-            },
-          ],
-        },
-      },
-      {
-        host: debitorPortalDomain.slice(0, -1),
-        http: {
-          paths: [
-            {
-              path: "/",
-              pathType: "Prefix",
-              backend: {
-                service: {
-                  name: debitorPortalApp.service.metadata.name,
-                  port: { number: debitorPortalApp.port },
-                },
-              },
-            },
-          ],
-        },
-      },
-    ];
-
-    if (hasCustomDomain) {
-      rules.push({
-        host: restApiDomain.slice(0, -1),
-        http: {
-          paths: [
-            {
-              path: "/",
-              pathType: "Prefix",
-              backend: {
-                service: {
-                  name: restApiApp.service.metadata.name,
-                  port: { number: restApiApp.port },
-                },
-              },
-            },
-          ],
-        },
-      });
-    }
-
     new k8s.networking.v1.Ingress(
       `${customer.ident.current}-ingress`,
       {
@@ -153,7 +79,76 @@ customers.apply((customers) => {
           },
         },
         spec: {
-          rules,
+          rules: [
+            {
+              host: creditorPortalDomain.slice(0, -1),
+              http: {
+                paths: [
+                  {
+                    path: "/",
+                    pathType: "Prefix",
+                    backend: {
+                      service: {
+                        name: portalApp.service.metadata.name,
+                        port: { number: portalApp.port },
+                      },
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              host: apiDomain.slice(0, -1),
+              http: {
+                paths: [
+                  {
+                    path: "/",
+                    pathType: "Prefix",
+                    backend: {
+                      service: {
+                        name: portalApi.service.metadata.name,
+                        port: { number: portalApi.port },
+                      },
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              host: debitorPortalDomain.slice(0, -1),
+              http: {
+                paths: [
+                  {
+                    path: "/",
+                    pathType: "Prefix",
+                    backend: {
+                      service: {
+                        name: debitorPortalApp.service.metadata.name,
+                        port: { number: debitorPortalApp.port },
+                      },
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              host: restApiDomain.slice(0, -1),
+              http: {
+                paths: [
+                  {
+                    path: "/",
+                    pathType: "Prefix",
+                    backend: {
+                      service: {
+                        name: restApiApp.service.metadata.name,
+                        port: { number: restApiApp.port },
+                      },
+                    },
+                  },
+                ],
+              },
+            },
+          ],
         },
       },
       { provider },
