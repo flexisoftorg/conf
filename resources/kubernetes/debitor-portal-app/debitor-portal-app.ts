@@ -8,7 +8,8 @@ import { customerConfigMap } from "../customer-config.js";
 import { namespace } from "../namespace.js";
 import { debitorPortalCredentials } from "./debitor-portal-credentials.js";
 import { debitorPaymentProvider } from "./debitor-portal-payment-provider.js";
-import { fullApiDomain, restApiApp } from "../api/api.js";
+import { fullApiDomain } from "../api/api.js";
+import { debitorPortalRestApiCredentials } from "./debitor-portal-rest-api-credentials.js";
 
 const config = new pulumi.Config("debitor-portal-app");
 
@@ -26,9 +27,9 @@ export const debitorPortalApp = new DeploymentComponent(
     envFrom: [
       { configMapRef: { name: customerConfigMap.metadata.name } },
       { secretRef: { name: debitorPortalCredentials.metadata.name } },
+      { secretRef: { name: debitorPortalRestApiCredentials.metadata.name } },
       { configMapRef: { name: debitorPaymentProvider.metadata.name } },
     ],
-    env: [{ name: "REST_API_URL", value: fullApiDomain }],
     resources: {
       requests: {
         cpu: "250m",

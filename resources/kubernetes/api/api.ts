@@ -13,7 +13,7 @@ import { rootDomain } from "../../shared/config.js";
 
 const config = new pulumi.Config("api");
 
-const debitorPortalAppApiKey = config.requireSecret(
+export const debitorPortalAppApiKey = config.requireSecret(
   "debitor-portal-app-api-key",
 );
 const cleanApiDomain = restApiDomain.slice(0, -1);
