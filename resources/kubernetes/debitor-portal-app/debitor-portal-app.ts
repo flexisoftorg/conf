@@ -8,7 +8,6 @@ import { customerConfigMap } from "../customer-config.js";
 import { namespace } from "../namespace.js";
 import { debitorPortalCredentials } from "./debitor-portal-credentials.js";
 import { debitorPaymentProvider } from "./debitor-portal-payment-provider.js";
-import { fullApiDomain } from "../api/api.js";
 import { debitorPortalRestApiCredentials } from "./debitor-portal-rest-api-credentials.js";
 
 const config = new pulumi.Config("debitor-portal-app");
