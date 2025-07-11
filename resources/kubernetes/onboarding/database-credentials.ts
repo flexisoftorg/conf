@@ -12,7 +12,7 @@ export const onboardingAppDatabaseCredentials = new k8s.core.v1.Secret(
   "onboarding-app-database-credentials",
   {
     metadata: {
-      name: "registration-app-database-credentials",
+      name: "onboarding-app-database-credentials",
       namespace: namespace.metadata.name,
     },
     stringData: {
