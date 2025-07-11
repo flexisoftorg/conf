@@ -10,6 +10,7 @@ import { namespace } from "../namespace.js";
 import { portalApi } from "../portal-api/portal-api.js";
 import { portalApp } from "./portal-app.js";
 import { restApiApp } from "../api/api.js";
+import { onboardingApp } from "../onboarding/onboarding-app.js";
 
 customers.apply((customers) => {
   for (const customer of customers) {
@@ -23,6 +24,7 @@ customers.apply((customers) => {
     const creditorPortalDomain = hasCustomDomain ? domain : `kred.${domain}`;
     const restApiDomain = `rest.${domain}`;
     const apiDomain = `api.${domain}`;
+    const onboardingAppDomain = `onboarding.${domain}`;
 
     if (!hasCustomDomain) {
       // We need to create DNS records for the customer's subdomains under the root domain zone
@@ -54,6 +56,18 @@ customers.apply((customers) => {
         {
           managedZone: zone.name,
           name: apiDomain,
+          type: "A",
+          ttl: 300,
+          rrdatas: [ingressIpAddress],
+        },
+        { provider: gcpProvider },
+      );
+
+      new gcp.dns.RecordSet(
+        `${customer.ident.current}-onboarding-app`,
+        {
+          managedZone: zone.name,
+          name: onboardingAppDomain,
           type: "A",
           ttl: 300,
           rrdatas: [ingressIpAddress],
@@ -124,6 +138,23 @@ customers.apply((customers) => {
                     backend: {
                       service: {
                         name: debitorPortalApp.service.metadata.name,
+                        port: { number: debitorPortalApp.port },
+                      },
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              host: onboardingAppDomain.slice(0, -1),
+              http: {
+                paths: [
+                  {
+                    path: "/",
+                    pathType: "Prefix",
+                    backend: {
+                      service: {
+                        name: onboardingApp.service.metadata.name,
                         port: { number: debitorPortalApp.port },
                       },
                     },
