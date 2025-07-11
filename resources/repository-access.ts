@@ -114,3 +114,23 @@ new gcp.artifactregistry.RepositoryIamMember(
   },
   { provider: googleProvider },
 );
+
+const onboardingAppAccess = new GitHubAccess(
+  "onboarding-app",
+  {
+    identityPoolName: identityPool.name,
+    identityPoolProviderName: identityPoolProvider.name,
+    repositories: ["onboarding-app"],
+  },
+  { providers: [googleProvider, githubProvider] },
+);
+
+new gcp.artifactregistry.RepositoryIamMember(
+  "onboarding-app-artifact-registry-access",
+  {
+    repository: repository.id,
+    member: pulumi.interpolate`serviceAccount:${onboardingAppAccess.serviceAccount.email}`,
+    role: "roles/artifactregistry.writer",
+  },
+  { provider: googleProvider },
+);
