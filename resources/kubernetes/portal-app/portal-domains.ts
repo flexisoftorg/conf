@@ -155,7 +155,7 @@ customers.apply((customers) => {
                     backend: {
                       service: {
                         name: onboardingApp.service.metadata.name,
-                        port: { number: debitorPortalApp.port },
+                        port: { number: onboardingApp.port },
                       },
                     },
                   },
