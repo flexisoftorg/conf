@@ -8,6 +8,7 @@ const repositoriesWithArtifacts = [
   "portal-app",
   "debitor-portal-app",
   "registration-app",
+  "onboarding-app",
 ];
 
 for (const repository of repositoriesWithArtifacts) {
