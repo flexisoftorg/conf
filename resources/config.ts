@@ -21,3 +21,7 @@ export const registrationAppDomain = registrationAppConfig.require("domain");
 const apiConfig = new pulumi.Config("api");
 
 export const restApiDomain = apiConfig.require("domain");
+
+const onboardingAppConfig = new pulumi.Config("onboarding-app");
+
+export const onboardingAppDomain = onboardingAppConfig.require("domain");
