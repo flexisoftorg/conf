@@ -67,7 +67,7 @@ customers.apply((customers) => {
         `${customer.ident.current}-onboarding-app`,
         {
           managedZone: zone.name,
-          name: onboardingAppDomain,,
+          name: onboardingAppDomain,
           type: "A",
           ttl: 300,
           rrdatas: [ingressIpAddress],
