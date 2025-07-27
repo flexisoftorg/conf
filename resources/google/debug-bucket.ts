@@ -17,4 +17,9 @@ export const debugBucket = new gcp.storage.Bucket('debug-bucket', {
 }, { provider });
 
 // Give access to the default service account
-
+// export const debugBucketIAM = new gcp.storage.BucketIAMMember('debug-bucket-iam', {
+//   bucket: debugBucket.name,
+//   role: 'roles/storage.objectAdmin',
+//   // TODO: Figure out how to get the default service account dynamically
+//   // member: `serviceAccount:${gcp.config.defaultdefaultServiceAccount}`,
+// }, { provider, dependsOn: [debugBucket] });
