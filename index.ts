@@ -12,5 +12,6 @@ import "./resources/kubernetes/registration-app/registration-app.js";
 import "./resources/kubernetes/registration-app/sanity-credentials.js";
 import "./resources/shared/shared-resources.js";
 import "./resources/google/slack-logger.js";
+import "./resources/google/debug-bucket.js";
 import "./resources/repository-access.js";
 import "./resources/developer-access.js";
