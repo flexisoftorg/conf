@@ -32,8 +32,8 @@ const service = new gcp.cloudrunv2.Service(
           image: `docker.io/bjerkbot/google-cloud-logger-slack:${slackAgentTag}`,
           envs: [
             {
-              name: "SLACK_TOKEN",
-              value: config.requireSecret("bot-oauth-token"),
+              name: "SLACK_WEBHOOK_URL",
+              value: config.requireSecret("webhook-url"),
             },
             {
               name: "DEFAULT_CHANNEL",
