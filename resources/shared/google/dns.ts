@@ -32,6 +32,18 @@ export const zone = new gcp.dns.ManagedZone(
 );
 
 new gcp.dns.RecordSet(
+  "main-a",
+  {
+    managedZone: zone.name,
+    name: rootDomain,
+    type: "A",
+    ttl: 300,
+    rrdatas: [ingressIpAddress],
+  },
+  { provider },
+);
+
+new gcp.dns.RecordSet(
   "portal-app-a",
   {
     managedZone: zone.name,
