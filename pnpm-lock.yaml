@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@pulumi/gcp':
-        specifier: ^8.32.1
-        version: 8.37.0(ts-node@10.9.2(@types/node@22.16.3)(typescript@5.8.3))(typescript@5.8.3)
+        specifier: ^9.0.0
+        version: 9.2.0(ts-node@10.9.2(@types/node@22.16.3)(typescript@5.8.3))(typescript@5.8.3)
       '@pulumi/github':
         specifier: ^6.7.2
         version: 6.7.2(ts-node@10.9.2(@types/node@22.16.3)(typescript@5.8.3))(typescript@5.8.3)
@@ -378,8 +378,8 @@ packages:
   '@protobufjs/utf8@1.1.0':
     resolution: {integrity: sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==}
 
-  '@pulumi/gcp@8.37.0':
-    resolution: {integrity: sha512-aR+mC/4Ys+jId8SeQGW/0qETW5uBRhXushe9fz3D8OKM+qC7iAipYfqf0xxvCbOQtSKAU8lHhIwzEIBD7eETZg==}
+  '@pulumi/gcp@9.2.0':
+    resolution: {integrity: sha512-pjBwTPrLopHwl8nDBEfmd7l7DuFEpVoAufXabHIFxkxFrhay7/P4r1q6/TKsbGXZZjpPpZLkekwQoRJpRx1UDw==}
 
   '@pulumi/github@6.7.2':
     resolution: {integrity: sha512-dsaCLKQXqTVChE5gsowDoI7J3ZcN+WQ2zamFqHeYbSTJ2NJ06ENK+INkwbrUnEqtLA5t6lfOIu2F97Yz0+LsRQ==}
@@ -3360,7 +3360,7 @@ snapshots:
 
   '@protobufjs/utf8@1.1.0': {}
 
-  '@pulumi/gcp@8.37.0(ts-node@10.9.2(@types/node@22.16.3)(typescript@5.8.3))(typescript@5.8.3)':
+  '@pulumi/gcp@9.2.0(ts-node@10.9.2(@types/node@22.16.3)(typescript@5.8.3))(typescript@5.8.3)':
     dependencies:
       '@npmcli/package-json': 6.2.0
       '@pulumi/pulumi': 3.181.0(ts-node@10.9.2(@types/node@22.16.3)(typescript@5.8.3))(typescript@5.8.3)
