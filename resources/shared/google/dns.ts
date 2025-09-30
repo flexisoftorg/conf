@@ -113,3 +113,17 @@ new gcp.dns.RecordSet(
   },
   { provider },
 );
+
+new gcp.dns.RecordSet(
+  "new-gcp-project-dns-verification",
+  {
+    managedZone: zone.name,
+    name: rootDomain,
+    type: "TXT",
+    ttl: 300,
+    rrdatas: [
+      "google-site-verification=XD87NUY2f0BtPhaK4O_Qg6yCy9ou5mPMKeeqnXbJNss",
+    ],
+  },
+  { provider },
+);
