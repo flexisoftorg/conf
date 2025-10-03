@@ -127,3 +127,15 @@ new gcp.dns.RecordSet(
   },
   { provider },
 );
+
+new gcp.dns.RecordSet(
+  "customer-cname-target",
+  {
+    managedZone: zone.name,
+    name: `ingress.${rootDomain}`,
+    type: "A",
+    ttl: 300,
+    rrdatas: [ingressIpAddress],
+  },
+  { provider },
+);

@@ -35,30 +35,6 @@ new gcp.dns.RecordSet(
 );
 
 new gcp.dns.RecordSet(
-  "debitor-portal-app-ipv4",
-  {
-    managedZone: legacyZone.name,
-    name: "debitor.flexisoft.bjerk.dev.",
-    type: "A",
-    ttl: 300,
-    rrdatas: [ingressIpAddress],
-  },
-  { provider },
-);
-
-new gcp.dns.RecordSet(
-  "portal-api",
-  {
-    managedZone: legacyZone.name,
-    name: "api.flexisoft.bjerk.dev.",
-    type: "A",
-    ttl: 300,
-    rrdatas: [ingressIpAddress],
-  },
-  { provider },
-);
-
-new gcp.dns.RecordSet(
   "studio",
   {
     managedZone: legacyZone.name,
