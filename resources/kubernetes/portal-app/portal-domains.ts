@@ -162,23 +162,6 @@ customers.apply((customers) => {
                 ],
               },
             },
-            {
-              host: restApiDomain.slice(0, -1),
-              http: {
-                paths: [
-                  {
-                    path: "/",
-                    pathType: "Prefix",
-                    backend: {
-                      service: {
-                        name: restApiApp.service.metadata.name,
-                        port: { number: restApiApp.port },
-                      },
-                    },
-                  },
-                ],
-              },
-            },
           ],
         },
       },
