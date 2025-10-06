@@ -144,7 +144,7 @@ new gcp.dns.RecordSet(
   "github-pages-dns-verification-studio",
   {
     managedZone: zone.name,
-    name: `_github-pages-challenge-flexisoftorg.studio.fpx.no`,
+    name: `_github-pages-challenge-flexisoftorg.studio.fpx.no.`,
     type: "TXT",
     ttl: 300,
     rrdatas: ["c579be18552eb74b572245d591770d"],
