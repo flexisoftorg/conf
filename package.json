@@ -7,7 +7,7 @@
     "format:check": "prettier --check .",
     "lint": "xo --fix"
   },
-  "packageManager": "pnpm@10.11.1",
+  "packageManager": "pnpm@10.18.1",
   "dependencies": {
     "@pulumi/gcp": "^8.32.1",
     "@pulumi/github": "^6.7.2",
