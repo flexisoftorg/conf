@@ -21,6 +21,7 @@ customers.apply((customers) => {
     const hasCustomDomain = Boolean(customer.domain?.trim());
 
     const debitorPortalDomain = hasCustomDomain ? `debitor.${domain}` : domain;
+
     const creditorPortalDomain = hasCustomDomain ? domain : `kred.${domain}`;
     const restApiDomain = `rest.${domain}`;
     const apiDomain = `api.${domain}`;
@@ -39,17 +40,20 @@ customers.apply((customers) => {
         },
         { provider: gcpProvider },
       );
-      new gcp.dns.RecordSet(
-        `${customer.ident.current}-debitor-portal`,
-        {
-          managedZone: zone.name,
-          name: debitorPortalDomain,
-          type: "A",
-          ttl: 300,
-          rrdatas: [ingressIpAddress],
-        },
-        { provider: gcpProvider },
-      );
+
+      if (customer.debitorPortalEnabled) {
+        new gcp.dns.RecordSet(
+          `${customer.ident.current}-debitor-portal`,
+          {
+            managedZone: zone.name,
+            name: debitorPortalDomain,
+            type: "A",
+            ttl: 300,
+            rrdatas: [ingressIpAddress],
+          },
+          { provider: gcpProvider },
+        );
+      }
 
       new gcp.dns.RecordSet(
         `${customer.ident.current}-api`,
@@ -62,18 +66,19 @@ customers.apply((customers) => {
         },
         { provider: gcpProvider },
       );
-
-      new gcp.dns.RecordSet(
-        `${customer.ident.current}-onboarding-app`,
-        {
-          managedZone: zone.name,
-          name: onboardingAppDomain,
-          type: "A",
-          ttl: 300,
-          rrdatas: [ingressIpAddress],
-        },
-        { provider: gcpProvider },
-      );
+      if (customer.onboardingAppEnabled) {
+        new gcp.dns.RecordSet(
+          `${customer.ident.current}-onboarding-app`,
+          {
+            managedZone: zone.name,
+            name: onboardingAppDomain,
+            type: "A",
+            ttl: 300,
+            rrdatas: [ingressIpAddress],
+          },
+          { provider: gcpProvider },
+        );
+      }
     }
 
     new k8s.networking.v1.Ingress(
