@@ -6,6 +6,7 @@ config:
   debitor-portal-app:tag: main-a09eff2
   flexisoft-portal:developers:
     - group:team-developers@bjerk.io
+    - user:martin@sokkel.io
   flexisoft-portal:owner: flexisoftorg
   flexisoft-portal:system-email: developers@bjerk.io
   flexisoft-portal:token:
