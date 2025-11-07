@@ -10,6 +10,7 @@ import { namespace } from "./namespace.js";
 import { portalApi } from "./portal-api/portal-api.js";
 import { portalApp } from "./portal-app/portal-app.js";
 import { onboardingApp } from "./onboarding/onboarding-app.js";
+import { restApiApp } from "./api/api.js";
 
 customers.apply((customers) => {
   const customersWithProducts = customers.filter(
@@ -33,6 +34,11 @@ customers.apply((customers) => {
       customer.creditorPortalEnabled || customer.debitorPortalEnabled;
     const apiDomain = `api.${domain}`;
     const onboardingAppDomain = `onboarding.${domain}`;
+
+    const restApiDomain = `rest.${domain}`;
+
+    const restApiEnabled =
+      customer.creditorPortalEnabled || customer.debitorPortalEnabled;
 
     if (!hasCustomDomain) {
       // We need to create DNS records for the customer's subdomains under the root domain zone
@@ -84,6 +90,20 @@ customers.apply((customers) => {
           {
             managedZone: zone.name,
             name: onboardingAppDomain,
+            type: "A",
+            ttl: 300,
+            rrdatas: [ingressIpAddress],
+          },
+          { provider: gcpProvider },
+        );
+      }
+
+      if (restApiEnabled) {
+        new gcp.dns.RecordSet(
+          `${customer.ident.current}-rest-api`,
+          {
+            managedZone: zone.name,
+            name: restApiDomain,
             type: "A",
             ttl: 300,
             rrdatas: [ingressIpAddress],
@@ -167,6 +187,26 @@ customers.apply((customers) => {
                 service: {
                   name: onboardingApp.service.metadata.name,
                   port: { number: onboardingApp.port },
+                },
+              },
+            },
+          ],
+        },
+      });
+    }
+
+    if (restApiEnabled) {
+      rules.push({
+        host: restApiDomain.slice(0, -1),
+        http: {
+          paths: [
+            {
+              path: "/",
+              pathType: "Prefix",
+              backend: {
+                service: {
+                  name: restApiApp.service.metadata.name,
+                  port: { number: restApiApp.port },
                 },
               },
             },
