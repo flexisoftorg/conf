@@ -9,6 +9,7 @@ const repositoriesWithArtifacts = [
   "debitor-portal-app",
   "registration-app",
   "onboarding-app",
+  "altinn-auth-portal",
 ];
 
 for (const repository of repositoriesWithArtifacts) {
