@@ -10,7 +10,6 @@ import { namespace } from "./namespace.js";
 import { portalApi } from "./portal-api/portal-api.js";
 import { portalApp } from "./portal-app/portal-app.js";
 import { onboardingApp } from "./onboarding/onboarding-app.js";
-import { altinnAuthPortal } from "./altinn-auth-portal/altinn-auth-portal.js";
 import { restApiApp } from "./api/api.js";
 
 customers.apply((customers) => {
@@ -35,7 +34,6 @@ customers.apply((customers) => {
       customer.creditorPortalEnabled || customer.debitorPortalEnabled;
     const apiDomain = `api.${domain}`;
     const onboardingAppDomain = `onboarding.${domain}`;
-    const altinnAuthPortalDomain = `altinn.${domain}`;
 
     const restApiDomain = `rest.${domain}`;
 
@@ -99,18 +97,6 @@ customers.apply((customers) => {
           { provider: gcpProvider },
         );
       }
-
-      new gcp.dns.RecordSet(
-        `${customer.ident.current}-altinn-auth-portal`,
-        {
-          managedZone: zone.name,
-          name: altinnAuthPortalDomain,
-          type: "A",
-          ttl: 300,
-          rrdatas: [ingressIpAddress],
-        },
-        { provider: gcpProvider },
-      );
 
       if (restApiEnabled) {
         new gcp.dns.RecordSet(
@@ -208,24 +194,6 @@ customers.apply((customers) => {
         },
       });
     }
-
-    rules.push({
-      host: altinnAuthPortalDomain.slice(0, -1),
-      http: {
-        paths: [
-          {
-            path: "/",
-            pathType: "Prefix",
-            backend: {
-              service: {
-                name: altinnAuthPortal.service.metadata.name,
-                port: { number: altinnAuthPortal.port },
-              },
-            },
-          },
-        ],
-      },
-    });
 
     if (restApiEnabled) {
       rules.push({
