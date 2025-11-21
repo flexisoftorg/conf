@@ -25,6 +25,10 @@ const portalCustomer = z.object({
   debitorPortalEnabled: z.boolean().nullish(),
   onboardingAppEnabled: z.boolean().nullish(),
   creditorPortalEnabled: z.boolean().nullish(),
+  allowIndividualCustomers: z
+    .boolean()
+    .nullish()
+    .transform((val) => val ?? false),
 });
 
 export type PortalCustomer = z.infer<typeof portalCustomer>;
@@ -60,7 +64,8 @@ export function getCustomers(): pulumi.Output<PortalCustomer[]> {
           paymentProviderEnabled,
           debitorPortalEnabled,
           onboardingAppEnabled,
-          creditorPortalEnabled
+          creditorPortalEnabled,
+          allowIndividualCustomers
       }
     `);
     const customers = result
