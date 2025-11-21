@@ -70,7 +70,6 @@ portal.example.com.                 CNAME    ingress.fpx.no.
 debitor.portal.example.com.         CNAME    ingress.fpx.no.
 api.portal.example.com.             CNAME    ingress.fpx.no.
 onboarding.portal.example.com.      CNAME    ingress.fpx.no.
-altinn.portal.example.com.      CNAME    ingress.fpx.no.
 rest.portal.example.com.            CNAME    ingress.fpx.no.
 ```
 

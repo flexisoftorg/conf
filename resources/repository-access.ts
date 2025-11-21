@@ -134,23 +134,3 @@ new gcp.artifactregistry.RepositoryIamMember(
   },
   { provider: googleProvider },
 );
-
-const altinnAuthPortalAccess = new GitHubAccess(
-  "altinn-auth-portal",
-  {
-    identityPoolName: identityPool.name,
-    identityPoolProviderName: identityPoolProvider.name,
-    repositories: ["altinn-auth-portal"],
-  },
-  { providers: [googleProvider, githubProvider] },
-);
-
-new gcp.artifactregistry.RepositoryIamMember(
-  "altinn-auth-portal-artifact-registry-access",
-  {
-    repository: repository.id,
-    member: pulumi.interpolate`serviceAccount:${altinnAuthPortalAccess.serviceAccount.email}`,
-    role: "roles/artifactregistry.writer",
-  },
-  { provider: googleProvider },
-);
