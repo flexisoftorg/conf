@@ -50,7 +50,7 @@ export type AppComponentArgs = {
   /**
    * Liveness probe
    */
-  livenessProbe?: pulumi.Input<k8s.types.input.core.v1.Probe>;
+  readinessProbe?: pulumi.Input<k8s.types.input.core.v1.Probe>;
 
   /**
    * Resources
