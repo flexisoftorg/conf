@@ -48,6 +48,11 @@ export type AppComponentArgs = {
   environment?: pulumi.Input<string>;
 
   /**
+   * Liveness probe
+   */
+  livenessProbe?: pulumi.Input<k8s.types.input.core.v1.Probe>;
+
+  /**
    * Resources
    */
   resources: pulumi.Input<k8s.types.input.core.v1.ResourceRequirements>;
