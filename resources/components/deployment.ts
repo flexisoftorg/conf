@@ -127,6 +127,7 @@ export class DeploymentComponent extends pulumi.ComponentResource {
                     httpGet: {
                       path: "/health",
                       port,
+                      scheme: "HTTPS",
                     },
                     initialDelaySeconds: 30,
                     failureThreshold: 1,
