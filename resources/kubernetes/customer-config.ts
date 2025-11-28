@@ -31,6 +31,7 @@ export const customerConfigMap = new kubernetes.core.v1.ConfigMap(
             ? domain
             : `kred.${domain}`;
           const apiDomain = `api.${domain}`;
+          const restApiDomain = `rest.${domain}`;
 
           return {
             ...customer,
@@ -38,6 +39,7 @@ export const customerConfigMap = new kubernetes.core.v1.ConfigMap(
             debitorPortalDomain,
             creditorPortalDomain,
             apiDomain,
+            restApiDomain,
           };
         });
         return JSON.stringify(customersWithDomain);
