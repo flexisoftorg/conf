@@ -24,15 +24,6 @@ export const onboardingApp = new DeploymentComponent(
       { configMapRef: { name: customerConfigMap.metadata.name } },
       { secretRef: { name: onboardingAppDatabaseCredentials.metadata.name } },
     ],
-    readinessProbe: {
-      httpGet: {
-        path: "/health",
-        port: 8000,
-      },
-      initialDelaySeconds: 30,
-      periodSeconds: 600,
-      failureThreshold: 1,
-    },
     resources: {
       requests: {
         cpu: "250m",

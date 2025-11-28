@@ -48,11 +48,6 @@ export type AppComponentArgs = {
   environment?: pulumi.Input<string>;
 
   /**
-   * Readiness probe
-   */
-  readinessProbe?: pulumi.Input<k8s.types.input.core.v1.Probe>;
-
-  /**
    * Resources
    */
   resources: pulumi.Input<k8s.types.input.core.v1.ResourceRequirements>;
@@ -128,6 +123,14 @@ export class DeploymentComponent extends pulumi.ComponentResource {
                     ..._env,
                   ]),
                   resources,
+                  readinessProbe: {
+                    httpGet: {
+                      path: "/health",
+                      port,
+                    },
+                    initialDelaySeconds: 30,
+                    failureThreshold: 1,
+                  },
                 },
               ],
             },
