@@ -129,7 +129,7 @@ export class DeploymentComponent extends pulumi.ComponentResource {
                       port,
                       scheme: "HTTPS",
                     },
-                    initialDelaySeconds: 30,
+                    initialDelaySeconds: 5,
                     failureThreshold: 1,
                   },
                 },
