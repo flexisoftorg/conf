@@ -20,6 +20,16 @@ export const redis = new DeploymentComponent(
         memory: "512Mi",
       },
     },
+    readinessProbe: {
+      exec: {
+        command: [
+          "redis-cli",
+          "ping",
+        ],
+      },
+      initialDelaySeconds: 5,
+      failureThreshold: 1,
+    },
   },
   { provider },
 );
