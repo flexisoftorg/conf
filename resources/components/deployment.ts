@@ -53,6 +53,11 @@ export type AppComponentArgs = {
   resources: pulumi.Input<k8s.types.input.core.v1.ResourceRequirements>;
 
   namespace?: pulumi.Input<string>;
+
+  /**
+   * If applied, default probe will be overwritten
+   */
+  readinessProbe?: pulumi.Input<k8s.types.input.core.v1.Probe>
 };
 
 export class DeploymentComponent extends pulumi.ComponentResource {
@@ -86,6 +91,16 @@ export class DeploymentComponent extends pulumi.ComponentResource {
     this.port = pulumi.output(port);
 
     const matchLabels = { app: name, environment };
+
+    const readinessProbe = args.readinessProbe || {
+      httpGet: {
+        path: "/health",
+        port,
+        scheme: "HTTP",
+      },
+      initialDelaySeconds: 5,
+      failureThreshold: 1,
+    }
 
     this.deployment = new k8s.apps.v1.Deployment(
       name,
@@ -123,15 +138,7 @@ export class DeploymentComponent extends pulumi.ComponentResource {
                     ..._env,
                   ]),
                   resources,
-                  readinessProbe: {
-                    httpGet: {
-                      path: "/health",
-                      port,
-                      scheme: "HTTP",
-                    },
-                    initialDelaySeconds: 5,
-                    failureThreshold: 1,
-                  },
+                  readinessProbe,
                 },
               ],
             },
