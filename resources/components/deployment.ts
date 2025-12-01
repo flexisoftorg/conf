@@ -123,6 +123,15 @@ export class DeploymentComponent extends pulumi.ComponentResource {
                     ..._env,
                   ]),
                   resources,
+                  readinessProbe: {
+                    httpGet: {
+                      path: "/health",
+                      port,
+                      scheme: "HTTPS",
+                    },
+                    initialDelaySeconds: 5,
+                    failureThreshold: 1,
+                  },
                 },
               ],
             },
