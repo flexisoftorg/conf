@@ -20,25 +20,7 @@ customers.apply((customers) => {
       c.onboardingAppEnabled,
   );
   for (const customer of customersWithProducts) {
-    const domain = customer.domain
-      ? `${customer.domain}.`
-      : `${customer.ident.current}.${rootDomain}`;
-
     const hasCustomDomain = Boolean(customer.domain?.trim());
-
-    const debitorPortalDomain = hasCustomDomain ? `debitor.${domain}` : domain;
-
-    const creditorPortalDomain = hasCustomDomain ? domain : `kred.${domain}`;
-
-    const apiEnabled =
-      customer.creditorPortalEnabled || customer.debitorPortalEnabled;
-    const apiDomain = `api.${domain}`;
-    const onboardingAppDomain = `onboarding.${domain}`;
-
-    const restApiDomain = `rest.${domain}`;
-
-    const restApiEnabled =
-      customer.creditorPortalEnabled || customer.debitorPortalEnabled;
 
     if (!hasCustomDomain) {
       // We need to create DNS records for the customer's subdomains under the root domain zone
@@ -47,7 +29,7 @@ customers.apply((customers) => {
           `${customer.ident.current}-creditor-portal`,
           {
             managedZone: zone.name,
-            name: creditorPortalDomain,
+            name: customer.creditorPortalDomain,
             type: "A",
             ttl: 300,
             rrdatas: [ingressIpAddress],
@@ -61,7 +43,7 @@ customers.apply((customers) => {
           `${customer.ident.current}-debitor-portal`,
           {
             managedZone: zone.name,
-            name: debitorPortalDomain,
+            name: customer.debitorPortalDomain + ".",
             type: "A",
             ttl: 300,
             rrdatas: [ingressIpAddress],
@@ -70,12 +52,12 @@ customers.apply((customers) => {
         );
       }
 
-      if (apiEnabled) {
+      if (customer.portalApiEnabled) {
         new gcp.dns.RecordSet(
           `${customer.ident.current}-api`,
           {
             managedZone: zone.name,
-            name: apiDomain,
+            name: customer.apiDomain + ".",
             type: "A",
             ttl: 300,
             rrdatas: [ingressIpAddress],
@@ -89,7 +71,7 @@ customers.apply((customers) => {
           `${customer.ident.current}-onboarding-app`,
           {
             managedZone: zone.name,
-            name: onboardingAppDomain,
+            name: customer.onboardingAppDomain,
             type: "A",
             ttl: 300,
             rrdatas: [ingressIpAddress],
@@ -98,12 +80,12 @@ customers.apply((customers) => {
         );
       }
 
-      if (restApiEnabled) {
+      if (customer.restApiEnabled) {
         new gcp.dns.RecordSet(
           `${customer.ident.current}-rest-api`,
           {
             managedZone: zone.name,
-            name: restApiDomain,
+            name: customer.restApiDomain + ".",
             type: "A",
             ttl: 300,
             rrdatas: [ingressIpAddress],
@@ -117,7 +99,7 @@ customers.apply((customers) => {
 
     if (customer.creditorPortalEnabled) {
       rules.push({
-        host: creditorPortalDomain.slice(0, -1),
+        host: customer.creditorPortalDomain,
         http: {
           paths: [
             {
@@ -137,7 +119,7 @@ customers.apply((customers) => {
 
     if (customer.debitorPortalEnabled) {
       rules.push({
-        host: debitorPortalDomain.slice(0, -1),
+        host: customer.debitorPortalDomain,
         http: {
           paths: [
             {
@@ -155,9 +137,9 @@ customers.apply((customers) => {
       });
     }
 
-    if (apiEnabled) {
+    if (customer.portalApiEnabled) {
       rules.push({
-        host: apiDomain.slice(0, -1),
+        host: customer.apiDomain,
         http: {
           paths: [
             {
@@ -177,7 +159,7 @@ customers.apply((customers) => {
 
     if (customer.onboardingAppEnabled) {
       rules.push({
-        host: onboardingAppDomain.slice(0, -1),
+        host: customer.onboardingAppDomain,
         http: {
           paths: [
             {
@@ -195,9 +177,9 @@ customers.apply((customers) => {
       });
     }
 
-    if (restApiEnabled) {
+    if (customer.restApiEnabled) {
       rules.push({
-        host: restApiDomain.slice(0, -1),
+        host: customer.restApiDomain,
         http: {
           paths: [
             {

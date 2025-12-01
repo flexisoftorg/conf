@@ -4,9 +4,9 @@ import { interpolate } from "@pulumi/pulumi";
 import { DeploymentComponent } from "../../components/deployment.js";
 import { artifactRepoUrl } from "../../shared/google/artifact-registry.js";
 import { provider as kubernetesProvider } from "../../shared/kubernetes/provider.js";
-import { customerConfigMap } from "../customer-config.js";
 import { namespace } from "../namespace.js";
 import { redis } from "./redis.js";
+import { customers } from "../../get-customers.js";
 
 const config = new pulumi.Config("portal-api");
 
@@ -41,16 +41,22 @@ export const portalApi = new DeploymentComponent(
     namespace: namespace.metadata.name,
     port: 8000,
     logLevel: config.get("log-level"),
-    envFrom: [
-      { secretRef: { name: portalApiEnvSecrets.metadata.name } },
-      { configMapRef: { name: customerConfigMap.metadata.name } },
-    ],
+    envFrom: [{ secretRef: { name: portalApiEnvSecrets.metadata.name } }],
     env: [
       {
         name: "REDIS_URL",
         value: interpolate`redis://${redis.service.metadata.name}.${redis.service.metadata.namespace}.svc.cluster.local:6379`,
       },
+      {
+        name: "CUSTOMERS",
+        value: customers.apply((customers) =>
+          JSON.stringify(
+            customers.filter((customer) => customer.portalApiEnabled),
+          ),
+        ),
+      },
     ],
+
     resources: {
       requests: {
         cpu: "250m",

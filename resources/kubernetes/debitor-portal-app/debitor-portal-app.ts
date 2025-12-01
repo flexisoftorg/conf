@@ -4,11 +4,11 @@ import { DeploymentComponent } from "../../components/deployment.js";
 import { debitorPortalAppDomain } from "../../config.js";
 import { artifactRepoUrl } from "../../shared/google/artifact-registry.js";
 import { provider as kubernetesProvider } from "../../shared/kubernetes/provider.js";
-import { customerConfigMap } from "../customer-config.js";
 import { namespace } from "../namespace.js";
 import { debitorPortalCredentials } from "./debitor-portal-credentials.js";
 import { debitorPaymentProvider } from "./debitor-portal-payment-provider.js";
 import { debitorPortalRestApiCredentials } from "./debitor-portal-rest-api-credentials.js";
+import { customers } from "../../get-customers.js";
 
 const config = new pulumi.Config("debitor-portal-app");
 
@@ -24,10 +24,19 @@ export const debitorPortalApp = new DeploymentComponent(
     legacyHost: "debitor.flexisoft.bjerk.dev",
     port: 8000,
     envFrom: [
-      { configMapRef: { name: customerConfigMap.metadata.name } },
       { secretRef: { name: debitorPortalCredentials.metadata.name } },
       { secretRef: { name: debitorPortalRestApiCredentials.metadata.name } },
       { configMapRef: { name: debitorPaymentProvider.metadata.name } },
+    ],
+    env: [
+      {
+        name: "CUSTOMERS",
+        value: customers.apply((customers) =>
+          JSON.stringify(
+            customers.filter((customer) => customer.debitorPortalEnabled),
+          ),
+        ),
+      },
     ],
     resources: {
       requests: {
