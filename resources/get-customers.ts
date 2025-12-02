@@ -26,10 +26,22 @@ const portalCustomer = z
     description: z.string().nullish(),
     merchantId: z.string().nullish(),
     merchantApiKey: z.string().nullish(),
-    paymentProviderEnabled: z.boolean().nullish(),
-    debitorPortalEnabled: z.boolean().nullish(),
-    onboardingAppEnabled: z.boolean().nullish(),
-    creditorPortalEnabled: z.boolean().nullish(),
+    paymentProviderEnabled: z
+      .boolean()
+      .nullish()
+      .transform((val) => val ?? false),
+    debitorPortalEnabled: z
+      .boolean()
+      .nullish()
+      .transform((val) => val ?? false),
+    onboardingAppEnabled: z
+      .boolean()
+      .nullish()
+      .transform((val) => val ?? false),
+    creditorPortalEnabled: z
+      .boolean()
+      .nullish()
+      .transform((val) => val ?? false),
     allowIndividualCustomers: z
       .boolean()
       .nullish()
