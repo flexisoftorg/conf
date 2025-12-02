@@ -28,7 +28,7 @@ customers.apply((customers) => {
           `${customer.ident.current}-creditor-portal`,
           {
             managedZone: zone.name,
-            name: customer.creditorPortalDomain,
+            name: customer.creditorPortalDomain + ".",
             type: "A",
             ttl: 300,
             rrdatas: [ingressIpAddress],
@@ -70,7 +70,7 @@ customers.apply((customers) => {
           `${customer.ident.current}-onboarding-app`,
           {
             managedZone: zone.name,
-            name: customer.onboardingAppDomain,
+            name: customer.onboardingAppDomain + ".",
             type: "A",
             ttl: 300,
             rrdatas: [ingressIpAddress],
