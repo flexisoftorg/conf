@@ -6,6 +6,7 @@ import { portalAppDomain } from "../../config.js";
 import { artifactRepoUrl } from "../../shared/google/artifact-registry.js";
 import { provider as kubernetesProvider } from "../../shared/kubernetes/provider.js";
 import { namespace } from "../namespace.js";
+import { customers } from "../../get-customers.js";
 
 const config = new pulumi.Config("portal-app");
 
@@ -35,13 +36,16 @@ export const portalApp = new DeploymentComponent(
     host: cleanPortalAppDomain,
     namespace: namespace.metadata.name,
     port: 8000,
-    envFrom: [
+    envFrom: [{ secretRef: { name: portalAppEnvSecrets.metadata.name } }],
+    env: [
       {
-        configMapRef: {
-          name: creditorPortalAppCustomerConfigMap.metadata.name,
-        },
+        name: "CUSTOMERS",
+        value: customers.apply((customers) =>
+          JSON.stringify(
+            customers.filter((customer) => customer.creditorPortalEnabled),
+          ),
+        ),
       },
-      { secretRef: { name: portalAppEnvSecrets.metadata.name } },
     ],
     resources: {
       requests: {
