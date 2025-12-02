@@ -62,6 +62,7 @@ const portalCustomer = z
     const onboardingAppDomain = `onboarding.${domain}`;
     return {
       ...customer,
+      hasCustomDomain,
       domain,
       debitorPortalDomain,
       creditorPortalDomain,

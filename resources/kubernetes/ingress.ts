@@ -1,8 +1,5 @@
-import * as gcp from "@pulumi/gcp";
 import * as k8s from "@pulumi/kubernetes";
 import { customers } from "../get-customers.js";
-import { provider as gcpProvider } from "../google/provider.js";
-import { ingressIpAddress, zone } from "../shared/google/dns.js";
 import { provider } from "../shared/kubernetes/provider.js";
 import { debitorPortalApp } from "./debitor-portal-app/debitor-portal-app.js";
 import { namespace } from "./namespace.js";
@@ -12,88 +9,7 @@ import { onboardingApp } from "./onboarding/onboarding-app.js";
 import { restApiApp } from "./api/api.js";
 
 customers.apply((customers) => {
-  const customersWithProducts = customers.filter(
-    (c) =>
-      c.creditorPortalEnabled ||
-      c.debitorPortalEnabled ||
-      c.onboardingAppEnabled,
-  );
-  for (const customer of customersWithProducts) {
-    const hasCustomDomain = Boolean(customer.domain?.trim());
-
-    if (!hasCustomDomain) {
-      // We need to create DNS records for the customer's subdomains under the root domain zone
-      if (customer.creditorPortalEnabled) {
-        new gcp.dns.RecordSet(
-          `${customer.ident.current}-creditor-portal`,
-          {
-            managedZone: zone.name,
-            name: customer.creditorPortalDomain + ".",
-            type: "A",
-            ttl: 300,
-            rrdatas: [ingressIpAddress],
-          },
-          { provider: gcpProvider },
-        );
-      }
-
-      if (customer.debitorPortalEnabled) {
-        new gcp.dns.RecordSet(
-          `${customer.ident.current}-debitor-portal`,
-          {
-            managedZone: zone.name,
-            name: customer.debitorPortalDomain + ".",
-            type: "A",
-            ttl: 300,
-            rrdatas: [ingressIpAddress],
-          },
-          { provider: gcpProvider },
-        );
-      }
-
-      if (customer.portalApiEnabled) {
-        new gcp.dns.RecordSet(
-          `${customer.ident.current}-api`,
-          {
-            managedZone: zone.name,
-            name: customer.apiDomain + ".",
-            type: "A",
-            ttl: 300,
-            rrdatas: [ingressIpAddress],
-          },
-          { provider: gcpProvider },
-        );
-      }
-
-      if (customer.onboardingAppEnabled) {
-        new gcp.dns.RecordSet(
-          `${customer.ident.current}-onboarding-app`,
-          {
-            managedZone: zone.name,
-            name: customer.onboardingAppDomain + ".",
-            type: "A",
-            ttl: 300,
-            rrdatas: [ingressIpAddress],
-          },
-          { provider: gcpProvider },
-        );
-      }
-
-      if (customer.restApiEnabled) {
-        new gcp.dns.RecordSet(
-          `${customer.ident.current}-rest-api`,
-          {
-            managedZone: zone.name,
-            name: customer.restApiDomain + ".",
-            type: "A",
-            ttl: 300,
-            rrdatas: [ingressIpAddress],
-          },
-          { provider: gcpProvider },
-        );
-      }
-    }
-
+  for (const customer of customers) {
     const rules: k8s.types.input.networking.v1.IngressRule[] = [];
 
     if (customer.creditorPortalEnabled) {
