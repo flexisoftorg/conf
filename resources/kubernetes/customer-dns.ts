@@ -2,7 +2,6 @@ import * as gcp from "@pulumi/gcp";
 import * as k8s from "@pulumi/kubernetes";
 import { customers } from "../get-customers.js";
 import { provider as gcpProvider } from "../google/provider.js";
-import { rootDomain } from "../shared/config.js";
 import { ingressIpAddress, zone } from "../shared/google/dns.js";
 import { provider } from "../shared/kubernetes/provider.js";
 import { debitorPortalApp } from "./debitor-portal-app/debitor-portal-app.js";
