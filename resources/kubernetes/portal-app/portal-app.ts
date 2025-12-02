@@ -5,7 +5,6 @@ import { DeploymentComponent } from "../../components/deployment.js";
 import { portalAppDomain } from "../../config.js";
 import { artifactRepoUrl } from "../../shared/google/artifact-registry.js";
 import { provider as kubernetesProvider } from "../../shared/kubernetes/provider.js";
-import { creditorPortalAppCustomerConfigMap } from "./portal-customers.js";
 import { namespace } from "../namespace.js";
 
 const config = new pulumi.Config("portal-app");
