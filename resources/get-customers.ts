@@ -1,35 +1,80 @@
 import * as pulumi from "@pulumi/pulumi";
 import { createClient } from "@sanity/client";
 import { z } from "zod";
-import { sanityApiToken, sanityProjectId } from "./shared/config.js";
+import {
+  rootDomain,
+  sanityApiToken,
+  sanityProjectId,
+} from "./shared/config.js";
 import { notEmpty } from "./utils.js";
 
-const portalCustomer = z.object({
-  ident: z.object({
-    current: z.string(),
-  }),
-  host: z.string(),
-  name: z.string(),
-  port: z.number(),
-  database: z.string(),
-  domain: z.string().nullable(),
-  logoUrl: z.string().nullable(),
-  organizationNumber: z.string().nullish(),
-  phoneNumber: z.string().nullish(),
-  email: z.string().nullish(),
-  address: z.string().nullish(),
-  description: z.string().nullish(),
-  merchantId: z.string().nullish(),
-  merchantApiKey: z.string().nullish(),
-  paymentProviderEnabled: z.boolean().nullish(),
-  debitorPortalEnabled: z.boolean().nullish(),
-  onboardingAppEnabled: z.boolean().nullish(),
-  creditorPortalEnabled: z.boolean().nullish(),
-  allowIndividualCustomers: z
-    .boolean()
-    .nullish()
-    .transform((val) => val ?? false),
-});
+const portalCustomer = z
+  .object({
+    ident: z.object({
+      current: z.string(),
+    }),
+    host: z.string(),
+    name: z.string(),
+    port: z.number(),
+    database: z.string(),
+    domain: z.string().nullable(),
+    logoUrl: z.string().nullable(),
+    organizationNumber: z.string().nullish(),
+    phoneNumber: z.string().nullish(),
+    email: z.string().nullish(),
+    address: z.string().nullish(),
+    description: z.string().nullish(),
+    merchantId: z.string().nullish(),
+    merchantApiKey: z.string().nullish(),
+    paymentProviderEnabled: z
+      .boolean()
+      .nullish()
+      .transform((val) => val ?? false),
+    debitorPortalEnabled: z
+      .boolean()
+      .nullish()
+      .transform((val) => val ?? false),
+    onboardingAppEnabled: z
+      .boolean()
+      .nullish()
+      .transform((val) => val ?? false),
+    creditorPortalEnabled: z
+      .boolean()
+      .nullish()
+      .transform((val) => val ?? false),
+    allowIndividualCustomers: z
+      .boolean()
+      .nullish()
+      .transform((val) => val ?? false),
+  })
+  .transform((customer) => {
+    const cleanRootDomain = rootDomain.slice(0, -1);
+
+    const domain =
+      customer.domain ?? `${customer.ident.current}.${cleanRootDomain}`;
+
+    const hasCustomDomain = Boolean(customer.domain?.trim());
+
+    const debitorPortalDomain = hasCustomDomain ? `debitor.${domain}` : domain;
+    const creditorPortalDomain = hasCustomDomain ? domain : `kred.${domain}`;
+    const apiDomain = `api.${domain}`;
+    const restApiDomain = `rest.${domain}`;
+    const onboardingAppDomain = `onboarding.${domain}`;
+    return {
+      ...customer,
+      hasCustomDomain,
+      domain,
+      debitorPortalDomain,
+      creditorPortalDomain,
+      onboardingAppDomain,
+      apiDomain,
+      restApiDomain,
+      restApiEnabled:
+        customer.creditorPortalEnabled || customer.debitorPortalEnabled,
+      portalApiEnabled:
+        customer.creditorPortalEnabled || customer.debitorPortalEnabled,
+    };
+  });
 
 export type PortalCustomer = z.infer<typeof portalCustomer>;
 
