@@ -1,63 +1,61 @@
 name: Update Service tag
 permissions:
-        id-token: write
-        contents: read
+  id-token: write
+  contents: read
 on:
-        workflow_dispatch:
-                inputs:
-                        tag:
-                                description: Which tag
-                                required: true
-                        service:
-                                description: Which service
-                                required: true
-        repository_dispatch:
-                types: [update-tag]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Which tag
+        required: true
+      service:
+        description: Which service
+        required: true
+  repository_dispatch:
+    types: [update-tag]
 jobs:
-        update-app-tag:
-                name: Update app tag
-                runs-on: ubuntu-latest
-                strategy:
-                        matrix:
-                                env: [prod] # If we have more environments, add them here
-                steps:
-                        - uses: actions/checkout@v6
+  update-app-tag:
+    name: Update app tag
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        env: [prod] # If we have more environments, add them here
+    steps:
+      - uses: actions/checkout@v6
 
-                        - uses: simenandre/setup-inputs@v1
-                          id: inputs
+      - uses: simenandre/setup-inputs@v1
+        id: inputs
 
-                        - run: echo ${{ steps.inputs.outputs.payload }}
+      - run: echo ${{ steps.inputs.outputs.payload }}
 
-                        - uses: simenandre/pulumi-config@v2
-                          id: config
-                          env:
-                                  PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
-                          with:
-                                  stack-name: Bjerk/${{ matrix.env }}
-                                  key: ${{ steps.inputs.outputs.service }}:tag
-                                  value: ${{ steps.inputs.outputs.tag }}
+      - uses: simenandre/pulumi-config@v2
+        id: config
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+        with:
+          stack-name: Bjerk/${{ matrix.env }}
+          key: ${{ steps.inputs.outputs.service }}:tag
+          value: ${{ steps.inputs.outputs.tag }}
 
-                        - uses: simenandre/get-commit-changelog@v1
-                          if: ${{ steps.config.outputs.key }}
-                          id: changelog
-                          with:
-                                  base: ${{ fromJson(steps.config.outputs.key).value }}
-                                  head: ${{ steps.inputs.outputs.tag }}
-                                  repository: flexisoftorg/${{ steps.inputs.outputs.service }}
-                                  token: ${{ secrets.BOT_GITHUB_TOKEN }}
+      - uses: simenandre/get-commit-changelog@v1
+        if: ${{ steps.config.outputs.key }}
+        id: changelog
+        with:
+          base: ${{ fromJson(steps.config.outputs.key).value }}
+          head: ${{ steps.inputs.outputs.tag }}
+          repository: flexisoftorg/${{ steps.inputs.outputs.service }}
+          token: ${{ secrets.BOT_GITHUB_TOKEN }}
 
-                        - name: Create Pull Request
-                          uses: peter-evans/create-pull-request@v7
-                          with:
-                                  token: ${{ secrets.BOT_GITHUB_TOKEN }}
-                                  commit-message:
-                                          bump ${{ steps.inputs.outputs.service }} to ${{
-                                          steps.inputs.outputs.tag }} on ${{ matrix.env }}
-                                  branch: bump-tag-${{ steps.inputs.outputs.service }}-${{ matrix.env }}
-                                  title:
-                                          "chore: bump ${{ steps.inputs.outputs.service }} tag to `${{
-                                          steps.inputs.outputs.tag }}` on ${{ matrix.env }}"
-                                  body: |
-                                          Automated tag change on ${{ matrix.env }}. 🎉
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.BOT_GITHUB_TOKEN }}
+          commit-message: bump ${{ steps.inputs.outputs.service }} to ${{
+            steps.inputs.outputs.tag }} on ${{ matrix.env }}
+          branch: bump-tag-${{ steps.inputs.outputs.service }}-${{ matrix.env }}
+          title: "chore: bump ${{ steps.inputs.outputs.service }} tag to `${{
+            steps.inputs.outputs.tag }}` on ${{ matrix.env }}"
+          body: |
+            Automated tag change on ${{ matrix.env }}. 🎉
 
-                                          ${{ steps.changelog.outputs.changelog }}
+            ${{ steps.changelog.outputs.changelog }}

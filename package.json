@@ -5,7 +5,7 @@
 	"scripts": {
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
-		"lint": "xo --fix",
+		"lint": "xo --fix --prettier",
 		"lint:check": "xo"
 	},
 	"packageManager": "pnpm@10.25.0",

@@ -1,56 +1,56 @@
 name: On Pull Request
 
 permissions:
-        id-token: write
-        contents: read
+  id-token: write
+  contents: read
 
 on: pull_request
 
 jobs:
-        preview-changes:
-                name: Preview ${{ matrix.stack }}
-                runs-on: ubuntu-latest
+  preview-changes:
+    name: Preview ${{ matrix.stack }}
+    runs-on: ubuntu-latest
 
-                concurrency: pulumi-${{ matrix.stack }}
+    concurrency: pulumi-${{ matrix.stack }}
 
-                strategy:
-                        fail-fast: false
-                        matrix:
-                                include:
-                                        - stack: Bjerk/prod
-                                          refresh: false
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - stack: Bjerk/prod
+            refresh: false
 
-                steps:
-                        - uses: actions/checkout@v6
+    steps:
+      - uses: actions/checkout@v6
 
-                        - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v4
 
-                        - name: Use Node LTS
-                          uses: actions/setup-node@v4
-                          with:
-                                  node-version: lts/*
-                                  cache: pnpm
+      - name: Use Node LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: pnpm
 
-                        - uses: "google-github-actions/setup-gcloud@v2"
-                          with:
-                                  install_components: "gke-gcloud-auth-plugin"
+      - uses: "google-github-actions/setup-gcloud@v2"
+        with:
+          install_components: "gke-gcloud-auth-plugin"
 
-                        - name: Authenticate with Google 🔑
-                          uses: google-github-actions/auth@v2
-                          with:
-                                  project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
-                                  workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
-                                  service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
-                        - run: pnpm install
-                        - run: pnpm lint:check
+      - name: Authenticate with Google 🔑
+        uses: google-github-actions/auth@v2
+        with:
+          project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+      - run: pnpm install
+      - run: pnpm lint:check
 
-                        - run: pnpm format:check
+      - run: pnpm format:check
 
-                        - uses: pulumi/actions@v6
-                          env:
-                                  PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
-                          with:
-                                  command: preview
-                                  stack-name: ${{ matrix.stack }}
-                                  comment-on-pr: true
-                                  github-token: ${{ secrets.BOT_GITHUB_TOKEN }}
+      - uses: pulumi/actions@v6
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+        with:
+          command: preview
+          stack-name: ${{ matrix.stack }}
+          comment-on-pr: true
+          github-token: ${{ secrets.BOT_GITHUB_TOKEN }}

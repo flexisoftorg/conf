@@ -1,12 +1,12 @@
-import * as pulumi from '@pulumi/pulumi';
-import {createClient} from '@sanity/client';
-import {z} from 'zod';
+import * as pulumi from "@pulumi/pulumi";
+import { createClient } from "@sanity/client";
+import { z } from "zod";
 import {
 	rootDomain,
 	sanityApiToken,
 	sanityProjectId,
-} from './shared/config.js';
-import {notEmpty} from './utils.js';
+} from "./shared/config.js";
+import { notEmpty } from "./utils.js";
 
 const portalCustomer = z
 	.object({
@@ -29,39 +29,34 @@ const portalCustomer = z
 		paymentProviderEnabled: z
 			.boolean()
 			.nullish()
-			.transform(value => value ?? false),
+			.transform((value) => value ?? false),
 		debitorPortalEnabled: z
 			.boolean()
 			.nullish()
-			.transform(value => value ?? false),
+			.transform((value) => value ?? false),
 		onboardingAppEnabled: z
 			.boolean()
 			.nullish()
-			.transform(value => value ?? false),
+			.transform((value) => value ?? false),
 		creditorPortalEnabled: z
 			.boolean()
 			.nullish()
-			.transform(value => value ?? false),
+			.transform((value) => value ?? false),
 		allowIndividualCustomers: z
 			.boolean()
 			.nullish()
-			.transform(value => value ?? false),
+			.transform((value) => value ?? false),
 	})
-	.transform(customer => {
+	.transform((customer) => {
 		const cleanRootDomain = rootDomain.slice(0, -1);
 
-		const domain
-			= customer.domain
-				?? `${customer.ident.current}.${cleanRootDomain}`;
+		const domain =
+			customer.domain ?? `${customer.ident.current}.${cleanRootDomain}`;
 
 		const hasCustomDomain = Boolean(customer.domain?.trim());
 
-		const debitorPortalDomain = hasCustomDomain
-			? `debitor.${domain}`
-			: domain;
-		const creditorPortalDomain = hasCustomDomain
-			? domain
-			: `kred.${domain}`;
+		const debitorPortalDomain = hasCustomDomain ? `debitor.${domain}` : domain;
+		const creditorPortalDomain = hasCustomDomain ? domain : `kred.${domain}`;
 		const apiDomain = `api.${domain}`;
 		const restApiDomain = `rest.${domain}`;
 		const onboardingAppDomain = `onboarding.${domain}`;
@@ -75,24 +70,22 @@ const portalCustomer = z
 			apiDomain,
 			restApiDomain,
 			restApiEnabled:
-				customer.creditorPortalEnabled
-				|| customer.debitorPortalEnabled,
+				customer.creditorPortalEnabled || customer.debitorPortalEnabled,
 			portalApiEnabled:
-				customer.creditorPortalEnabled
-				|| customer.debitorPortalEnabled,
+				customer.creditorPortalEnabled || customer.debitorPortalEnabled,
 		};
 	});
 
 export type PortalCustomer = z.infer<typeof portalCustomer>;
 
 export function getCustomers(): pulumi.Output<PortalCustomer[]> {
-	return sanityApiToken.apply(async token => {
+	return sanityApiToken.apply(async (token) => {
 		const client = createClient({
 			projectId: sanityProjectId,
-			dataset: 'production',
+			dataset: "production",
 			useCdn: false,
 			token,
-			apiVersion: '2023-04-18',
+			apiVersion: "2023-04-18",
 		});
 
 		const result = await client.fetch<unknown[]>(`
@@ -121,17 +114,17 @@ export function getCustomers(): pulumi.Output<PortalCustomer[]> {
       }
     `);
 		const customers = result
-			.map(rawCustomer => {
-				const customer
-					= portalCustomer.safeParse(rawCustomer);
+			.map((rawCustomer) => {
+				const customer = portalCustomer.safeParse(rawCustomer);
 				if (!customer.success) {
-					const {ident} = rawCustomer as {
-						ident: {current: string};
+					const { ident } = rawCustomer as {
+						ident: { current: string };
 					};
-					void pulumi.log.warn(`Customer could not be added due to data not adhering to correct data structure. (${
-						ident.current
-						?? 'Unknown ID'
-					})`);
+					void pulumi.log.warn(
+						`Customer could not be added due to data not adhering to correct data structure. (${
+							ident.current ?? "Unknown ID"
+						})`,
+					);
 
 					return undefined;
 				}
@@ -140,7 +133,7 @@ export function getCustomers(): pulumi.Output<PortalCustomer[]> {
 
 				return customer.data;
 			})
-			.filter(c => notEmpty(c));
+			.filter((c) => notEmpty(c));
 		return customers;
 	});
 }
