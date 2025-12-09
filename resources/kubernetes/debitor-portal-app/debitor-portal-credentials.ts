@@ -9,16 +9,16 @@ const user = config.requireSecret("database-user");
 const password = config.requireSecret("database-password");
 
 export const debitorPortalCredentials = new k8s.core.v1.Secret(
-  "debitor-portal-database-credentials",
-  {
-    metadata: {
-      name: "debitor-portal-database-credentials",
-      namespace: namespace.metadata.name,
-    },
-    stringData: {
-      PORTAL_USERNAME: user,
-      PORTAL_PASSWORD: password,
-    },
-  },
-  { provider },
+	"debitor-portal-database-credentials",
+	{
+		metadata: {
+			name: "debitor-portal-database-credentials",
+			namespace: namespace.metadata.name,
+		},
+		stringData: {
+			PORTAL_USERNAME: user,
+			PORTAL_PASSWORD: password,
+		},
+	},
+	{ provider },
 );
