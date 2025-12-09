@@ -1,7 +1,7 @@
-import * as gcp from "@pulumi/gcp";
-import { customers } from "../get-customers.js";
-import { ingressIpAddress, zone } from "../shared/google/dns.js";
-import { provider as gcpProvider } from "./provider.js";
+import * as gcp from '@pulumi/gcp';
+import {customers} from '../get-customers.js';
+import {ingressIpAddress, zone} from '../shared/google/dns.js';
+import {provider as gcpProvider} from './provider.js';
 
 customers.apply((customers) => {
 	for (const customer of customers) {
@@ -13,11 +13,11 @@ customers.apply((customers) => {
 					{
 						managedZone: zone.name,
 						name: `${customer.creditorPortalDomain}.`,
-						type: "A",
+						type: 'A',
 						ttl: 300,
 						rrdatas: [ingressIpAddress],
 					},
-					{ provider: gcpProvider },
+					{provider: gcpProvider},
 				);
 			}
 
@@ -27,11 +27,11 @@ customers.apply((customers) => {
 					{
 						managedZone: zone.name,
 						name: `${customer.debitorPortalDomain}.`,
-						type: "A",
+						type: 'A',
 						ttl: 300,
 						rrdatas: [ingressIpAddress],
 					},
-					{ provider: gcpProvider },
+					{provider: gcpProvider},
 				);
 			}
 
@@ -41,11 +41,11 @@ customers.apply((customers) => {
 					{
 						managedZone: zone.name,
 						name: `${customer.apiDomain}.`,
-						type: "A",
+						type: 'A',
 						ttl: 300,
 						rrdatas: [ingressIpAddress],
 					},
-					{ provider: gcpProvider },
+					{provider: gcpProvider},
 				);
 			}
 
@@ -55,11 +55,11 @@ customers.apply((customers) => {
 					{
 						managedZone: zone.name,
 						name: `${customer.onboardingAppDomain}.`,
-						type: "A",
+						type: 'A',
 						ttl: 300,
 						rrdatas: [ingressIpAddress],
 					},
-					{ provider: gcpProvider },
+					{provider: gcpProvider},
 				);
 			}
 
@@ -69,11 +69,11 @@ customers.apply((customers) => {
 					{
 						managedZone: zone.name,
 						name: `${customer.restApiDomain}.`,
-						type: "A",
+						type: 'A',
 						ttl: 300,
 						rrdatas: [ingressIpAddress],
 					},
-					{ provider: gcpProvider },
+					{provider: gcpProvider},
 				);
 			}
 		}

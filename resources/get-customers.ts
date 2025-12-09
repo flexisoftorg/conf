@@ -1,12 +1,8 @@
-import * as pulumi from "@pulumi/pulumi";
-import { createClient } from "@sanity/client";
-import { z } from "zod";
-import {
-	rootDomain,
-	sanityApiToken,
-	sanityProjectId,
-} from "./shared/config.js";
-import { notEmpty } from "./utils.js";
+import * as pulumi from '@pulumi/pulumi';
+import {createClient} from '@sanity/client';
+import {z} from 'zod';
+import {rootDomain, sanityApiToken, sanityProjectId} from './shared/config.js';
+import {notEmpty} from './utils.js';
 
 const portalCustomer = z
 	.object({
@@ -82,10 +78,10 @@ export function getCustomers(): pulumi.Output<PortalCustomer[]> {
 	return sanityApiToken.apply(async (token) => {
 		const client = createClient({
 			projectId: sanityProjectId,
-			dataset: "production",
+			dataset: 'production',
 			useCdn: false,
 			token,
-			apiVersion: "2023-04-18",
+			apiVersion: '2023-04-18',
 		});
 
 		const result = await client.fetch<unknown[]>(`
@@ -117,12 +113,12 @@ export function getCustomers(): pulumi.Output<PortalCustomer[]> {
 			.map((rawCustomer) => {
 				const customer = portalCustomer.safeParse(rawCustomer);
 				if (!customer.success) {
-					const { ident } = rawCustomer as {
-						ident: { current: string };
+					const {ident} = rawCustomer as {
+						ident: {current: string};
 					};
 					void pulumi.log.warn(
 						`Customer could not be added due to data not adhering to correct data structure. (${
-							ident.current ?? "Unknown ID"
+							ident.current ?? 'Unknown ID'
 						})`,
 					);
 
