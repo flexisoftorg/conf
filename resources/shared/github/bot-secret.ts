@@ -1,25 +1,25 @@
-import * as github from "@pulumi/github";
-import { owner, token } from "../../github/config.js";
-import { provider } from "../../github/provider.js";
+import * as github from '@pulumi/github';
+import {owner, token} from '../../github/config.js';
+import {provider} from '../../github/provider.js';
 
 const allRepositories = github.getRepositories(
 	{
 		query: `org:${owner}`,
 	},
-	{ provider },
+	{provider},
 );
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises, unicorn/prefer-top-level-await
-allRepositories.then(({ names }) => {
+allRepositories.then(({names}) => {
 	for (const repository of names) {
 		new github.ActionsSecret(
 			`bot-secret-${repository}`,
 			{
 				repository,
-				secretName: "BOT_GITHUB_TOKEN",
+				secretName: 'BOT_GITHUB_TOKEN',
 				plaintextValue: token,
 			},
-			{ provider },
+			{provider},
 		);
 	}
 });

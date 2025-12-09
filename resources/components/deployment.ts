@@ -1,6 +1,6 @@
-import * as k8s from "@pulumi/kubernetes";
-import * as pulumi from "@pulumi/pulumi";
-import { interpolate } from "@pulumi/pulumi";
+import * as k8s from '@pulumi/kubernetes';
+import * as pulumi from '@pulumi/pulumi';
+import {interpolate} from '@pulumi/pulumi';
 
 export type AppComponentArgs = {
 	image: pulumi.Input<string>;
@@ -72,7 +72,7 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 		args: AppComponentArgs,
 		options?: pulumi.ComponentResourceOptions,
 	) {
-		super("flexisoft:deployment", name, {}, options);
+		super('flexisoft:deployment', name, {}, options);
 
 		const {
 			image,
@@ -80,8 +80,8 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 			envFrom = [],
 			host,
 			legacyHost,
-			tag = "latest",
-			logLevel = "info",
+			tag = 'latest',
+			logLevel = 'info',
 			port = 8000,
 			environment = pulumi.getStack(),
 			namespace,
@@ -90,13 +90,13 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 
 		this.port = pulumi.output(port);
 
-		const matchLabels = { app: name, environment };
+		const matchLabels = {app: name, environment};
 
 		const readinessProbe = args.readinessProbe || {
 			httpGet: {
-				path: "/health",
+				path: '/health',
 				port,
-				scheme: "HTTP",
+				scheme: 'HTTP',
 			},
 			initialDelaySeconds: 5,
 			failureThreshold: 1,
@@ -108,14 +108,14 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 				metadata: {
 					name,
 					namespace,
-					labels: { environment },
+					labels: {environment},
 					annotations: {
-						"pulumi.com/skipAwait": "true",
+						'pulumi.com/skipAwait': 'true',
 					},
 				},
 				spec: {
 					replicas: 1,
-					selector: { matchLabels },
+					selector: {matchLabels},
 					template: {
 						metadata: {
 							labels: matchLabels,
@@ -126,7 +126,7 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 									name,
 									image: interpolate`${image}:${tag}`,
 									imagePullPolicy:
-										"IfNotPresent",
+										'IfNotPresent',
 									ports: [
 										{
 											containerPort:
@@ -135,33 +135,21 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 									],
 									envFrom,
 									env: pulumi
-										.output(
-											env,
-										)
-										.apply(
-											(
-												_env,
-											) => [
-												{
-													name: "PORT",
-													value: pulumi
-														.output(
-															port,
-														)
-														.apply(
-															(
-																p,
-															) =>
-																p.toString(),
-														),
-												},
-												{
-													name: "LOG_LEVEL",
-													value: logLevel,
-												},
-												..._env,
-											],
-										),
+										.output(env)
+										.apply(_env => [
+											{
+												name: 'PORT',
+												value: pulumi
+													.output(port)
+													.apply(p =>
+														p.toString()),
+											},
+											{
+												name: 'LOG_LEVEL',
+												value: logLevel,
+											},
+											..._env,
+										]),
 									resources,
 									readinessProbe,
 								},
@@ -182,10 +170,10 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 				metadata: {
 					name,
 					namespace,
-					labels: { environment },
+					labels: {environment},
 				},
 				spec: {
-					ports: [{ port }],
+					ports: [{port}],
 					selector: this.deployment.spec.selector
 						.matchLabels,
 				},
@@ -208,8 +196,8 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 				http: {
 					paths: [
 						{
-							path: "/",
-							pathType: "Prefix",
+							path: '/',
+							pathType: 'Prefix',
 							backend: {
 								service: {
 									name: this
@@ -233,8 +221,8 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 				http: {
 					paths: [
 						{
-							path: "/",
-							pathType: "Prefix",
+							path: '/',
+							pathType: 'Prefix',
 							backend: {
 								service: {
 									name: this
@@ -259,10 +247,10 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 					metadata: {
 						name,
 						namespace,
-						labels: { environment },
+						labels: {environment},
 						annotations: {
-							"kubernetes.io/ingress.class":
-								"caddy",
+							'kubernetes.io/ingress.class':
+								'caddy',
 						},
 					},
 					spec: {
