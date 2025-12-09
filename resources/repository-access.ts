@@ -1,10 +1,10 @@
-import * as gcp from "@pulumi/gcp";
-import * as pulumi from "@pulumi/pulumi";
-import { GitHubAccess } from "./components/github-access.js";
-import { provider as githubProvider } from "./github/provider.js";
-import { identityPool, identityPoolProvider } from "./google/identity-pool.js";
-import { provider as googleProvider } from "./google/provider.js";
-import { repository } from "./shared/google/artifact-registry.js";
+import * as gcp from '@pulumi/gcp';
+import * as pulumi from '@pulumi/pulumi';
+import {GitHubAccess} from './components/github-access.js';
+import {provider as githubProvider} from './github/provider.js';
+import {identityPool, identityPoolProvider} from './google/identity-pool.js';
+import {provider as googleProvider} from './google/provider.js';
+import {repository} from './shared/google/artifact-registry.js';
 
 /**
  * This file is used to give GitHub Action in repositories access
@@ -16,121 +16,121 @@ import { repository } from "./shared/google/artifact-registry.js";
  */
 
 const apiAccess = new GitHubAccess(
-	"api",
+	'api',
 	{
 		identityPoolName: identityPool.name,
 		identityPoolProviderName: identityPoolProvider.name,
-		repositories: ["api"],
+		repositories: ['api'],
 	},
-	{ providers: [googleProvider, githubProvider] },
+	{providers: [googleProvider, githubProvider]},
 );
 
 new gcp.artifactregistry.RepositoryIamMember(
-	"api-artifact-registry-access",
+	'api-artifact-registry-access',
 	{
 		repository: repository.id,
 		member: pulumi.interpolate`serviceAccount:${apiAccess.serviceAccount.email}`,
-		role: "roles/artifactregistry.writer",
+		role: 'roles/artifactregistry.writer',
 	},
-	{ provider: googleProvider },
+	{provider: googleProvider},
 );
 
 const portalApiAccess = new GitHubAccess(
-	"portal-api",
+	'portal-api',
 	{
 		identityPoolName: identityPool.name,
 		identityPoolProviderName: identityPoolProvider.name,
-		repositories: ["portal-api"],
+		repositories: ['portal-api'],
 	},
-	{ providers: [googleProvider, githubProvider] },
+	{providers: [googleProvider, githubProvider]},
 );
 
 new gcp.artifactregistry.RepositoryIamMember(
-	"portal-api-artifact-registry-access",
+	'portal-api-artifact-registry-access',
 	{
 		repository: repository.id,
 		member: pulumi.interpolate`serviceAccount:${portalApiAccess.serviceAccount.email}`,
-		role: "roles/artifactregistry.writer",
+		role: 'roles/artifactregistry.writer',
 	},
-	{ provider: googleProvider },
+	{provider: googleProvider},
 );
 
 const portalAppAccess = new GitHubAccess(
-	"portal-app",
+	'portal-app',
 	{
 		identityPoolName: identityPool.name,
 		identityPoolProviderName: identityPoolProvider.name,
-		repositories: ["portal-app"],
+		repositories: ['portal-app'],
 	},
-	{ providers: [googleProvider, githubProvider] },
+	{providers: [googleProvider, githubProvider]},
 );
 
 new gcp.artifactregistry.RepositoryIamMember(
-	"portal-app-artifact-registry-access",
+	'portal-app-artifact-registry-access',
 	{
 		repository: repository.id,
 		member: pulumi.interpolate`serviceAccount:${portalAppAccess.serviceAccount.email}`,
-		role: "roles/artifactregistry.writer",
+		role: 'roles/artifactregistry.writer',
 	},
-	{ provider: googleProvider },
+	{provider: googleProvider},
 );
 
 const debitorPortalAppAccess = new GitHubAccess(
-	"debitor-portal-app",
+	'debitor-portal-app',
 	{
 		identityPoolName: identityPool.name,
 		identityPoolProviderName: identityPoolProvider.name,
-		repositories: ["debitor-portal-app"],
+		repositories: ['debitor-portal-app'],
 	},
-	{ providers: [googleProvider, githubProvider] },
+	{providers: [googleProvider, githubProvider]},
 );
 
 new gcp.artifactregistry.RepositoryIamMember(
-	"debitor-portal-app-artifact-registry-access",
+	'debitor-portal-app-artifact-registry-access',
 	{
 		repository: repository.id,
 		member: pulumi.interpolate`serviceAccount:${debitorPortalAppAccess.serviceAccount.email}`,
-		role: "roles/artifactregistry.writer",
+		role: 'roles/artifactregistry.writer',
 	},
-	{ provider: googleProvider },
+	{provider: googleProvider},
 );
 
 const registrationFormAppAccess = new GitHubAccess(
-	"registration-app",
+	'registration-app',
 	{
 		identityPoolName: identityPool.name,
 		identityPoolProviderName: identityPoolProvider.name,
-		repositories: ["registration-app"],
+		repositories: ['registration-app'],
 	},
-	{ providers: [googleProvider, githubProvider] },
+	{providers: [googleProvider, githubProvider]},
 );
 
 new gcp.artifactregistry.RepositoryIamMember(
-	"registration-app-artifact-registry-access",
+	'registration-app-artifact-registry-access',
 	{
 		repository: repository.id,
 		member: pulumi.interpolate`serviceAccount:${registrationFormAppAccess.serviceAccount.email}`,
-		role: "roles/artifactregistry.writer",
+		role: 'roles/artifactregistry.writer',
 	},
-	{ provider: googleProvider },
+	{provider: googleProvider},
 );
 
 const onboardingAppAccess = new GitHubAccess(
-	"onboarding-app",
+	'onboarding-app',
 	{
 		identityPoolName: identityPool.name,
 		identityPoolProviderName: identityPoolProvider.name,
-		repositories: ["onboarding-app"],
+		repositories: ['onboarding-app'],
 	},
-	{ providers: [googleProvider, githubProvider] },
+	{providers: [googleProvider, githubProvider]},
 );
 
 new gcp.artifactregistry.RepositoryIamMember(
-	"onboarding-app-artifact-registry-access",
+	'onboarding-app-artifact-registry-access',
 	{
 		repository: repository.id,
 		member: pulumi.interpolate`serviceAccount:${onboardingAppAccess.serviceAccount.email}`,
-		role: "roles/artifactregistry.writer",
+		role: 'roles/artifactregistry.writer',
 	},
-	{ provider: googleProvider },
+	{provider: googleProvider},
 );
