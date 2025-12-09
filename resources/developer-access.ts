@@ -1,8 +1,8 @@
-import * as gcp from '@pulumi/gcp';
-import {developers} from './config.js';
-import * as googleConfig from './google/config.js';
-import {provider} from './google/provider.js';
-import {repository} from './shared/google/artifact-registry.js';
+import * as gcp from "@pulumi/gcp";
+import { developers } from "./config.js";
+import * as googleConfig from "./google/config.js";
+import { provider } from "./google/provider.js";
+import { repository } from "./shared/google/artifact-registry.js";
 
 /**
  * This file is used to give developers access to resources in Google Cloud Platform.
@@ -18,9 +18,9 @@ developers.map((member) => [
 		{
 			repository: repository.id,
 			member,
-			role: 'roles/artifactregistry.writer',
+			role: "roles/artifactregistry.writer",
 		},
-		{provider, deleteBeforeReplace: true},
+		{ provider, deleteBeforeReplace: true },
 	),
 	// Gives developers access to the Kubernetes cluster
 	new gcp.projects.IAMMember(
@@ -28,17 +28,17 @@ developers.map((member) => [
 		{
 			project: googleConfig.project,
 			member,
-			role: 'roles/container.developer',
+			role: "roles/container.developer",
 		},
-		{provider, deleteBeforeReplace: true},
+		{ provider, deleteBeforeReplace: true },
 	),
 	new gcp.projects.IAMMember(
 		`logs-viewer-iam-${member}`,
 		{
 			project: googleConfig.project,
 			member,
-			role: 'roles/logging.privateLogViewer',
+			role: "roles/logging.privateLogViewer",
 		},
-		{provider, deleteBeforeReplace: true},
+		{ provider, deleteBeforeReplace: true },
 	),
 ]);

@@ -1,7 +1,7 @@
-import * as gcp from '@pulumi/gcp';
-import * as pulumi from '@pulumi/pulumi';
-import {environment} from '../config.js';
-import {region} from '../google/config.js';
+import * as gcp from "@pulumi/gcp";
+import * as pulumi from "@pulumi/pulumi";
+import { environment } from "../config.js";
+import { region } from "../google/config.js";
 
 export type CloudRunServiceProps = {
 	imageName: pulumi.Input<string>;
@@ -25,7 +25,7 @@ export class CloudRunService extends pulumi.ComponentResource {
 		args: CloudRunServiceProps,
 		options?: pulumi.ComponentResourceOptions,
 	) {
-		super('cloudrun-service', name, args, options);
+		super("cloudrun-service", name, args, options);
 		const {
 			location = region,
 			imageName,
@@ -67,7 +67,7 @@ export class CloudRunService extends pulumi.ComponentResource {
 					},
 				},
 			},
-			{parent: this},
+			{ parent: this },
 		);
 
 		if (isPublic) {
@@ -76,10 +76,10 @@ export class CloudRunService extends pulumi.ComponentResource {
 				{
 					location,
 					service: this.service.name,
-					member: 'allUsers',
-					role: 'roles/run.invoker',
+					member: "allUsers",
+					role: "roles/run.invoker",
 				},
-				{parent: this},
+				{ parent: this },
 			);
 		}
 
@@ -92,9 +92,9 @@ export class CloudRunService extends pulumi.ComponentResource {
 							location,
 							service: this.service.name,
 							member: invoker,
-							role: 'roles/run.invoker',
+							role: "roles/run.invoker",
 						},
-						{parent: this},
+						{ parent: this },
 					),
 			),
 		);

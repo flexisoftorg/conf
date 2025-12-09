@@ -1,10 +1,10 @@
-import * as gcp from '@pulumi/gcp';
-import * as github from '@pulumi/github';
-import * as pulumi from '@pulumi/pulumi';
-import {interpolate} from '@pulumi/pulumi';
-import {environment} from '../config.js';
-import {owner} from '../github/config.js';
-import {project} from '../google/config.js';
+import * as gcp from "@pulumi/gcp";
+import * as github from "@pulumi/github";
+import * as pulumi from "@pulumi/pulumi";
+import { interpolate } from "@pulumi/pulumi";
+import { environment } from "../config.js";
+import { owner } from "../github/config.js";
+import { project } from "../google/config.js";
 
 export type GitHubAccessArgs = {
 	/**
@@ -37,17 +37,17 @@ export class GitHubAccess extends pulumi.ComponentResource {
 		args: GitHubAccessArgs,
 		options?: pulumi.ComponentResourceOptions,
 	) {
-		super('flexisoft:github:access', name, args, options);
+		super("flexisoft:github:access", name, args, options);
 
-		const {identityPoolName, identityPoolProviderName, repositories} = args;
+		const { identityPoolName, identityPoolProviderName, repositories } = args;
 
 		this.serviceAccount = new gcp.serviceaccount.Account(
 			name,
 			{
 				accountId: interpolate`${environment}-${name}-github`,
-				description: 'GitHub Actions Service Account, uses Workload Identity',
+				description: "GitHub Actions Service Account, uses Workload Identity",
 			},
-			{parent: this},
+			{ parent: this },
 		);
 
 		for (const inputRepository of repositories) {
@@ -57,7 +57,7 @@ export class GitHubAccess extends pulumi.ComponentResource {
 					`${name}-google-projects-${owner}-${repo}`,
 					{
 						repository,
-						secretName: 'GOOGLE_PROJECT_ID',
+						secretName: "GOOGLE_PROJECT_ID",
 						plaintextValue: project,
 					},
 					{
@@ -70,7 +70,7 @@ export class GitHubAccess extends pulumi.ComponentResource {
 					`${name}-identity-provider-${owner}-${repo}`,
 					{
 						repository,
-						secretName: 'GOOGLE_WORKLOAD_IDENTITY_PROVIDER',
+						secretName: "GOOGLE_WORKLOAD_IDENTITY_PROVIDER",
 						plaintextValue: identityPoolProviderName,
 					},
 					{
@@ -83,7 +83,7 @@ export class GitHubAccess extends pulumi.ComponentResource {
 					`${name}-service-account-${owner}-${repo}`,
 					{
 						repository,
-						secretName: 'GOOGLE_SERVICE_ACCOUNT',
+						secretName: "GOOGLE_SERVICE_ACCOUNT",
 						plaintextValue: this.serviceAccount.email,
 					},
 					{
@@ -96,7 +96,7 @@ export class GitHubAccess extends pulumi.ComponentResource {
 					`${name}-core-iam-service-${owner}-${repo}`,
 					{
 						serviceAccountId: this.serviceAccount.name,
-						role: 'roles/iam.workloadIdentityUser',
+						role: "roles/iam.workloadIdentityUser",
 						member: pulumi.interpolate`principalSet://iam.googleapis.com/${identityPoolName}/attribute.repository/${owner}/${repo}`,
 					},
 					{
@@ -109,7 +109,7 @@ export class GitHubAccess extends pulumi.ComponentResource {
 					`${name}-core-iam-service-token-${owner}-${repo}`,
 					{
 						serviceAccountId: this.serviceAccount.name,
-						role: 'roles/iam.serviceAccountTokenCreator',
+						role: "roles/iam.serviceAccountTokenCreator",
 						member: pulumi.interpolate`principalSet://iam.googleapis.com/${identityPoolName}/attribute.repository/${owner}/${repo}`,
 					},
 					{

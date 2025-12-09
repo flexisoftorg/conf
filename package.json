@@ -25,7 +25,7 @@
 		"xo": "^1.0.5"
 	},
 	"xo": {
-		"prettier": true,
+		"prettier": "compat",
 		"rules": {
 			"import-x/no-unassigned-import": "off",
 			"no-new": "off",
