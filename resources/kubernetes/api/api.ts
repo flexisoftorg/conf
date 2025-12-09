@@ -13,9 +13,7 @@ import {rootDomain} from '../../shared/config.js';
 
 const config = new pulumi.Config('api');
 
-export const debitorPortalAppApiKey = config.requireSecret(
-	'debitor-portal-app-api-key',
-);
+export const debitorPortalAppApiKey = config.requireSecret('debitor-portal-app-api-key');
 const cleanApiDomain = restApiDomain.slice(0, -1);
 
 export const fullApiDomain = interpolate`https://${cleanApiDomain}`;
@@ -30,7 +28,7 @@ const password = debitorPortalAppConfig.requireSecret('database-password');
 const cleanRootDomain = rootDomain.slice(0, -1);
 
 /** Comma-separated list of allowed origins, e.g. `"fpx.no, example.com, kvasir.no"` */
-const allowedOrigins = customers.apply((customers) => {
+const allowedOrigins = customers.apply(customers => {
 	const customDomains = customers.reduce<string[]>((acc, customer) => {
 		const domain = customer.domain?.trim();
 		if (domain) {

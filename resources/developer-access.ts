@@ -11,7 +11,7 @@ import {repository} from './shared/google/artifact-registry.js';
  * explicitly give them access to the resources they need.
  */
 
-developers.map((member) => [
+developers.map(member => [
 	// Gives developers access to deploy to the main artifact registry.
 	new gcp.artifactregistry.RepositoryIamMember(
 		`main-artifact-iam-${member}`,

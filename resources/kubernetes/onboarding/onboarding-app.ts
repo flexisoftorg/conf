@@ -30,11 +30,8 @@ export const onboardingApp = new DeploymentComponent(
 		env: [
 			{
 				name: 'CUSTOMERS',
-				value: customers.apply((customers) =>
-					JSON.stringify(
-						customers.filter((customer) => customer.onboardingAppEnabled),
-					),
-				),
+				value: customers.apply(customers =>
+					JSON.stringify(customers.filter(customer => customer.onboardingAppEnabled))),
 			},
 		],
 		resources: {

@@ -13,7 +13,7 @@ export const customerConfigMap = new kubernetes.core.v1.ConfigMap(
 			},
 		},
 		data: {
-			CUSTOMERS: customers.apply((customers) => JSON.stringify(customers)),
+			CUSTOMERS: customers.apply(customers => JSON.stringify(customers)),
 		},
 	},
 	{provider: kubernetesProvider},

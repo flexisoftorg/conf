@@ -51,7 +51,7 @@ export class GitHubAccess extends pulumi.ComponentResource {
 		);
 
 		for (const inputRepository of repositories) {
-			pulumi.output(inputRepository).apply(async (repository) => {
+			pulumi.output(inputRepository).apply(async repository => {
 				const repo = repository;
 				new github.ActionsSecret(
 					`${name}-google-projects-${owner}-${repo}`,

@@ -83,22 +83,19 @@ export class CloudRunService extends pulumi.ComponentResource {
 			);
 		}
 
-		invokers.map((wrappedInvoker) =>
-			pulumi.output(wrappedInvoker).apply(
-				(invoker) =>
-					new gcp.cloudrun.IamMember(
-						`${name}-${invoker}`,
-						{
-							location,
-							service: this.service.name,
-							member: invoker,
-							role: 'roles/run.invoker',
-						},
-						{parent: this},
-					),
-			),
-		);
+		invokers.map(wrappedInvoker =>
+			pulumi.output(wrappedInvoker).apply(invoker =>
+				new gcp.cloudrun.IamMember(
+					`${name}-${invoker}`,
+					{
+						location,
+						service: this.service.name,
+						member: invoker,
+						role: 'roles/run.invoker',
+					},
+					{parent: this},
+				)));
 
-		this.url = this.service.statuses[0].apply((s) => s?.url);
+		this.url = this.service.statuses[0].apply(s => s?.url);
 	}
 }

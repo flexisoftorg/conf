@@ -43,11 +43,8 @@ export const debitorPortalApp = new DeploymentComponent(
 		env: [
 			{
 				name: 'CUSTOMERS',
-				value: customers.apply((customers) =>
-					JSON.stringify(
-						customers.filter((customer) => customer.debitorPortalEnabled),
-					),
-				),
+				value: customers.apply(customers =>
+					JSON.stringify(customers.filter(customer => customer.debitorPortalEnabled))),
 			},
 		],
 		resources: {

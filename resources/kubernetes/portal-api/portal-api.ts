@@ -55,11 +55,8 @@ export const portalApi = new DeploymentComponent(
 			},
 			{
 				name: 'CUSTOMERS',
-				value: customers.apply((customers) =>
-					JSON.stringify(
-						customers.filter((customer) => customer.portalApiEnabled),
-					),
-				),
+				value: customers.apply(customers =>
+					JSON.stringify(customers.filter(customer => customer.portalApiEnabled))),
 			},
 		],
 

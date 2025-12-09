@@ -8,7 +8,7 @@ import {portalApp} from './portal-app/portal-app.js';
 import {onboardingApp} from './onboarding/onboarding-app.js';
 import {restApiApp} from './api/api.js';
 
-customers.apply((customers) => {
+customers.apply(customers => {
 	for (const customer of customers) {
 		const rules: k8s.types.input.networking.v1.IngressRule[] = [];
 

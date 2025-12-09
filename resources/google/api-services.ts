@@ -30,14 +30,12 @@ const apis = [
 	'eventarc.googleapis.com',
 ];
 
-export const apiServices = apis.map(
-	(service) =>
-		new gcp.projects.Service(
+export const apiServices = apis.map(service =>
+	new gcp.projects.Service(
+		service,
+		{
 			service,
-			{
-				service,
-				disableOnDestroy: false,
-			},
-			{provider},
-		),
-);
+			disableOnDestroy: false,
+		},
+		{provider},
+	));

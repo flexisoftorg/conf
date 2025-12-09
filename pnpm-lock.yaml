@@ -36,6 +36,9 @@ importers:
       '@types/node':
         specifier: ^22.15.29
         version: 22.19.1
+      prettier:
+        specifier: ^3.5.3
+        version: 3.7.4
       xo:
         specifier: ^1.0.5
         version: 1.2.3(@types/eslint@8.56.12)(@typescript-eslint/utils@8.48.1(eslint@9.39.1)(typescript@5.9.3))(typescript@5.9.3)

@@ -132,10 +132,10 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 										},
 									],
 									envFrom,
-									env: pulumi.output(env).apply((_env) => [
+									env: pulumi.output(env).apply(_env => [
 										{
 											name: 'PORT',
-											value: pulumi.output(port).apply((p) => p.toString()),
+											value: pulumi.output(port).apply(p => p.toString()),
 										},
 										{
 											name: 'LOG_LEVEL',
