@@ -15,9 +15,3 @@ import "./resources/shared/shared-resources.js";
 import "./resources/google/slack-logger.js";
 import "./resources/repository-access.js";
 import "./resources/developer-access.js";
-
-function myFunction() {
-	// This is one indentation deep
-	const result = [1, 2, 3].map((number_) => number_ * 2);
-	return result;
-}
