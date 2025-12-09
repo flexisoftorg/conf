@@ -12,7 +12,7 @@ customers.apply(customers => {
 					`${customer.ident.current}-creditor-portal`,
 					{
 						managedZone: zone.name,
-						name: customer.creditorPortalDomain + '.',
+						name: `${customer.creditorPortalDomain}.`,
 						type: 'A',
 						ttl: 300,
 						rrdatas: [ingressIpAddress],
@@ -26,7 +26,7 @@ customers.apply(customers => {
 					`${customer.ident.current}-debitor-portal`,
 					{
 						managedZone: zone.name,
-						name: customer.debitorPortalDomain + '.',
+						name: `${customer.debitorPortalDomain}.`,
 						type: 'A',
 						ttl: 300,
 						rrdatas: [ingressIpAddress],
@@ -40,7 +40,7 @@ customers.apply(customers => {
 					`${customer.ident.current}-api`,
 					{
 						managedZone: zone.name,
-						name: customer.apiDomain + '.',
+						name: `${customer.apiDomain}.`,
 						type: 'A',
 						ttl: 300,
 						rrdatas: [ingressIpAddress],
@@ -54,7 +54,7 @@ customers.apply(customers => {
 					`${customer.ident.current}-onboarding-app`,
 					{
 						managedZone: zone.name,
-						name: customer.onboardingAppDomain + '.',
+						name: `${customer.onboardingAppDomain}.`,
 						type: 'A',
 						ttl: 300,
 						rrdatas: [ingressIpAddress],
@@ -68,7 +68,7 @@ customers.apply(customers => {
 					`${customer.ident.current}-rest-api`,
 					{
 						managedZone: zone.name,
-						name: customer.restApiDomain + '.',
+						name: `${customer.restApiDomain}.`,
 						type: 'A',
 						ttl: 300,
 						rrdatas: [ingressIpAddress],

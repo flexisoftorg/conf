@@ -1,7 +1,11 @@
 import * as pulumi from '@pulumi/pulumi';
 import {createClient} from '@sanity/client';
 import {z} from 'zod';
-import {rootDomain, sanityApiToken, sanityProjectId} from './shared/config.js';
+import {
+	rootDomain,
+	sanityApiToken,
+	sanityProjectId,
+} from './shared/config.js';
 import {notEmpty} from './utils.js';
 
 const portalCustomer = z
@@ -66,9 +70,9 @@ const portalCustomer = z
 			apiDomain,
 			restApiDomain,
 			restApiEnabled:
-				customer.creditorPortalEnabled || customer.debitorPortalEnabled,
+				customer.creditorPortalEnabled ?? customer.debitorPortalEnabled,
 			portalApiEnabled:
-				customer.creditorPortalEnabled || customer.debitorPortalEnabled,
+				customer.creditorPortalEnabled ?? customer.debitorPortalEnabled,
 		};
 	});
 

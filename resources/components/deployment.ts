@@ -92,7 +92,7 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 
 		const matchLabels = {app: name, environment};
 
-		const readinessProbe = args.readinessProbe || {
+		const readinessProbe = args.readinessProbe ?? {
 			httpGet: {
 				path: '/health',
 				port,

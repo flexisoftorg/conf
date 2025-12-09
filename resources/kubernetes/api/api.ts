@@ -29,14 +29,9 @@ const cleanRootDomain = rootDomain.slice(0, -1);
 
 /** Comma-separated list of allowed origins, e.g. `"fpx.no, example.com, kvasir.no"` */
 const allowedOrigins = customers.apply(customers => {
-	const customDomains = customers.reduce<string[]>((acc, customer) => {
-		const domain = customer.domain?.trim();
-		if (domain) {
-			acc.push(domain);
-		}
-
-		return acc;
-	}, []);
+	const customDomains = customers
+		.filter(c => c.domain !== '')
+		.map(c => c.domain.trim());
 	return [cleanRootDomain, ...customDomains].join(', ');
 });
 
