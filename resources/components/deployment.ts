@@ -1,62 +1,62 @@
-import * as k8s from '@pulumi/kubernetes';
-import * as pulumi from '@pulumi/pulumi';
-import {interpolate} from '@pulumi/pulumi';
+import * as k8s from "@pulumi/kubernetes";
+import * as pulumi from "@pulumi/pulumi";
+import { interpolate } from "@pulumi/pulumi";
 
 export type AppComponentArgs = {
 	image: pulumi.Input<string>;
 
 	/**
-   * @default 8000
-   */
+	 * @default 8000
+	 */
 	port?: pulumi.Input<number>;
 
 	/**
-   * List of environment variables to set in the container. Cannot be updated.
-   */
+	 * List of environment variables to set in the container. Cannot be updated.
+	 */
 	env?: pulumi.Input<Array<pulumi.Input<k8s.types.input.core.v1.EnvVar>>>;
 
 	/**
-   * List of sources to populate environment variables in the container. The keys defined within a source must be a C_IDENTIFIER. All invalid keys will be reported as an event when the container is starting. When a key exists in multiple sources, the value associated with the last source will take precedence. Values defined by an Env with a duplicate key will take precedence. Cannot be updated.
-   */
+	 * List of sources to populate environment variables in the container. The keys defined within a source must be a C_IDENTIFIER. All invalid keys will be reported as an event when the container is starting. When a key exists in multiple sources, the value associated with the last source will take precedence. Values defined by an Env with a duplicate key will take precedence. Cannot be updated.
+	 */
 	envFrom?: pulumi.Input<
 		Array<pulumi.Input<k8s.types.input.core.v1.EnvFromSource>>
 	>;
 
 	/**
-   * If applied, an ingress will be setup
-   */
+	 * If applied, an ingress will be setup
+	 */
 	host?: pulumi.Input<string>;
 
 	/**
-   * If applied, an ingress will be setup
-   */
+	 * If applied, an ingress will be setup
+	 */
 	legacyHost?: pulumi.Input<string>;
 
 	/**
-   * @default latest
-   */
+	 * @default latest
+	 */
 	tag?: pulumi.Input<string>;
 
 	/**
-   * @default info
-   */
+	 * @default info
+	 */
 	logLevel?: pulumi.Input<string>;
 
 	/**
-   * @default pulumi.getStack()
-   */
+	 * @default pulumi.getStack()
+	 */
 	environment?: pulumi.Input<string>;
 
 	/**
-   * Resources
-   */
+	 * Resources
+	 */
 	resources: pulumi.Input<k8s.types.input.core.v1.ResourceRequirements>;
 
 	namespace?: pulumi.Input<string>;
 
 	/**
-   * If applied, default probe will be overwritten
-   */
+	 * If applied, default probe will be overwritten
+	 */
 	readinessProbe?: pulumi.Input<k8s.types.input.core.v1.Probe>;
 };
 
@@ -72,7 +72,7 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 		args: AppComponentArgs,
 		options?: pulumi.ComponentResourceOptions,
 	) {
-		super('flexisoft:deployment', name, {}, options);
+		super("flexisoft:deployment", name, {}, options);
 
 		const {
 			image,
@@ -80,8 +80,8 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 			envFrom = [],
 			host,
 			legacyHost,
-			tag = 'latest',
-			logLevel = 'info',
+			tag = "latest",
+			logLevel = "info",
 			port = 8000,
 			environment = pulumi.getStack(),
 			namespace,
@@ -90,13 +90,13 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 
 		this.port = pulumi.output(port);
 
-		const matchLabels = {app: name, environment};
+		const matchLabels = { app: name, environment };
 
 		const readinessProbe = args.readinessProbe || {
 			httpGet: {
-				path: '/health',
+				path: "/health",
 				port,
-				scheme: 'HTTP',
+				scheme: "HTTP",
 			},
 			initialDelaySeconds: 5,
 			failureThreshold: 1,
@@ -108,35 +108,60 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 				metadata: {
 					name,
 					namespace,
-					labels: {environment},
+					labels: { environment },
 					annotations: {
-						'pulumi.com/skipAwait': 'true',
+						"pulumi.com/skipAwait": "true",
 					},
 				},
 				spec: {
 					replicas: 1,
-					selector: {matchLabels},
+					selector: { matchLabels },
 					template: {
-						metadata: {labels: matchLabels},
+						metadata: {
+							labels: matchLabels,
+						},
 						spec: {
 							containers: [
 								{
 									name,
 									image: interpolate`${image}:${tag}`,
-									imagePullPolicy: 'IfNotPresent',
-									ports: [{containerPort: port}],
+									imagePullPolicy:
+										"IfNotPresent",
+									ports: [
+										{
+											containerPort:
+												port,
+										},
+									],
 									envFrom,
-									env: pulumi.output(env).apply(_env => [
-										{
-											name: 'PORT',
-											value: pulumi.output(port).apply(p => p.toString()),
-										},
-										{
-											name: 'LOG_LEVEL',
-											value: logLevel,
-										},
-										..._env,
-									]),
+									env: pulumi
+										.output(
+											env,
+										)
+										.apply(
+											(
+												_env,
+											) => [
+												{
+													name: "PORT",
+													value: pulumi
+														.output(
+															port,
+														)
+														.apply(
+															(
+																p,
+															) =>
+																p.toString(),
+														),
+												},
+												{
+													name: "LOG_LEVEL",
+													value: logLevel,
+												},
+												..._env,
+											],
+										),
 									resources,
 									readinessProbe,
 								},
@@ -154,10 +179,15 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 		this.service = new k8s.core.v1.Service(
 			name,
 			{
-				metadata: {name, namespace, labels: {environment}},
+				metadata: {
+					name,
+					namespace,
+					labels: { environment },
+				},
 				spec: {
-					ports: [{port}],
-					selector: this.deployment.spec.selector.matchLabels,
+					ports: [{ port }],
+					selector: this.deployment.spec.selector
+						.matchLabels,
 				},
 			},
 			{
@@ -167,7 +197,9 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 		);
 
 		const ingressRules: pulumi.Input<
-			Array<pulumi.Input<k8s.types.input.networking.v1.IngressRule>>
+			Array<
+				pulumi.Input<k8s.types.input.networking.v1.IngressRule>
+			>
 		> = [];
 
 		if (host) {
@@ -176,12 +208,17 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 				http: {
 					paths: [
 						{
-							path: '/',
-							pathType: 'Prefix',
+							path: "/",
+							pathType: "Prefix",
 							backend: {
 								service: {
-									name: this.service.metadata.name,
-									port: {number: port},
+									name: this
+										.service
+										.metadata
+										.name,
+									port: {
+										number: port,
+									},
 								},
 							},
 						},
@@ -196,12 +233,17 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 				http: {
 					paths: [
 						{
-							path: '/',
-							pathType: 'Prefix',
+							path: "/",
+							pathType: "Prefix",
 							backend: {
 								service: {
-									name: this.service.metadata.name,
-									port: {number: port},
+									name: this
+										.service
+										.metadata
+										.name,
+									port: {
+										number: port,
+									},
 								},
 							},
 						},
@@ -217,9 +259,10 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 					metadata: {
 						name,
 						namespace,
-						labels: {environment},
+						labels: { environment },
 						annotations: {
-							'kubernetes.io/ingress.class': 'caddy',
+							"kubernetes.io/ingress.class":
+								"caddy",
 						},
 					},
 					spec: {

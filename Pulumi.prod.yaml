@@ -1,44 +1,44 @@
 config:
-  api:domain: rest.fpx.no.
-  api:tag: main-c600f5e
-  debitor-portal-app:domain: debitor.fpx.no.
-  debitor-portal-app:paymentProviderUrl: https://epayment.nets.eu
-  debitor-portal-app:tag: main-e0d29a3
-  flexisoft-portal:developers:
-    - group:team-developers@bjerk.io
-    - user:martin@sokkel.io
-  flexisoft-portal:owner: flexisoftorg
-  flexisoft-portal:system-email: developers@bjerk.io
-  flexisoft-portal:token:
-    secure: AAABADnGNOlQyi0xkXljdX9WEqtN3tkY+hj3V4QE2uQWYeYoNUsZw0DLQjSR9l2+6ulXrkfSyqugHIfhyAAp7FBY5bQconlUKzBRTzf2bpWdkViv5GQeKjDTWJx2r8ZivkYQcxJ/qw1y1jrh7gHOeNOs+OfSiS/pm7r+JzI=
-  github:owner: flexisoftorg
-  google:project: flexisoft-app
-  onboarding-app:domain: onboarding.fpx.no.
-  onboarding-app:tag: main-759986c
-  portal-api:auth-sign-secret:
-    secure: AAABAGNx2AH3V5QmwfBOzUjXpZ5OBSBNbdL+QgB0I5a37lHMMcsUVz+vl4snxg+thegbVzM0plRWgiALUupL88JvEkrLB4zodEhXFD4S9xNzOSZXkbUaXSroU/ZOoAhZ
-  portal-api:cookie-secret:
-    secure: AAABADy2iSkKwef0IiFd0IDXze14jO0VtDr6oM53MXgdadia3pK7wN0U2AArLuQ0GooGBzS6GxGuvCPSgZV2MdfaumwMzdzpoe1OHNN9jP5NGQaJP/RpQRPhlx4r3YnH
-  portal-api:domain: api.fpx.no.
-  portal-api:log-level: debug
-  portal-api:tag: main-4b15c30
-  portal-app:domain: creditor.fpx.no.
-  portal-app:tag: main-0fdeb7a
-  pulumi:disable-default-providers:
-    - "*"
-  registration-app:domain: reg.fpx.no.
-  registration-app:sanity-api-token:
-    secure: AAABANuui5u1lVTB5Yn1TCypvrU2M8dQBZm6U11ROf03oru/wEQEzTmMQ91yWOsAoTZXpGDu5J2pm+9iJogrzoiIbmHUjKQAZ0CafrX1gZ07JNbccLPv+ey3VD780ePFE0FxXf3yoro86ZD2YqHcR3lXr032d7H5wsimIyV5z6rIbdlUrfOXAqj85rmBuV9sqBXTwEykNzYowf+bnKM8aXv2nEUEnE1JBvdRnw38stMFG99bEv3VrDNjgdUB/eyAW40/m7ACD6RRXD7qg5u7l+jNibE=
-  registration-app:tag: main-a96a85b
-  shared:root-domain: fpx.no.
-  shared:sanity-api-token:
-    secure: AAABAKNUxuIL0P20L2+jSx+8ltTNOjlOc6QPadK5RvVmbRjvuyQdVE0usE8NDTvDULKHUvccqXXy8++71QO4+Knmr3f8Cm4f5jug/ArWfAh55OIU+l0ewtwczJatw781PQuDvBLz+Z9+Bn13sjSQpIJIpKUw+YCytxUA9o9vmhlGHtTAc3GnswmMOv5X5dUvvwe7NtDwrlRvkVw20kniJGqNZF2v1ETYbERDx/gm2f8d0H2jMqIMpqNykO1+YyD0kSo4YsQN02wW/kknQclxy/bkd/A=
-  shared:sanity-project-id: w45ry00z
-  shared:studio-sub-domain: studio.fpx.no.
-  portal-app:ag-grid-license-key:
-    secure: AAABAI2CaP2746yNaybw5rWI+bix0tKh/ZoJrWYG6EpPeDU0qGz2nGifDdnkNLZNcrnjsFuv4hU9z9Y5f2K2lmU+oJRKH2stMbuTxcwD4S0aHO3iJ5YhMiWlEBh+fATeCAfMRaMQ3i0pBNl04lfoDZyvJy4vTHt1eP4rEThpdaWAostPcHkAKZwvf+gV0PRTrrCgMLFit7VIQPFaKcKx3jbhX6aRD3D4OyUC801vkKabEe4H4AEbCcHyu5Eb8UM7IsuTyUUQdXwFpHGJY3DCIbjlAI7jVuJYQ6AksEfPvMfLTwadrEs+ZKXCj8jeTUc3GJpDoMqN7bZUz3ilYtqzhi/+pnCfdIFSo/S9H/9Cpsr6g/WCTkWhvZVzglKfanTwEqinsLyYhyNjKKxohJa5nM7X1RdSxartfkVnGE6yViJ6FmQRIOxwNo2SS4rKApudxh83IPINpy3RWEUCFZbBaZz61DF4hjFjsbbLAUas8COoqe/MGGLTxlCYNnPrrpqeZnBvA1T3PAVbWwfH6vNYvgUGx6ISN5t1/9/OqdCqB63X+lJOCPxg8C7A2GqywNfR0rJXa/rDQ/eX5mUwPfJJ6w7nDlowE5/GhcPsJDptfOCwP/IGmEAgdhbeF2HAIzmJ0gt36EhMTsTwM6ZvdA3Gf3cg03fOLGV6Qe+lUDjpxVmPS+fKms40+0McJJl0XXvhshM81T3VAo0uU3uk5hKGG4fbFl9khfbq61AHCBDG1R8IkunnQnh1X9rh8bx4y1vqAoJ7DYR93uap0xWsnzm2ZdbDv61nCaAsINfZFRk3QSqpoyIpjYC4fRqXvrdmJpAb/YRp1mbkOsIq1mKqve+3n2WgbFXiY8lyDAWfRdE1dAJRDE3BAdVbV/oSxdMiYUEqVHwQFYuuHT0+RPV/QQPtgKWQgJb9WEzAZXW1IroJ1AeMuWZJUXoeGhEDxZ4QZboIBH13+Jt8R2O6x+A7QOKSmxOlJz9h4vXCpvSu9h9PlF+5
-  slack:webhook-url:
-    secure: AAABAAm0PwHTk9Ze76L48CHPwNzAQDIN49CB1Y6XR2tZ1nNGS16NLCjgXJ/RH6AXULD5qujPvdRjoIouGRT2V6l7O4UzBamKZGQ9xZPThS+0QNZ4ZtiQk1TEWnWzwONG1qdyJYJHV3qJIO7vu9Vn
+        api:domain: rest.fpx.no.
+        api:tag: main-c600f5e
+        debitor-portal-app:domain: debitor.fpx.no.
+        debitor-portal-app:paymentProviderUrl: https://epayment.nets.eu
+        debitor-portal-app:tag: main-e0d29a3
+        flexisoft-portal:developers:
+                - group:team-developers@bjerk.io
+                - user:martin@sokkel.io
+        flexisoft-portal:owner: flexisoftorg
+        flexisoft-portal:system-email: developers@bjerk.io
+        flexisoft-portal:token:
+                secure: AAABADnGNOlQyi0xkXljdX9WEqtN3tkY+hj3V4QE2uQWYeYoNUsZw0DLQjSR9l2+6ulXrkfSyqugHIfhyAAp7FBY5bQconlUKzBRTzf2bpWdkViv5GQeKjDTWJx2r8ZivkYQcxJ/qw1y1jrh7gHOeNOs+OfSiS/pm7r+JzI=
+        github:owner: flexisoftorg
+        google:project: flexisoft-app
+        onboarding-app:domain: onboarding.fpx.no.
+        onboarding-app:tag: main-759986c
+        portal-api:auth-sign-secret:
+                secure: AAABAGNx2AH3V5QmwfBOzUjXpZ5OBSBNbdL+QgB0I5a37lHMMcsUVz+vl4snxg+thegbVzM0plRWgiALUupL88JvEkrLB4zodEhXFD4S9xNzOSZXkbUaXSroU/ZOoAhZ
+        portal-api:cookie-secret:
+                secure: AAABADy2iSkKwef0IiFd0IDXze14jO0VtDr6oM53MXgdadia3pK7wN0U2AArLuQ0GooGBzS6GxGuvCPSgZV2MdfaumwMzdzpoe1OHNN9jP5NGQaJP/RpQRPhlx4r3YnH
+        portal-api:domain: api.fpx.no.
+        portal-api:log-level: debug
+        portal-api:tag: main-4b15c30
+        portal-app:domain: creditor.fpx.no.
+        portal-app:tag: main-0fdeb7a
+        pulumi:disable-default-providers:
+                - "*"
+        registration-app:domain: reg.fpx.no.
+        registration-app:sanity-api-token:
+                secure: AAABANuui5u1lVTB5Yn1TCypvrU2M8dQBZm6U11ROf03oru/wEQEzTmMQ91yWOsAoTZXpGDu5J2pm+9iJogrzoiIbmHUjKQAZ0CafrX1gZ07JNbccLPv+ey3VD780ePFE0FxXf3yoro86ZD2YqHcR3lXr032d7H5wsimIyV5z6rIbdlUrfOXAqj85rmBuV9sqBXTwEykNzYowf+bnKM8aXv2nEUEnE1JBvdRnw38stMFG99bEv3VrDNjgdUB/eyAW40/m7ACD6RRXD7qg5u7l+jNibE=
+        registration-app:tag: main-a96a85b
+        shared:root-domain: fpx.no.
+        shared:sanity-api-token:
+                secure: AAABAKNUxuIL0P20L2+jSx+8ltTNOjlOc6QPadK5RvVmbRjvuyQdVE0usE8NDTvDULKHUvccqXXy8++71QO4+Knmr3f8Cm4f5jug/ArWfAh55OIU+l0ewtwczJatw781PQuDvBLz+Z9+Bn13sjSQpIJIpKUw+YCytxUA9o9vmhlGHtTAc3GnswmMOv5X5dUvvwe7NtDwrlRvkVw20kniJGqNZF2v1ETYbERDx/gm2f8d0H2jMqIMpqNykO1+YyD0kSo4YsQN02wW/kknQclxy/bkd/A=
+        shared:sanity-project-id: w45ry00z
+        shared:studio-sub-domain: studio.fpx.no.
+        portal-app:ag-grid-license-key:
+                secure: AAABAI2CaP2746yNaybw5rWI+bix0tKh/ZoJrWYG6EpPeDU0qGz2nGifDdnkNLZNcrnjsFuv4hU9z9Y5f2K2lmU+oJRKH2stMbuTxcwD4S0aHO3iJ5YhMiWlEBh+fATeCAfMRaMQ3i0pBNl04lfoDZyvJy4vTHt1eP4rEThpdaWAostPcHkAKZwvf+gV0PRTrrCgMLFit7VIQPFaKcKx3jbhX6aRD3D4OyUC801vkKabEe4H4AEbCcHyu5Eb8UM7IsuTyUUQdXwFpHGJY3DCIbjlAI7jVuJYQ6AksEfPvMfLTwadrEs+ZKXCj8jeTUc3GJpDoMqN7bZUz3ilYtqzhi/+pnCfdIFSo/S9H/9Cpsr6g/WCTkWhvZVzglKfanTwEqinsLyYhyNjKKxohJa5nM7X1RdSxartfkVnGE6yViJ6FmQRIOxwNo2SS4rKApudxh83IPINpy3RWEUCFZbBaZz61DF4hjFjsbbLAUas8COoqe/MGGLTxlCYNnPrrpqeZnBvA1T3PAVbWwfH6vNYvgUGx6ISN5t1/9/OqdCqB63X+lJOCPxg8C7A2GqywNfR0rJXa/rDQ/eX5mUwPfJJ6w7nDlowE5/GhcPsJDptfOCwP/IGmEAgdhbeF2HAIzmJ0gt36EhMTsTwM6ZvdA3Gf3cg03fOLGV6Qe+lUDjpxVmPS+fKms40+0McJJl0XXvhshM81T3VAo0uU3uk5hKGG4fbFl9khfbq61AHCBDG1R8IkunnQnh1X9rh8bx4y1vqAoJ7DYR93uap0xWsnzm2ZdbDv61nCaAsINfZFRk3QSqpoyIpjYC4fRqXvrdmJpAb/YRp1mbkOsIq1mKqve+3n2WgbFXiY8lyDAWfRdE1dAJRDE3BAdVbV/oSxdMiYUEqVHwQFYuuHT0+RPV/QQPtgKWQgJb9WEzAZXW1IroJ1AeMuWZJUXoeGhEDxZ4QZboIBH13+Jt8R2O6x+A7QOKSmxOlJz9h4vXCpvSu9h9PlF+5
+        slack:webhook-url:
+                secure: AAABAAm0PwHTk9Ze76L48CHPwNzAQDIN49CB1Y6XR2tZ1nNGS16NLCjgXJ/RH6AXULD5qujPvdRjoIouGRT2V6l7O4UzBamKZGQ9xZPThS+0QNZ4ZtiQk1TEWnWzwONG1qdyJYJHV3qJIO7vu9Vn
 environment:
-  - secrets
-  - flexisoft-secrets
+        - secrets
+        - flexisoft-secrets

@@ -1,14 +1,14 @@
-import * as k8s from '@pulumi/kubernetes';
-import {customers} from '../get-customers.js';
-import {provider} from '../shared/kubernetes/provider.js';
-import {debitorPortalApp} from './debitor-portal-app/debitor-portal-app.js';
-import {namespace} from './namespace.js';
-import {portalApi} from './portal-api/portal-api.js';
-import {portalApp} from './portal-app/portal-app.js';
-import {onboardingApp} from './onboarding/onboarding-app.js';
-import {restApiApp} from './api/api.js';
+import * as k8s from "@pulumi/kubernetes";
+import { customers } from "../get-customers.js";
+import { provider } from "../shared/kubernetes/provider.js";
+import { debitorPortalApp } from "./debitor-portal-app/debitor-portal-app.js";
+import { namespace } from "./namespace.js";
+import { portalApi } from "./portal-api/portal-api.js";
+import { portalApp } from "./portal-app/portal-app.js";
+import { onboardingApp } from "./onboarding/onboarding-app.js";
+import { restApiApp } from "./api/api.js";
 
-customers.apply(customers => {
+customers.apply((customers) => {
 	for (const customer of customers) {
 		const rules: k8s.types.input.networking.v1.IngressRule[] = [];
 
@@ -18,12 +18,17 @@ customers.apply(customers => {
 				http: {
 					paths: [
 						{
-							path: '/',
-							pathType: 'Prefix',
+							path: "/",
+							pathType: "Prefix",
 							backend: {
 								service: {
-									name: portalApp.service.metadata.name,
-									port: {number: portalApp.port},
+									name: portalApp
+										.service
+										.metadata
+										.name,
+									port: {
+										number: portalApp.port,
+									},
 								},
 							},
 						},
@@ -38,12 +43,17 @@ customers.apply(customers => {
 				http: {
 					paths: [
 						{
-							path: '/',
-							pathType: 'Prefix',
+							path: "/",
+							pathType: "Prefix",
 							backend: {
 								service: {
-									name: debitorPortalApp.service.metadata.name,
-									port: {number: debitorPortalApp.port},
+									name: debitorPortalApp
+										.service
+										.metadata
+										.name,
+									port: {
+										number: debitorPortalApp.port,
+									},
 								},
 							},
 						},
@@ -58,12 +68,17 @@ customers.apply(customers => {
 				http: {
 					paths: [
 						{
-							path: '/',
-							pathType: 'Prefix',
+							path: "/",
+							pathType: "Prefix",
 							backend: {
 								service: {
-									name: portalApi.service.metadata.name,
-									port: {number: portalApi.port},
+									name: portalApi
+										.service
+										.metadata
+										.name,
+									port: {
+										number: portalApi.port,
+									},
 								},
 							},
 						},
@@ -78,12 +93,17 @@ customers.apply(customers => {
 				http: {
 					paths: [
 						{
-							path: '/',
-							pathType: 'Prefix',
+							path: "/",
+							pathType: "Prefix",
 							backend: {
 								service: {
-									name: onboardingApp.service.metadata.name,
-									port: {number: onboardingApp.port},
+									name: onboardingApp
+										.service
+										.metadata
+										.name,
+									port: {
+										number: onboardingApp.port,
+									},
 								},
 							},
 						},
@@ -98,12 +118,17 @@ customers.apply(customers => {
 				http: {
 					paths: [
 						{
-							path: '/',
-							pathType: 'Prefix',
+							path: "/",
+							pathType: "Prefix",
 							backend: {
 								service: {
-									name: restApiApp.service.metadata.name,
-									port: {number: restApiApp.port},
+									name: restApiApp
+										.service
+										.metadata
+										.name,
+									port: {
+										number: restApiApp.port,
+									},
 								},
 							},
 						},
@@ -119,13 +144,15 @@ customers.apply(customers => {
 					name: `customer-${customer.ident.current}`,
 					namespace: namespace.metadata.name,
 					annotations: {
-						'kubernetes.io/ingress.class': 'caddy',
+						"kubernetes.io/ingress.class":
+							"caddy",
 
-						'pulumi.com/skipAwait': 'true',
+						"pulumi.com/skipAwait": "true",
 					},
 					labels: {
-						customer: customer.ident.current,
-						kind: 'customer-domain',
+						customer: customer.ident
+							.current,
+						kind: "customer-domain",
 					},
 				},
 				spec: {
@@ -133,7 +160,7 @@ customers.apply(customers => {
 				},
 			},
 
-			{provider},
+			{ provider },
 		);
 	}
 });
