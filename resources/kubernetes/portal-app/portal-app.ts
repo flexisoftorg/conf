@@ -97,6 +97,8 @@ export const portalAppDeployment = new k8s.apps.v1.Deployment(
 	{ provider: kubernetesProvider, deleteBeforeReplace: true },
 );
 
+export const portalAppPort = 8000;
+
 export const portalAppService = new k8s.core.v1.Service(
 	"portal-app",
 	{
@@ -106,7 +108,7 @@ export const portalAppService = new k8s.core.v1.Service(
 			labels: { environment },
 		},
 		spec: {
-			ports: [{ port: 8000 }],
+			ports: [{ port: portalAppPort }],
 			selector: portalAppLabels,
 		},
 	},
@@ -174,6 +176,8 @@ export const portalAppGoDeployment = new k8s.apps.v1.Deployment(
 	{ provider: kubernetesProvider, deleteBeforeReplace: true },
 );
 
+export const portalAppGoPort = 8000;
+
 export const portalAppGoService = new k8s.core.v1.Service(
 	"portal-app-go",
 	{
@@ -183,7 +187,7 @@ export const portalAppGoService = new k8s.core.v1.Service(
 			labels: { environment },
 		},
 		spec: {
-			ports: [{ port: 8000 }],
+			ports: [{ port: portalAppGoPort }],
 			selector: portalAppGoLabels,
 		},
 	},
@@ -196,7 +200,7 @@ export const portalAppGoService = new k8s.core.v1.Service(
 
 // Define which paths should be routed to the new Go app.
 // Add paths here as you migrate features from React to Go.
-const goAppPaths = ["/about"];
+export const goAppPaths = ["/about"];
 
 // Build ingress rules: specific paths go to Go app, everything else to React app
 const ingressPaths: k8s.types.input.networking.v1.HTTPIngressPath[] = [

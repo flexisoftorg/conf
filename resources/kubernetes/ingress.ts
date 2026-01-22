@@ -4,7 +4,13 @@ import { provider } from "../shared/kubernetes/provider.js";
 import { debitorPortalApp } from "./debitor-portal-app/debitor-portal-app.js";
 import { namespace } from "./namespace.js";
 import { portalApi } from "./portal-api/portal-api.js";
-import { portalApp } from "./portal-app/portal-app.js";
+import {
+	portalAppService,
+	portalAppPort,
+	portalAppGoService,
+	portalAppGoPort,
+	goAppPaths,
+} from "./portal-app/portal-app.js";
 import { onboardingApp } from "./onboarding/onboarding-app.js";
 import { restApiApp } from "./api/api.js";
 
@@ -17,14 +23,28 @@ customers.apply((customers) => {
 				host: customer.creditorPortalDomain,
 				http: {
 					paths: [
+						// Routes for the new Go app (specific paths)
+						...goAppPaths.map((path) => ({
+							path,
+							pathType: "Prefix" as const,
+							backend: {
+								service: {
+									name: portalAppGoService.metadata.name,
+									port: {
+										number: portalAppGoPort,
+									},
+								},
+							},
+						})),
+						// Catch-all route for the React app
 						{
 							path: "/",
 							pathType: "Prefix",
 							backend: {
 								service: {
-									name: portalApp.service.metadata.name,
+									name: portalAppService.metadata.name,
 									port: {
-										number: portalApp.port,
+										number: portalAppPort,
 									},
 								},
 							},
