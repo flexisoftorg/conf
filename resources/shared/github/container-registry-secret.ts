@@ -9,6 +9,7 @@ const repositoriesWithArtifacts = [
 	"debitor-portal-app",
 	"registration-app",
 	"onboarding-app",
+	"portal-app-go",
 ];
 
 for (const repository of repositoriesWithArtifacts) {
