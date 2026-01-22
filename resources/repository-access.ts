@@ -134,3 +134,23 @@ new gcp.artifactregistry.RepositoryIamMember(
 	},
 	{ provider: googleProvider },
 );
+
+const portalAppGoAccess = new GitHubAccess(
+	"portal-app-go",
+	{
+		identityPoolName: identityPool.name,
+		identityPoolProviderName: identityPoolProvider.name,
+		repositories: ["portal-app-go"],
+	},
+	{ providers: [googleProvider, githubProvider] },
+);
+
+new gcp.artifactregistry.RepositoryIamMember(
+	"portal-app-go-artifact-registry-access",
+	{
+		repository: repository.id,
+		member: pulumi.interpolate`serviceAccount:${portalAppGoAccess.serviceAccount.email}`,
+		role: "roles/artifactregistry.writer",
+	},
+	{ provider: googleProvider },
+);
