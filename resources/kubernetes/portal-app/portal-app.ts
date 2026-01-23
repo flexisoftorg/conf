@@ -6,6 +6,7 @@ import { artifactRepoUrl } from "../../shared/google/artifact-registry.js";
 import { provider as kubernetesProvider } from "../../shared/kubernetes/provider.js";
 import { namespace } from "../namespace.js";
 import { customers } from "../../get-customers.js";
+import { redis } from "../portal-api/redis.js";
 
 const config = new pulumi.Config("portal-app");
 const goConfig = new pulumi.Config("portal-app-go");
@@ -156,6 +157,10 @@ export const portalAppGoDeployment = new k8s.apps.v1.Deployment(
 											),
 										),
 									),
+								},
+								{
+									name: "REDIS_URL",
+									value: interpolate`redis://${redis.service.metadata.name}.${redis.service.metadata.namespace}.svc.cluster.local:6379`,
 								},
 							],
 							resources: {
