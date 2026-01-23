@@ -255,5 +255,9 @@ export const portalAppIngress = new k8s.networking.v1.Ingress(
 			],
 		},
 	},
-	{ provider: kubernetesProvider, deleteBeforeReplace: true },
+	{
+		provider: kubernetesProvider,
+		deleteBeforeReplace: true,
+		replaceOnChanges: ["spec.rules"],
+	},
 );
