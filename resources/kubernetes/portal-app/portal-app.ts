@@ -200,7 +200,7 @@ export const portalAppGoService = new k8s.core.v1.Service(
 
 // Define which paths should be routed to the new Go app.
 // Add paths here as you migrate features from React to Go.
-export const goAppPaths = ["/about"];
+export const goAppPaths = ["/about", "/test-auth"];
 
 // Build ingress rules: specific paths go to Go app, everything else to React app
 const ingressPaths: k8s.types.input.networking.v1.HTTPIngressPath[] = [
