@@ -6,6 +6,7 @@ import { provider as kubernetesProvider } from "../../shared/kubernetes/provider
 import { namespace } from "../namespace.js";
 import { customers } from "../../get-customers.js";
 import { redis } from "../portal-api/redis.js";
+import { portalApiEnvSecrets } from "../portal-api/portal-api.js";
 
 const config = new pulumi.Config("portal-app");
 const goConfig = new pulumi.Config("portal-app-go");
@@ -142,6 +143,13 @@ export const portalAppGoDeployment = new k8s.apps.v1.Deployment(
 							image: interpolate`${artifactRepoUrl}/portal-app-go:${goConfig.require("tag")}`,
 							imagePullPolicy: "IfNotPresent",
 							ports: [{ containerPort: 8000 }],
+							envFrom: [
+								{
+									secretRef: {
+										name: portalApiEnvSecrets.metadata.name,
+									},
+								},
+							],
 							env: [
 								{ name: "PORT", value: "8000" },
 								{ name: "LOG_LEVEL", value: "info" },
