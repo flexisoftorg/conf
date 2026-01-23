@@ -13,7 +13,6 @@ const goConfig = new pulumi.Config("portal-app-go");
 const agGridLicenseKey = config.requireSecret("ag-grid-license-key");
 
 const environment = pulumi.getStack();
-const cleanPortalAppDomain = portalApp;
 // ============================================================================
 // portal-app (React/Next.js - legacy)
 // ============================================================================
