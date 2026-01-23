@@ -242,6 +242,12 @@ export const portalAppIngress = new k8s.networking.v1.Ingress(
 			labels: { environment },
 			annotations: {
 				"kubernetes.io/ingress.class": "caddy",
+				// Redirect to root on 401 Unauthorized (e.g., from /test-auth)
+				"caddy.ingress.kubernetes.io/handle-errors": `
+					handle_errors 401 {
+						redir * / temporary
+					}
+				`,
 			},
 		},
 		spec: {
