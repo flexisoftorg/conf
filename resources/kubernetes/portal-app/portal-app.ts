@@ -13,7 +13,7 @@ const goConfig = new pulumi.Config("portal-app-go");
 const agGridLicenseKey = config.requireSecret("ag-grid-license-key");
 
 const environment = pulumi.getStack();
-const cleanPortalAppDomain = portalApp
+const cleanPortalAppDomain = portalApp;
 // ============================================================================
 // portal-app (React/Next.js - legacy)
 // ============================================================================
@@ -201,4 +201,4 @@ export const portalAppGoService = new k8s.core.v1.Service(
 // Define which paths should be routed to the new Go app.
 // Add paths here as you migrate features from React to Go.
 // Used by ingress.ts for customer domain routing.
-export const goAppPaths = ["/about", "/test-auth"]
+export const goAppPaths = ["/about", "/test-auth"];
