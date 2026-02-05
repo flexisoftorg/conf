@@ -1,24 +1,24 @@
-import { createClient, Client } from '@1password/sdk';
-import * as pulumi from '@pulumi/pulumi';
+import { createClient, Client } from "@1password/sdk";
+import * as pulumi from "@pulumi/pulumi";
 
-const config = new pulumi.Config('op');
-const token = config.require('service-account-token');
+const config = new pulumi.Config("op");
+const token = config.require("service-account-token");
 
 const client = await createClient({
-  auth: token,
-  integrationName: 'bjerk-bot',
-  integrationVersion: '1.0.0',
+	auth: token,
+	integrationName: "bjerk-bot",
+	integrationVersion: "1.0.0",
 });
 
 export async function getToken(path: string): Promise<string> {
-  const secret = await client.secrets.resolve(path + '/credential');
-  const expires = await client.secrets.resolve(path + '/expires');
-  const expiresAt = new Date(expires);
-  if (expiresAt < new Date()) {
-    throw new Error(
-      `Token at path ${path} has expired at ${expiresAt.toISOString()}`,
-    );
-  }
+	const secret = await client.secrets.resolve(path + "/credential");
+	const expires = await client.secrets.resolve(path + "/expires");
+	const expiresAt = new Date(String(expires));
+	if (expiresAt < new Date()) {
+		throw new Error(
+			`Token at path ${path} has expired at ${expiresAt.toISOString()}`,
+		);
+	}
 
-  return secret;
+	return secret;
 }
