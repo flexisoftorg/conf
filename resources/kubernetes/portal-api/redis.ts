@@ -25,7 +25,7 @@ export const redis = new DeploymentComponent(
 				command: ["redis-cli", "ping"],
 			},
 			initialDelaySeconds: 5,
-			failureThreshold: 1,
+			failureThreshold: 3,
 		},
 	},
 	{ provider },
