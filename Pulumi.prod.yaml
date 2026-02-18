@@ -40,6 +40,8 @@ config:
   portal-app-go:tag: main-2e92a3d
   slack:webhook-url:
     secure: AAABAAm0PwHTk9Ze76L48CHPwNzAQDIN49CB1Y6XR2tZ1nNGS16NLCjgXJ/RH6AXULD5qujPvdRjoIouGRT2V6l7O4UzBamKZGQ9xZPThS+0QNZ4ZtiQk1TEWnWzwONG1qdyJYJHV3qJIO7vu9Vn
+  portal-app:next-server-actions-encryption-seed:
+    secure: AAABAPxAS5KOnm6DVEQvjNv8vhR7r+LSZdYbbfkcZJQUGTEzEb07oPDzGRV0eHK/HjYzhQ==
 environment:
   - secrets
   - flexisoft-secrets
