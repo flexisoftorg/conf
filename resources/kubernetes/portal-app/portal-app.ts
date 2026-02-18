@@ -38,8 +38,8 @@ export const portalAppEnvSecrets = new k8s.core.v1.Secret(
 		},
 		stringData: {
 			NEXT_PUBLIC_AG_GRID_LICENSE_KEY: agGridLicenseKey,
-			NEXT_SERVER_ACTIONS_ENCRYPTION_KEY: encryptionKeySeed.apply<string>(
-				(seed): string => generateKey(seed),
+			NEXT_SERVER_ACTIONS_ENCRYPTION_KEY: encryptionKeySeed.apply((seed) =>
+				generateKey(seed as string),
 			),
 		},
 	},
