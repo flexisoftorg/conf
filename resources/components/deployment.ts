@@ -98,8 +98,8 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 				port,
 				scheme: "HTTP",
 			},
-			initialDelaySeconds: 5,
-			failureThreshold: 3,
+			initialDelaySeconds: 15,
+			failureThreshold: 5,
 		};
 
 		this.deployment = new k8s.apps.v1.Deployment(

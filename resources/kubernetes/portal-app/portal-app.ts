@@ -98,8 +98,8 @@ export const portalAppDeployment = new k8s.apps.v1.Deployment(
 							},
 							readinessProbe: {
 								httpGet: { path: "/health", port: 8000, scheme: "HTTP" },
-								initialDelaySeconds: 5,
-								failureThreshold: 3,
+								initialDelaySeconds: 15,
+								failureThreshold: 5,
 							},
 						},
 					],
@@ -188,8 +188,8 @@ export const portalAppGoDeployment = new k8s.apps.v1.Deployment(
 							},
 							readinessProbe: {
 								httpGet: { path: "/health", port: 8000, scheme: "HTTP" },
-								initialDelaySeconds: 5,
-								failureThreshold: 3,
+								initialDelaySeconds: 15,
+								failureThreshold: 5,
 							},
 						},
 					],
