@@ -1,8 +1,8 @@
+import { pbkdf2Sync } from "node:crypto";
 import * as pulumi from "@pulumi/pulumi";
 import * as github from "@pulumi/github";
 import { provider } from "../../github/provider.js";
-import { owner, token } from "../../github/config.js";
-import { pbkdf2Sync } from "node:crypto";
+import { owner } from "../../github/config.js";
 
 const config = new pulumi.Config("portal-app");
 
@@ -17,16 +17,22 @@ function generateKey(salt: string, seed: string): string {
 	return key.toString("base64");
 }
 
-new github.ActionsSecret(
-	`portal-app-next-server-actions-signing-secret`,
-	{
-		repository: `${owner}/${repository}`,
-		secretName: "GOOGLE_PROJECT_ID",
-		plaintextValue: generateKey(salt, seed),
-	},
-	{
-		provider,
-		parent: this,
-		deleteBeforeReplace: true,
-	},
+pulumi.all([salt, seed]).apply(
+	([resolvedSalt, resolvedSeed]) =>
+		new github.ActionsSecret(
+			`portal-app-next-server-actions-signing-secret`,
+			{
+				repository: `${owner}/${repository}`,
+				secretName: "NEXT_SERVER_ACTIONS_ENCRYPTION_KEY",
+				plaintextValue: generateKey(
+					resolvedSalt as string,
+					resolvedSeed as string,
+				),
+			},
+			{
+				provider,
+				parent: this,
+				deleteBeforeReplace: true,
+			},
+		),
 );
