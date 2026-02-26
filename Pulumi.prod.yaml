@@ -24,7 +24,7 @@ config:
   portal-api:tag: main-f99745a
   portal-app:domain: creditor.fpx.no.
   portal-app:repository: portal-app
-  portal-app:tag: main-4d729ee
+  portal-app:tag: main-8c5b280
   pulumi:disable-default-providers:
     - "*"
   registration-app:domain: reg.fpx.no.
