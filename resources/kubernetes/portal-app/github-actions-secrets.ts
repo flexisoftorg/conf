@@ -22,7 +22,7 @@ pulumi.all([salt, seed]).apply(
 		new github.ActionsSecret(
 			`portal-app-next-server-actions-github-secret`,
 			{
-				repository: `${owner}/${repository}`,
+				repository,
 				secretName: "NEXT_SERVER_ACTIONS_ENCRYPTION_KEY",
 				plaintextValue: generateKey(
 					resolvedSalt as string,
