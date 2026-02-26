@@ -28,6 +28,16 @@ export const ingress = new k8s.helm.v3.Chart(
 			ingressController: {
 				config: {
 					email: systemEmail,
+					caddyfile: `
+						@malformed_action {
+								method POST
+								header next-action *
+								not {
+										header_regexp next-action "^.{10,}$"
+								}
+						}
+						respond @malformed_action "Bad Request" 400
+					`,
 				},
 			},
 			loadBalancer: {
