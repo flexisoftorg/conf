@@ -20,9 +20,6 @@ const config = new pulumi.Config("portal-app");
 const goConfig = new pulumi.Config("portal-app-go");
 
 const agGridLicenseKey = config.requireSecret("ag-grid-license-key");
-const encryptionKeySeed = config.requireSecret(
-	"next-server-actions-encryption-seed",
-);
 
 const environment = pulumi.getStack();
 // ============================================================================
@@ -38,9 +35,6 @@ export const portalAppEnvSecrets = new k8s.core.v1.Secret(
 		},
 		stringData: {
 			NEXT_PUBLIC_AG_GRID_LICENSE_KEY: agGridLicenseKey,
-			NEXT_SERVER_ACTIONS_ENCRYPTION_KEY: encryptionKeySeed.apply((seed) =>
-				generateKey(seed as string),
-			),
 		},
 	},
 	{ provider: kubernetesProvider },
