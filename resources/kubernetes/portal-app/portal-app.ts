@@ -9,13 +9,6 @@ import { customers } from "../../get-customers.js";
 import { redis } from "../portal-api/redis.js";
 import { portalApiEnvSecrets } from "../portal-api/portal-api.js";
 
-function generateKey(seed: string): string {
-	// Derive a 32-byte (256-bit) AES key from the seed using PBKDF2
-	const key = pbkdf2Sync(seed, "salt", 100_000, 32, "sha256");
-	// Return base64-encoded string
-	return key.toString("base64");
-}
-
 const config = new pulumi.Config("portal-app");
 const goConfig = new pulumi.Config("portal-app-go");
 
