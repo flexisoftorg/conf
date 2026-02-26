@@ -20,7 +20,7 @@ function generateKey(salt: string, seed: string): string {
 pulumi.all([salt, seed]).apply(
 	([resolvedSalt, resolvedSeed]) =>
 		new github.ActionsSecret(
-			`portal-app-next-server-actions-signing-secret`,
+			`portal-app-next-server-actions-github-secret`,
 			{
 				repository: `${owner}/${repository}`,
 				secretName: "NEXT_SERVER_ACTIONS_ENCRYPTION_KEY",
