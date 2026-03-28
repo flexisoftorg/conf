@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@1password/sdk':
-        specifier: ^0.3.1
-        version: 0.3.1
+        specifier: ^0.4.0
+        version: 0.4.0
       '@pulumi/gcp':
         specifier: ^9.0.0
         version: 9.6.0(ts-node@10.9.2(@types/node@22.19.1)(typescript@5.9.3))(typescript@5.9.3)
@@ -48,11 +48,11 @@ importers:
 
 packages:
 
-  '@1password/sdk-core@0.3.1':
-    resolution: {integrity: sha512-zFkbRznmE47kpke10OpO/9R0AF5csNWS+naFbadgXuFX1LlxY+2C28NSKbCXhLTqmcuWifBfPdZQ728GJ1i5xg==}
+  '@1password/sdk-core@0.4.0':
+    resolution: {integrity: sha512-vjeI1o4wiONY+t1naA4dtUp6HktdLH1D2S+tN1Lh4l41S9XIUHxrljov9B5u6G+VHr7f2MUoxmzXA9zT3aokQQ==}
 
-  '@1password/sdk@0.3.1':
-    resolution: {integrity: sha512-20zbQfqsjcECT0gvnAw4zONJDt3XQgNH946pZR0NV1Qxukyaz/DKB0cBnBNCCEWZg93Bah8poaR6gJCyuNX14w==}
+  '@1password/sdk@0.4.0':
+    resolution: {integrity: sha512-RIypujc9R/UeUaobjyClTYokqRFpcaIkHq+EO/X9XoHId98Vg+SbjwGV+yygRC4MyHwYNo1KP1iEbZcqJ4ZTdw==}
 
   '@babel/code-frame@7.27.1':
     resolution: {integrity: sha512-cjQ7ZlQ0Mv3b47hABuTevyTuYN4i+loJKGeV9flcCgIK37cCXRh+L1bd3iBHlynerhQ7BhCkn2BPbQUL+rGqFg==}
@@ -1498,6 +1498,7 @@ packages:
 
   glob@10.5.0:
     resolution: {integrity: sha512-DfXN8DfhJ7NH3Oe7cFmu3NCu1wKbkReJ8TorzSAFbSKrlNaQSKfIzqYqVY8zlbs2NLBbWpRiU52GX2PbaBVNkg==}
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
     hasBin: true
 
   globals@14.0.0:
@@ -2688,6 +2689,7 @@ packages:
   tar@6.2.1:
     resolution: {integrity: sha512-DZ4yORTwrbTj/7MZYq2w+/ZFdI6OZ/f9SFHR+71gIVUZhOQPHzVCLpvRnPgyaMpfWxxk/4ONva3GQSyNIKRv6A==}
     engines: {node: '>=10'}
+    deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   through2@4.0.2:
     resolution: {integrity: sha512-iOqSav00cVxEEICeD7TjLB1sueEL+81Wpzp2bY17uZjZN0pWZPuo4suZ/61VujxmqSGFfgOcNuTZ85QJwNZQpw==}
@@ -2934,11 +2936,11 @@ packages:
 
 snapshots:
 
-  '@1password/sdk-core@0.3.1': {}
+  '@1password/sdk-core@0.4.0': {}
 
-  '@1password/sdk@0.3.1':
+  '@1password/sdk@0.4.0':
     dependencies:
-      '@1password/sdk-core': 0.3.1
+      '@1password/sdk-core': 0.4.0
 
   '@babel/code-frame@7.27.1':
     dependencies:
