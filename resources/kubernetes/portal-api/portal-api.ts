@@ -23,7 +23,7 @@ export const portalApiEnvSecrets = new kubernetes.core.v1.Secret(
 			name: "portal-api-env-secrets",
 			namespace: namespace.metadata.name,
 		},
-		data: {
+		stringData: {
 			COOKIE_SECRET: cookieSecret,
 			AUTH_SIGN_SECRET: authSignSecret,
 		},

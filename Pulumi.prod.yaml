@@ -16,9 +16,9 @@ config:
   onboarding-app:domain: onboarding.fpx.no.
   onboarding-app:tag: main-93d5d97
   portal-api:auth-sign-secret:
-    secure: AAABAGNx2AH3V5QmwfBOzUjXpZ5OBSBNbdL+QgB0I5a37lHMMcsUVz+vl4snxg+thegbVzM0plRWgiALUupL88JvEkrLB4zodEhXFD4S9xNzOSZXkbUaXSroU/ZOoAhZ
+    secure: AAABANHytn22PWHK7781DdVTMvmwKxUbS68uQLOglqkCtz1GkxhZt1GZMwNJ+SCTt+l7A2Mb3noDfEzpmU1+UL2MOVvl9q4kj0MrEtkjUebtwUaQkMeBe9q2d2sNlANx
   portal-api:cookie-secret:
-    secure: AAABADy2iSkKwef0IiFd0IDXze14jO0VtDr6oM53MXgdadia3pK7wN0U2AArLuQ0GooGBzS6GxGuvCPSgZV2MdfaumwMzdzpoe1OHNN9jP5NGQaJP/RpQRPhlx4r3YnH
+    secure: AAABAAAskVEQvCaiI0w6VvWWijFV2dRZVGCtvgHYsnL0CJ3feRklKohg/e48AV4O6GBo7BK16jepyWVw7T4C7ZAid4HEDlnr14KmMrUH23j1sNTWzSNCcdH1VR6aTKyp
   portal-api:domain: api.fpx.no.
   portal-api:log-level: debug
   portal-api:tag: main-f967d06

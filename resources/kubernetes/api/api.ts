@@ -44,10 +44,8 @@ export const apiEnvSecrets = new kubernetes.core.v1.Secret(
 			name: "api-env-secrets",
 			namespace: namespace.metadata.name,
 		},
-		data: {
-			COOKIE_SECRET: cookieSecret,
-		},
 		stringData: {
+			COOKIE_SECRET: cookieSecret,
 			DEBITOR_PORTAL_APP_USERNAME: user,
 			DEBITOR_PORTAL_APP_PASSWORD: password,
 			DEBITOR_PORTAL_APP_API_KEY: debitorPortalAppApiKey,
