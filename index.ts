@@ -8,6 +8,7 @@ import "./resources/kubernetes/portal-api/redis.js";
 import "./resources/kubernetes/portal-api/portal-api.js";
 import "./resources/kubernetes/portal-app/portal-app.js";
 import "./resources/kubernetes/portal-app/github-actions-secrets.js";
+import "./resources/kubernetes/altinn-auth-app/altinn-auth-app.js";
 import "./resources/google/customer-dns.js";
 import "./resources/kubernetes/ingress.js";
 import "./resources/kubernetes/registration-app/registration-app.js";
