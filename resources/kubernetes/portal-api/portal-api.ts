@@ -37,7 +37,6 @@ export const portalApi = new DeploymentComponent(
 		image: interpolate`${artifactRepoUrl}/portal-api`,
 		tag: config.require("tag"),
 		host: cleanPortalApiDomain,
-		legacyHost: "api.flexisoft.bjerk.dev",
 		namespace: namespace.metadata.name,
 		port: 8000,
 		logLevel: config.get("log-level"),
