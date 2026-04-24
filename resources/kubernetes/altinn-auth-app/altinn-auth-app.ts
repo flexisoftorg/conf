@@ -8,6 +8,7 @@ import { provider as kubernetesProvider } from "../../shared/kubernetes/provider
 import { namespace } from "../namespace.js";
 
 const config = new pulumi.Config("altinn-auth-app");
+const cleanAltinnAuthAppDomain = altinnAuthAppDomain.slice(0, -1);
 
 const altinnAuthAppEnvSecrets = new k8s.core.v1.Secret(
 	"altinn-auth-app-env-secrets",
@@ -32,7 +33,7 @@ export const altinnAuthApp = new DeploymentComponent(
 	{
 		image: interpolate`${artifactRepoUrl}/altinn-auth-app`,
 		tag: config.require("tag"),
-		host: altinnAuthAppDomain,
+		host: cleanAltinnAuthAppDomain,
 		namespace: namespace.metadata.name,
 		port: 8000,
 		envFrom: [
@@ -45,7 +46,7 @@ export const altinnAuthApp = new DeploymentComponent(
 		env: [
 			{
 				name: "SELF_URL",
-				value: `https://${altinnAuthAppDomain}`,
+				value: `https://${cleanAltinnAuthAppDomain}`,
 			},
 			{ name: "TOKEN_ENDPOINT", value: "https://test.maskinporten.no/token" },
 			{
