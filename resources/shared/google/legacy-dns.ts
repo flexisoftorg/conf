@@ -23,18 +23,6 @@ const legacyZone = new gcp.dns.ManagedZone(
 );
 
 new gcp.dns.RecordSet(
-	"portal-app-ipv4",
-	{
-		managedZone: legacyZone.name,
-		name: "flexisoft.bjerk.dev.",
-		type: "A",
-		ttl: 300,
-		rrdatas: [ingressIpAddress],
-	},
-	{ provider },
-);
-
-new gcp.dns.RecordSet(
 	"studio",
 	{
 		managedZone: legacyZone.name,
