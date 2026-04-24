@@ -2,15 +2,12 @@ import * as k8s from "@pulumi/kubernetes";
 import * as pulumi from "@pulumi/pulumi";
 import { interpolate } from "@pulumi/pulumi";
 import { DeploymentComponent } from "../../components/deployment.js";
+import { altinnAuthAppDomain } from "../../config.js";
 import { artifactRepoUrl } from "../../shared/google/artifact-registry.js";
 import { provider as kubernetesProvider } from "../../shared/kubernetes/provider.js";
-import { rootDomain } from "../../shared/config.js";
 import { namespace } from "../namespace.js";
 
 const config = new pulumi.Config("altinn-auth-app");
-
-const cleanRootDomain = rootDomain.slice(0, -1);
-const altinnAuthAppDomain = `altinn.${cleanRootDomain}`;
 
 const altinnAuthAppEnvSecrets = new k8s.core.v1.Secret(
 	"altinn-auth-app-env-secrets",
