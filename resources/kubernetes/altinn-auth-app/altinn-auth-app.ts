@@ -50,6 +50,7 @@ export const altinnAuthApp = new DeploymentComponent(
 				name: "ALTINN_AUTH_BASE_URL",
 				value: "https://platform.tt02.altinn.no/authentication/api/v1",
 			},
+			{ name: "AUDIENCE", value: "https://test.maskinporten.no/" },
 		],
 		resources: {
 			requests: {
