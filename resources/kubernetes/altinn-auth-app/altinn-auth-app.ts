@@ -48,12 +48,12 @@ export const altinnAuthApp = new DeploymentComponent(
 				name: "SELF_URL",
 				value: `https://${cleanAltinnAuthAppDomain}`,
 			},
-			{ name: "TOKEN_ENDPOINT", value: "https://test.maskinporten.no/token" },
+			{ name: "TOKEN_ENDPOINT", value: "https://maskinporten.no/token" },
 			{
 				name: "ALTINN_AUTH_BASE_URL",
-				value: "https://platform.tt02.altinn.no/authentication/api/v1",
+				value: "https://platform.altinn.no/authentication/api/v1",
 			},
-			{ name: "AUDIENCE", value: "https://test.maskinporten.no/" },
+			{ name: "AUDIENCE", value: "https://maskinporten.no/" },
 		],
 		resources: {
 			requests: {
