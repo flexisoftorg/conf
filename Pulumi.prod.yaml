@@ -52,7 +52,7 @@ config:
     secure: AAABALzLj45x4mAGKlhWGpQbFewmQMvbpYI3hPhn15Pm9myUV/gvPgY7awPCUgJdag6pbTqWYvWpq/cZx0mjYVR+wZv8G/Pp
   altinn-auth-app:systembruker-system-id:
     secure: AAABAFAvvJxmSztLmIEie1NP4rzOxsnF7qR2bb8o/G3cLvzMP/o+CUyl/4OIXMJtnVsKVak=
-  altinn-auth-app:tag: main-5914b2a
+  altinn-auth-app:tag: main-18edd46
 environment:
   - secrets
   - flexisoft-secrets
