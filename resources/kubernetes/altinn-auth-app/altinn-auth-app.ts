@@ -20,7 +20,7 @@ const altinnAuthAppEnvSecrets = new k8s.core.v1.Secret(
 			namespace: namespace.metadata.name,
 		},
 		stringData: {
-			SECRET_KEY: config.requireSecret("secret-key"),
+			PRIVATE_KEY: config.requireSecret("secret-key"),
 			CLIENT_ID: config.requireSecret("client-id"),
 			KEY_ID: config.requireSecret("key-id"),
 			CODE_SIGNING_SECRET: config.requireSecret("code-signing-secret"),
