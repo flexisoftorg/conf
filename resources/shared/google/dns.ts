@@ -4,6 +4,7 @@ import {
 	debitorPortalAppDomain,
 	portalAppDomain,
 	registrationAppDomain,
+	altinnAuthAppDomain,
 } from "../../config.js";
 import { apiServices } from "../../google/api-services.js";
 import { provider } from "../../google/provider.js";
@@ -107,6 +108,18 @@ new gcp.dns.RecordSet(
 	{
 		managedZone: zone.name,
 		name: restApiDomain,
+		type: "A",
+		ttl: 300,
+		rrdatas: [ingressIpAddress],
+	},
+	{ provider },
+);
+
+new gcp.dns.RecordSet(
+	"altinn-auth-app-a",
+	{
+		managedZone: zone.name,
+		name: altinnAuthAppDomain,
 		type: "A",
 		ttl: 300,
 		rrdatas: [ingressIpAddress],
