@@ -41,6 +41,7 @@ config:
   portal-app-go:tag: main-3472d85
   slack:webhook-url:
     secure: AAABAAm0PwHTk9Ze76L48CHPwNzAQDIN49CB1Y6XR2tZ1nNGS16NLCjgXJ/RH6AXULD5qujPvdRjoIouGRT2V6l7O4UzBamKZGQ9xZPThS+0QNZ4ZtiQk1TEWnWzwONG1qdyJYJHV3qJIO7vu9Vn
+  altinn-auth-app:tag: main-555962b
 environment:
   - secrets
   - flexisoft-secrets
