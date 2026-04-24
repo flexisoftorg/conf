@@ -46,6 +46,10 @@ export const altinnAuthApp = new DeploymentComponent(
 			},
 		],
 		env: [
+			{
+				name: "SELF_URL",
+				value: `https://${altinnAuthAppDomain}`,
+			},
 			{ name: "TOKEN_ENDPOINT", value: "https://test.maskinporten.no/token" },
 			{
 				name: "ALTINN_AUTH_BASE_URL",
