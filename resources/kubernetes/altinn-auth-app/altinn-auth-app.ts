@@ -34,6 +34,7 @@ export const altinnAuthApp = new DeploymentComponent(
 	"altinn-auth-app",
 	{
 		image: interpolate`${artifactRepoUrl}/altinn-auth-app`,
+		tag: config.require("tag"),
 		host: altinnAuthAppDomain,
 		namespace: namespace.metadata.name,
 		port: 8000,
