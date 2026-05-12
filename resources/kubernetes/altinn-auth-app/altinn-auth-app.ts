@@ -54,6 +54,7 @@ export const altinnAuthApp = new DeploymentComponent(
 				value: "https://platform.altinn.no/authentication/api/v1",
 			},
 			{ name: "AUDIENCE", value: "https://maskinporten.no/" },
+			{ name: "SKATTEETATEN_BASE_URL", value: "https://api.skatteetaten.no" },
 		],
 		resources: {
 			requests: {
