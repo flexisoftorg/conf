@@ -6,6 +6,7 @@ const repositoriesWithArtifacts = [
 	"api",
 	"portal-api",
 	"portal-app",
+	"portal-app-svelte",
 	"debitor-portal-app",
 	"registration-app",
 	"onboarding-app",
