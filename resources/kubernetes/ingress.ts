@@ -11,6 +11,11 @@ import {
 	portalAppGoPort,
 	goAppPaths,
 } from "./portal-app/portal-app.js";
+import {
+	portalAppSvelteService,
+	portalAppSveltePort,
+	svelteAppPaths,
+} from "./portal-app-svelte/portal-app-svelte.js";
 import { onboardingApp } from "./onboarding/onboarding-app.js";
 import { restApiApp } from "./api/api.js";
 
@@ -23,7 +28,22 @@ customers.apply((customers) => {
 				host: customer.creditorPortalDomain,
 				http: {
 					paths: [
-						// Routes for the new Go app (specific paths)
+						// Routes for the SvelteKit rewrite (specific paths).
+						// Populated incrementally as pages migrate; see
+						// `svelteAppPaths` in portal-app-svelte.ts.
+						...svelteAppPaths.map((path) => ({
+							path,
+							pathType: "Prefix" as const,
+							backend: {
+								service: {
+									name: portalAppSvelteService.metadata.name,
+									port: {
+										number: portalAppSveltePort,
+									},
+								},
+							},
+						})),
+						// Routes for the (deprecated) Go app (specific paths).
 						...goAppPaths.map((path) => ({
 							path,
 							pathType: "Prefix" as const,
