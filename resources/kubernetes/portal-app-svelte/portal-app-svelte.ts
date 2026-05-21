@@ -5,10 +5,7 @@ import { customers } from "../../get-customers.js";
 import { artifactRepoUrl } from "../../shared/google/artifact-registry.js";
 import { provider as kubernetesProvider } from "../../shared/kubernetes/provider.js";
 import { namespace } from "../namespace.js";
-import {
-	tenantsConfigMap,
-	tenantsMountPath,
-} from "../tenants-config-map.js";
+import { tenantsConfigMap, tenantsMountPath } from "../tenants-config-map.js";
 
 const config = new pulumi.Config("portal-app-svelte");
 const environment = pulumi.getStack();
@@ -52,9 +49,7 @@ export const portalAppSvelteDeployment = new k8s.apps.v1.Deployment(
 								{
 									name: "CUSTOMERS",
 									value: customers.apply((cs) =>
-										JSON.stringify(
-											cs.filter((c) => c.creditorPortalEnabled),
-										),
+										JSON.stringify(cs.filter((c) => c.creditorPortalEnabled)),
 									),
 								},
 							],
