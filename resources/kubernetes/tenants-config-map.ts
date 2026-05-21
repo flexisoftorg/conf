@@ -1,5 +1,5 @@
 import * as kubernetes from "@pulumi/kubernetes";
-import * as pulumi from "@pulumi/pulumi";
+import type * as pulumi from "@pulumi/pulumi";
 import { customers } from "../get-customers.js";
 import { provider as kubernetesProvider } from "../shared/kubernetes/provider.js";
 import { namespace } from "./namespace.js";
@@ -37,6 +37,7 @@ export const tenantsConfigMap = new kubernetes.core.v1.ConfigMap(
 			for (const c of cs) {
 				data[`${c.ident.current}.json`] = JSON.stringify(c);
 			}
+
 			return data;
 		}),
 	},
