@@ -115,4 +115,4 @@ export const portalAppSvelteService = new k8s.core.v1.Service(
 //
 // Empty at Phase 0 — the deployment is reachable in-cluster but takes
 // no public traffic until the first page is migrated.
-export const svelteAppPaths: string[] = ["/hello", "login-v2"];
+export const svelteAppPaths: string[] = ["/hello", "/login-v2"];
