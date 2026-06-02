@@ -10,6 +10,7 @@ import { registrationAppSanityCredentials } from "../registration-app/sanity-cre
 import { redis } from "../portal-api/redis.js";
 import { customers } from "../../get-customers.js";
 import { rootDomain } from "../../shared/config.js";
+import { tenantsConfigMap, tenantsMountPath } from "../tenants-config-map.js";
 
 const config = new pulumi.Config("api");
 
@@ -81,6 +82,29 @@ export const restApiApp = new DeploymentComponent(
 			{
 				name: "ALLOWED_ORIGINS",
 				value: allowedOrigins,
+			},
+			// Tenant source for the in-memory store. The loader reads every
+			// `*.json` under this dir; the volume mount below populates it
+			// from the shared `tenants` ConfigMap. go-api exits on an empty
+			// store, so this must resolve to a non-empty directory.
+			{
+				name: "TENANTS_DIR",
+				value: tenantsMountPath,
+			},
+		],
+		volumeMounts: [
+			{
+				name: "tenants",
+				mountPath: tenantsMountPath,
+				readOnly: true,
+			},
+		],
+		volumes: [
+			{
+				name: "tenants",
+				configMap: {
+					name: tenantsConfigMap.metadata.name,
+				},
 			},
 		],
 		port: 8000,
