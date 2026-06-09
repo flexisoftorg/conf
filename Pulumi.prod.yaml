@@ -53,7 +53,7 @@ config:
   altinn-auth-app:systembruker-system-id:
     secure: AAABAFAvvJxmSztLmIEie1NP4rzOxsnF7qR2bb8o/G3cLvzMP/o+CUyl/4OIXMJtnVsKVak=
   altinn-auth-app:tag: main-4675a2a
-  portal-app-svelte:tag: main-5e1b3c8
+  portal-app-svelte:tag: main-b959ba5
 environment:
   - secrets
   - flexisoft-secrets
