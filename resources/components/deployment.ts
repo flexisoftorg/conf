@@ -55,6 +55,20 @@ export type AppComponentArgs = {
 	namespace?: pulumi.Input<string>;
 
 	/**
+	 * Pod volumes (e.g. a ConfigMap to mount). Pair with `volumeMounts`.
+	 */
+	volumes?: pulumi.Input<
+		Array<pulumi.Input<k8s.types.input.core.v1.Volume>>
+	>;
+
+	/**
+	 * Container volume mounts. Pair with `volumes`.
+	 */
+	volumeMounts?: pulumi.Input<
+		Array<pulumi.Input<k8s.types.input.core.v1.VolumeMount>>
+	>;
+
+	/**
 	 * If applied, default probe will be overwritten
 	 */
 	readinessProbe?: pulumi.Input<k8s.types.input.core.v1.Probe>;
@@ -86,6 +100,8 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 			environment = pulumi.getStack(),
 			namespace,
 			resources,
+			volumes = [],
+			volumeMounts = [],
 		} = args;
 
 		this.port = pulumi.output(port);
@@ -146,8 +162,10 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 									]),
 									resources,
 									readinessProbe,
+									volumeMounts,
 								},
 							],
+							volumes,
 						},
 					},
 				},
