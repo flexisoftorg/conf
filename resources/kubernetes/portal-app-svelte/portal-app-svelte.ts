@@ -121,5 +121,6 @@ export const svelteAppPaths: string[] = [
 	"/globals.css",
 	"/fonts.css",
 	"/utils.css",
+	"/flexi-logo.png",
 	"/_app",
 ];
