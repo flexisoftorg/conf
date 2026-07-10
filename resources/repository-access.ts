@@ -25,6 +25,7 @@ const repositories = [
 	"onboarding-app",
 	"portal-app-go",
 	"altinn-auth-app",
+	"auth-app",
 ];
 
 for (const repositoryName of repositories) {

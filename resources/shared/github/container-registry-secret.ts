@@ -12,6 +12,7 @@ const repositoriesWithArtifacts = [
 	"onboarding-app",
 	"portal-app-go",
 	"altinn-auth-app",
+	"auth-app",
 ];
 
 for (const repository of repositoriesWithArtifacts) {
