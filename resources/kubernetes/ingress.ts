@@ -18,6 +18,7 @@ import {
 } from "./portal-app-svelte/portal-app-svelte.js";
 import { onboardingApp } from "./onboarding/onboarding-app.js";
 import { restApiApp } from "./api/api.js";
+import { authAppService, authAppPort } from "./auth-app/auth-app.js";
 
 customers.apply((customers) => {
 	for (const customer of customers) {
@@ -153,6 +154,28 @@ customers.apply((customers) => {
 									name: restApiApp.service.metadata.name,
 									port: {
 										number: restApiApp.port,
+									},
+								},
+							},
+						},
+					],
+				},
+			});
+		}
+
+		if (customer.authAppEnabled) {
+			rules.push({
+				host: customer.authAppDomain,
+				http: {
+					paths: [
+						{
+							path: "/",
+							pathType: "Prefix",
+							backend: {
+								service: {
+									name: authAppService.metadata.name,
+									port: {
+										number: authAppPort,
 									},
 								},
 							},
