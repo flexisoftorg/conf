@@ -1,7 +1,7 @@
 import * as k8s from "@pulumi/kubernetes";
 import * as pulumi from "@pulumi/pulumi";
 import { interpolate } from "@pulumi/pulumi";
-import { customers } from "../../get-customers.js";
+import { Customers } from "../../get-customers.js";
 import { artifactRepoUrl } from "../../shared/google/artifact-registry.js";
 import { provider as kubernetesProvider } from "../../shared/kubernetes/provider.js";
 import { namespace } from "../namespace.js";
@@ -48,7 +48,7 @@ export const portalAppSvelteDeployment = new k8s.apps.v1.Deployment(
 								// ConfigMap volume mount ever fails to materialize.
 								{
 									name: "CUSTOMERS",
-									value: customers.apply((cs) =>
+									value: Customers.apply((cs) =>
 										JSON.stringify(cs.filter((c) => c.creditorPortalEnabled)),
 									),
 								},

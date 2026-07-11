@@ -5,7 +5,7 @@ import { interpolate } from "@pulumi/pulumi";
 import { artifactRepoUrl } from "../../shared/google/artifact-registry.js";
 import { provider as kubernetesProvider } from "../../shared/kubernetes/provider.js";
 import { namespace } from "../namespace.js";
-import { customers } from "../../get-customers.js";
+import { Customers } from "../../get-customers.js";
 import { redis } from "../portal-api/redis.js";
 import { portalApiEnvSecrets } from "../portal-api/portal-api.js";
 
@@ -70,7 +70,7 @@ export const portalAppDeployment = new k8s.apps.v1.Deployment(
 								{ name: "LOG_LEVEL", value: "info" },
 								{
 									name: "CUSTOMERS",
-									value: customers.apply((customers) =>
+									value: Customers.apply((customers) =>
 										JSON.stringify(
 											customers.filter(
 												(customer) => customer.creditorPortalEnabled,
@@ -157,7 +157,7 @@ export const portalAppGoDeployment = new k8s.apps.v1.Deployment(
 								{ name: "LOG_LEVEL", value: "info" },
 								{
 									name: "CUSTOMERS",
-									value: customers.apply((customers) =>
+									value: Customers.apply((customers) =>
 										JSON.stringify(
 											customers.filter(
 												(customer) => customer.creditorPortalEnabled,

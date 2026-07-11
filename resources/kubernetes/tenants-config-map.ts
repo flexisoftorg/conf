@@ -1,6 +1,6 @@
 import * as kubernetes from "@pulumi/kubernetes";
 import type * as pulumi from "@pulumi/pulumi";
-import { customers } from "../get-customers.js";
+import { Customers } from "../get-customers.js";
 import { provider as kubernetesProvider } from "../shared/kubernetes/provider.js";
 import { namespace } from "./namespace.js";
 
@@ -30,7 +30,7 @@ export const tenantsConfigMap = new kubernetes.core.v1.ConfigMap(
 				"pulumi.com/skipAwait": "true",
 			},
 		},
-		data: customers.apply((cs) => {
+		data: Customers.apply((cs) => {
 			const data: Record<string, pulumi.Input<string>> = {
 				"_index.json": JSON.stringify(cs.map((c) => c.ident.current)),
 			};

@@ -5,7 +5,7 @@ import { DeploymentComponent } from "../../components/deployment.js";
 import { artifactRepoUrl } from "../../shared/google/artifact-registry.js";
 import { provider as kubernetesProvider } from "../../shared/kubernetes/provider.js";
 import { namespace } from "../namespace.js";
-import { customers } from "../../get-customers.js";
+import { Customers } from "../../get-customers.js";
 import { redis } from "./redis.js";
 
 const config = new pulumi.Config("portal-api");
@@ -54,7 +54,7 @@ export const portalApi = new DeploymentComponent(
 			},
 			{
 				name: "CUSTOMERS",
-				value: customers.apply((customers) =>
+				value: Customers.apply((customers) =>
 					JSON.stringify(
 						customers.filter((customer) => customer.portalApiEnabled),
 					),
