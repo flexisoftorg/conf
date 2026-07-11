@@ -5,7 +5,7 @@ import { onboardingAppDomain } from "../../config.js";
 import { artifactRepoUrl } from "../../shared/google/artifact-registry.js";
 import { provider as kubernetesProvider } from "../../shared/kubernetes/provider.js";
 import { namespace } from "../namespace.js";
-import { Customers } from "../../get-customers.js";
+import { customers } from "../../get-customers.js";
 import { onboardingAppDatabaseCredentials } from "./database-credentials.js";
 
 const config = new pulumi.Config("onboarding-app");
@@ -30,7 +30,7 @@ export const onboardingApp = new DeploymentComponent(
 		env: [
 			{
 				name: "CUSTOMERS",
-				value: Customers.apply((customers) =>
+				value: customers.apply((customers) =>
 					JSON.stringify(
 						customers.filter((customer) => customer.onboardingAppEnabled),
 					),

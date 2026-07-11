@@ -76,8 +76,7 @@ const portalCustomer = z
 			restApiDomain,
 			authAppDomain,
 			restApiEnabled,
-			// Auth-app issues the tokens go-api (the REST API) verifies, so it is
-			// enabled for the same tenants.
+			// Auth-app issues the tokens go-api (the REST API) verifies, so it is enabled for the same tenants.
 			authAppEnabled: restApiEnabled,
 			portalApiEnabled:
 				customer.creditorPortalEnabled ?? customer.debitorPortalEnabled,
@@ -146,4 +145,4 @@ export function getCustomers(): pulumi.Output<PortalCustomer[]> {
 	});
 }
 
-export const Customers = getCustomers();
+export const customers = getCustomers();

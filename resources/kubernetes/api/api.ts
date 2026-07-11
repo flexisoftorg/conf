@@ -8,7 +8,7 @@ import { provider as kubernetesProvider } from "../../shared/kubernetes/provider
 import { namespace } from "../namespace.js";
 import { registrationAppSanityCredentials } from "../registration-app/sanity-credentials.js";
 import { redis } from "../portal-api/redis.js";
-import { Customers } from "../../get-customers.js";
+import { customers } from "../../get-customers.js";
 import { rootDomain } from "../../shared/config.js";
 
 const config = new pulumi.Config("api");
@@ -30,7 +30,7 @@ const password = debitorPortalAppConfig.requireSecret("database-password");
 const cleanRootDomain = rootDomain.slice(0, -1);
 
 /** Comma-separated list of allowed origins, e.g. `"fpx.no, example.com, kvasir.no"` */
-const allowedOrigins = Customers.apply((customers) => {
+const allowedOrigins = customers.apply((customers) => {
 	const customDomains = customers
 		.filter((c) => c.domain !== "")
 		.map((c) => c.domain.trim());

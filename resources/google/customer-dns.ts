@@ -1,9 +1,9 @@
 import * as gcp from "@pulumi/gcp";
-import { Customers } from "../get-customers.js";
+import { customers } from "../get-customers.js";
 import { ingressIpAddress, zone } from "../shared/google/dns.js";
 import { provider as gcpProvider } from "./provider.js";
 
-Customers.apply((customers) => {
+customers.apply((customers) => {
 	for (const customer of customers) {
 		if (!customer.hasCustomDomain) {
 			// We need to create DNS records for the customer's subdomains under the root domain zone

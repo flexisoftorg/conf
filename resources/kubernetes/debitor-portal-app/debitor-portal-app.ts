@@ -5,7 +5,7 @@ import { debitorPortalAppDomain } from "../../config.js";
 import { artifactRepoUrl } from "../../shared/google/artifact-registry.js";
 import { provider as kubernetesProvider } from "../../shared/kubernetes/provider.js";
 import { namespace } from "../namespace.js";
-import { Customers } from "../../get-customers.js";
+import { customers } from "../../get-customers.js";
 import { debitorPortalCredentials } from "./debitor-portal-credentials.js";
 import { debitorPaymentProvider } from "./debitor-portal-payment-provider.js";
 import { debitorPortalRestApiCredentials } from "./debitor-portal-rest-api-credentials.js";
@@ -42,7 +42,7 @@ export const debitorPortalApp = new DeploymentComponent(
 		env: [
 			{
 				name: "CUSTOMERS",
-				value: Customers.apply((customers) =>
+				value: customers.apply((customers) =>
 					JSON.stringify(
 						customers.filter((customer) => customer.debitorPortalEnabled),
 					),

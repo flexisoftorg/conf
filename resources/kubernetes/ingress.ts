@@ -1,5 +1,5 @@
 import * as k8s from "@pulumi/kubernetes";
-import { Customers } from "../get-customers.js";
+import { customers } from "../get-customers.js";
 import { provider } from "../shared/kubernetes/provider.js";
 import { debitorPortalApp } from "./debitor-portal-app/debitor-portal-app.js";
 import { namespace } from "./namespace.js";
@@ -20,7 +20,7 @@ import { onboardingApp } from "./onboarding/onboarding-app.js";
 import { restApiApp } from "./api/api.js";
 import { authAppService, authAppPort } from "./auth-app/auth-app.js";
 
-Customers.apply((customers) => {
+customers.apply((customers) => {
 	for (const customer of customers) {
 		const rules: k8s.types.input.networking.v1.IngressRule[] = [];
 
