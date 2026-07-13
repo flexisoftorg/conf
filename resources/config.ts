@@ -29,3 +29,7 @@ export const onboardingAppDomain = onboardingAppConfig.require("domain");
 const altinnAuthAppConfig = new pulumi.Config("altinn-auth-app");
 
 export const altinnAuthAppDomain = altinnAuthAppConfig.require("domain");
+
+const authAppConfig = new pulumi.Config("auth-app");
+
+export const authAppDomain = authAppConfig.require("domain");
