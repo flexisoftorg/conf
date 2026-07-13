@@ -82,6 +82,13 @@ export const restApiApp = new DeploymentComponent(
 				name: "ALLOWED_ORIGINS",
 				value: allowedOrigins,
 			},
+			// Legacy tenant source. `DeploymentComponent` can't mount the
+			// `tenants` ConfigMap volume, so the api reads tenants from this
+			// env var rather than `TENANTS_DIR` (cf. auth-app/portal-api).
+			{
+				name: "CUSTOMERS",
+				value: customers.apply((customers) => JSON.stringify(customers)),
+			},
 		],
 		port: 8000,
 		resources: {
