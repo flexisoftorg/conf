@@ -163,27 +163,25 @@ customers.apply((customers) => {
 			});
 		}
 
-		if (customer.authAppEnabled) {
-			rules.push({
-				host: customer.authAppDomain,
-				http: {
-					paths: [
-						{
-							path: "/",
-							pathType: "Prefix",
-							backend: {
-								service: {
-									name: authAppService.metadata.name,
-									port: {
-										number: authAppPort,
-									},
+		rules.push({
+			host: customer.authAppDomain,
+			http: {
+				paths: [
+					{
+						path: "/",
+						pathType: "Prefix",
+						backend: {
+							service: {
+								name: authAppService.metadata.name,
+								port: {
+									number: authAppPort,
 								},
 							},
 						},
-					],
-				},
-			});
-		}
+					},
+				],
+			},
+		});
 
 		new k8s.networking.v1.Ingress(
 			`${customer.ident.current}-ingress`,
