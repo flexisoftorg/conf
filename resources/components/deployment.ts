@@ -57,9 +57,7 @@ export type AppComponentArgs = {
 	/**
 	 * Pod volumes (e.g. a ConfigMap to mount). Pair with `volumeMounts`.
 	 */
-	volumes?: pulumi.Input<
-		Array<pulumi.Input<k8s.types.input.core.v1.Volume>>
-	>;
+	volumes?: pulumi.Input<Array<pulumi.Input<k8s.types.input.core.v1.Volume>>>;
 
 	/**
 	 * Container volume mounts. Pair with `volumes`.
