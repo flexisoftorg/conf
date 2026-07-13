@@ -60,6 +60,11 @@ const portalCustomer = z
 		const apiDomain = `api.${domain}`;
 		const restApiDomain = `rest.${domain}`;
 		const onboardingAppDomain = `onboarding.${domain}`;
+		// The OAuth authorization server is served per tenant at `auth.<domain>`,
+		// matching how auth-app derives its own auth host from the tenant domain.
+		const authAppDomain = `auth.${domain}`;
+		const restApiEnabled =
+			customer.creditorPortalEnabled ?? customer.debitorPortalEnabled;
 		return {
 			...customer,
 			hasCustomDomain,
@@ -69,8 +74,10 @@ const portalCustomer = z
 			onboardingAppDomain,
 			apiDomain,
 			restApiDomain,
-			restApiEnabled:
-				customer.creditorPortalEnabled ?? customer.debitorPortalEnabled,
+			authAppDomain,
+			restApiEnabled,
+			// Auth-app issues the tokens go-api (the REST API) verifies, so it is enabled for the same tenants.
+			authAppEnabled: restApiEnabled,
 			portalApiEnabled:
 				customer.creditorPortalEnabled ?? customer.debitorPortalEnabled,
 		};
