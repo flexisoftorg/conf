@@ -76,6 +76,20 @@ customers.apply((customers) => {
 					{ provider: gcpProvider },
 				);
 			}
+
+			if (customer.authAppEnabled) {
+				new gcp.dns.RecordSet(
+					`${customer.ident.current}-auth-app`,
+					{
+						managedZone: zone.name,
+						name: `${customer.authAppDomain}.`,
+						type: "A",
+						ttl: 300,
+						rrdatas: [ingressIpAddress],
+					},
+					{ provider: gcpProvider },
+				);
+			}
 		}
 	}
 });
