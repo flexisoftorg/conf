@@ -163,25 +163,32 @@ customers.apply((customers) => {
 			});
 		}
 
-		rules.push({
-			host: customer.authAppDomain,
-			http: {
-				paths: [
-					{
-						path: "/",
-						pathType: "Prefix",
-						backend: {
-							service: {
-								name: authAppService.metadata.name,
-								port: {
-									number: authAppPort,
+		// Gate on the same flag as the auth-app DNS record (customer-dns.ts) and
+		// the rest-api rule above. Adding an `auth.<domain>` host for a customer
+		// with the feature disabled points Caddy at a name with no DNS record, so
+		// its ACME challenge for that host fails — and enough such failures
+		// rate-limit certificate issuance for the *enabled* auth hosts too.
+		if (customer.authAppEnabled) {
+			rules.push({
+				host: customer.authAppDomain,
+				http: {
+					paths: [
+						{
+							path: "/",
+							pathType: "Prefix",
+							backend: {
+								service: {
+									name: authAppService.metadata.name,
+									port: {
+										number: authAppPort,
+									},
 								},
 							},
 						},
-					},
-				],
-			},
-		});
+					],
+				},
+			});
+		}
 
 		new k8s.networking.v1.Ingress(
 			`${customer.ident.current}-ingress`,
