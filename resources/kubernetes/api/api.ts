@@ -71,6 +71,14 @@ export const restApiApp = new DeploymentComponent(
 			},
 		],
 		env: [
+			// Without this the app defaults to development mode, which keeps the
+			// dev-tenant fallback active and makes the MCP endpoint advertise the
+			// localhost OAuth defaults instead of deriving the auth server per
+			// tenant. Matches the auth-app deployment.
+			{
+				name: "APP_ENV",
+				value: "production",
+			},
 			{
 				name: "REDIS_URL",
 				value: interpolate`${redis.service.metadata.name}.${redis.service.metadata.namespace}.svc.cluster.local:6379`,
