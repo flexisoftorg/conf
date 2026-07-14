@@ -1,6 +1,6 @@
 config:
   api:domain: rest.fpx.no.
-  api:tag: main-ddb51ad
+  api:tag: main-0cbe962
   debitor-portal-app:domain: debitor.fpx.no.
   debitor-portal-app:paymentProviderUrl: https://epayment.nets.eu
   debitor-portal-app:tag: main-1200307
