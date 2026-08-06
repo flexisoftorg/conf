@@ -26,8 +26,6 @@ jobs:
       - uses: pnpm/action-setup@v4
 
       - uses: "google-github-actions/setup-gcloud@v2"
-        with:
-          install_components: "gke-gcloud-auth-plugin"
 
       - name: Authenticate with Google 🔑
         uses: google-github-actions/auth@v2
@@ -44,6 +42,15 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+
+      # The cluster API server has no public endpoint — it is only reachable
+      # over the tailnet.
+      - name: Connect to Tailscale 🔗
+        uses: tailscale/github-action@v3
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          tags: tag:ci
 
       - uses: pulumi/actions@v6
         env:

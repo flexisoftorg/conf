@@ -5,6 +5,7 @@ import { customers } from "../../get-customers.js";
 import { artifactRepoUrl } from "../../shared/google/artifact-registry.js";
 import { provider as kubernetesProvider } from "../../shared/kubernetes/provider.js";
 import { namespace } from "../namespace.js";
+import { imagePullSecrets } from "../image-pull-secret.js";
 import { tenantsConfigMap, tenantsMountPath } from "../tenants-config-map.js";
 
 const config = new pulumi.Config("portal-app-svelte");
@@ -31,6 +32,7 @@ export const portalAppSvelteDeployment = new k8s.apps.v1.Deployment(
 			template: {
 				metadata: { labels },
 				spec: {
+					imagePullSecrets,
 					containers: [
 						{
 							name: "portal-app-svelte",

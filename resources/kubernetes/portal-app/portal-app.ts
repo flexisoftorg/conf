@@ -5,6 +5,7 @@ import { interpolate } from "@pulumi/pulumi";
 import { artifactRepoUrl } from "../../shared/google/artifact-registry.js";
 import { provider as kubernetesProvider } from "../../shared/kubernetes/provider.js";
 import { namespace } from "../namespace.js";
+import { imagePullSecrets } from "../image-pull-secret.js";
 import { customers } from "../../get-customers.js";
 import { redis } from "../portal-api/redis.js";
 import { portalApiEnvSecrets } from "../portal-api/portal-api.js";
@@ -52,6 +53,7 @@ export const portalAppDeployment = new k8s.apps.v1.Deployment(
 			template: {
 				metadata: { labels: portalAppLabels },
 				spec: {
+					imagePullSecrets,
 					containers: [
 						{
 							name: "portal-app",
@@ -139,6 +141,7 @@ export const portalAppGoDeployment = new k8s.apps.v1.Deployment(
 			template: {
 				metadata: { labels: portalAppGoLabels },
 				spec: {
+					imagePullSecrets,
 					containers: [
 						{
 							name: "portal-app-go",

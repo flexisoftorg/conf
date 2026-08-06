@@ -1,6 +1,11 @@
 import * as k8s from "@pulumi/kubernetes";
 import * as pulumi from "@pulumi/pulumi";
 import { interpolate } from "@pulumi/pulumi";
+import { imagePullSecrets } from "../kubernetes/image-pull-secret.js";
+import {
+	clusterIssuer,
+	ingressClassName,
+} from "../shared/kubernetes/config.js";
 
 export type AppComponentArgs = {
 	image: pulumi.Input<string>;
@@ -136,6 +141,7 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 							labels: matchLabels,
 						},
 						spec: {
+							imagePullSecrets,
 							containers: [
 								{
 									name,
@@ -197,7 +203,15 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 			Array<pulumi.Input<k8s.types.input.networking.v1.IngressRule>>
 		> = [];
 
+		// One TLS entry per host, so a failing ACME challenge on one host can't
+		// hold up issuance for the other.
+		const ingressTls: pulumi.Input<
+			Array<pulumi.Input<k8s.types.input.networking.v1.IngressTLS>>
+		> = [];
+
 		if (host) {
+			ingressTls.push({ hosts: [host], secretName: `${name}-tls` });
+
 			ingressRules.push({
 				host,
 				http: {
@@ -220,6 +234,11 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 		}
 
 		if (legacyHost) {
+			ingressTls.push({
+				hosts: [legacyHost],
+				secretName: `${name}-legacy-tls`,
+			});
+
 			ingressRules.push({
 				host: legacyHost,
 				http: {
@@ -250,11 +269,13 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 						namespace,
 						labels: { environment },
 						annotations: {
-							"kubernetes.io/ingress.class": "caddy",
+							"cert-manager.io/cluster-issuer": clusterIssuer,
 						},
 					},
 					spec: {
+						ingressClassName,
 						rules: ingressRules,
+						tls: ingressTls,
 					},
 				},
 				{

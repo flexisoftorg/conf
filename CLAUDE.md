@@ -1,15 +1,17 @@
 # conf
 
-Pulumi infrastructure-as-code for the Flexisoft platform. Manages GKE (Google Kubernetes Engine), Kubernetes resources, GitHub configuration, and DNS/ingress.
+Pulumi infrastructure-as-code for the Flexisoft platform. Manages Kubernetes resources on the `dina-flexisoft` Talos cluster, GitHub configuration, and DNS/ingress on Google Cloud.
 
 ## What it manages
 
-- GKE cluster on Google Cloud Platform
 - Kubernetes namespaces (one per environment), deployments, ingresses, ConfigMaps
-- Caddy as reverse proxy with automatic SSL (ingress hostname: `ingress.fpx.no`)
+- ingress-nginx as reverse proxy, with cert-manager issuing SSL (ingress hostname: `ingress.fpx.no`)
 - GitHub repository secrets (NPM bot tokens)
 - Redis deployment for portal session storage
 - Customer domain DNS config (CNAME to `ingress.fpx.no` or A records)
+- Artifact Registry pull secret for the cluster
+
+The cluster API server is reachable **only over Tailscale**; `pulumi up` fails from off-tailnet. The GKE cluster and its static IP are still in state as a rollback path for the migration — they serve no live traffic.
 
 ## Stack
 
@@ -23,6 +25,7 @@ Pulumi infrastructure-as-code for the Flexisoft platform. Manages GKE (Google Ku
 - [Pulumi CLI](https://www.pulumi.com/docs/get-started/install/)
 - Google Cloud SDK (`gcloud auth login`)
 - `kubectl`
+- Tailscale, connected to the tailnet
 - Node.js + pnpm
 
 ## Commands

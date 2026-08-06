@@ -1,6 +1,7 @@
 config:
   api:domain: rest.fpx.no.
   api:tag: main-5d4d9ee
+  cluster:ingress-ip: 91.149.224.2
   debitor-portal-app:domain: debitor.fpx.no.
   debitor-portal-app:paymentProviderUrl: https://epayment.nets.eu
   debitor-portal-app:tag: main-1200307

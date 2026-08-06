@@ -1,5 +1,9 @@
 import * as k8s from "@pulumi/kubernetes";
 import { customers } from "../get-customers.js";
+import {
+	clusterIssuer,
+	ingressClassName,
+} from "../shared/kubernetes/config.js";
 import { provider } from "../shared/kubernetes/provider.js";
 import { debitorPortalApp } from "./debitor-portal-app/debitor-portal-app.js";
 import { namespace } from "./namespace.js";
@@ -23,171 +27,159 @@ import { authAppService, authAppPort } from "./auth-app/auth-app.js";
 customers.apply((customers) => {
 	for (const customer of customers) {
 		const rules: k8s.types.input.networking.v1.IngressRule[] = [];
+		const tls: k8s.types.input.networking.v1.IngressTLS[] = [];
+
+		// One TLS entry — and so one cert-manager Certificate — per host, rather
+		// than a single entry covering every host on the Ingress. A host whose
+		// ACME challenge fails then can't hold up issuance for the customer's
+		// other hosts.
+		const addHost = (
+			kind: string,
+			host: string,
+			paths: k8s.types.input.networking.v1.HTTPIngressPath[],
+		) => {
+			rules.push({ host, http: { paths } });
+			tls.push({
+				hosts: [host],
+				secretName: `${customer.ident.current}-${kind}-tls`,
+			});
+		};
 
 		if (customer.creditorPortalEnabled) {
-			rules.push({
-				host: customer.creditorPortalDomain,
-				http: {
-					paths: [
-						// Routes for the SvelteKit rewrite (specific paths).
-						// Populated incrementally as pages migrate; see
-						// `svelteAppPaths` in portal-app-svelte.ts.
-						...svelteAppPaths.map((path) => ({
-							path,
-							pathType: "Prefix" as const,
-							backend: {
-								service: {
-									name: portalAppSvelteService.metadata.name,
-									port: {
-										number: portalAppSveltePort,
-									},
-								},
-							},
-						})),
-						// Routes for the (deprecated) Go app (specific paths).
-						...goAppPaths.map((path) => ({
-							path,
-							pathType: "Prefix" as const,
-							backend: {
-								service: {
-									name: portalAppGoService.metadata.name,
-									port: {
-										number: portalAppGoPort,
-									},
-								},
-							},
-						})),
-						// Catch-all route for the React app
-						{
-							path: "/",
-							pathType: "Prefix",
-							backend: {
-								service: {
-									name: portalAppService.metadata.name,
-									port: {
-										number: portalAppPort,
-									},
-								},
+			addHost("creditor-portal", customer.creditorPortalDomain, [
+				// Routes for the SvelteKit rewrite (specific paths).
+				// Populated incrementally as pages migrate; see
+				// `svelteAppPaths` in portal-app-svelte.ts.
+				...svelteAppPaths.map((path) => ({
+					path,
+					pathType: "Prefix" as const,
+					backend: {
+						service: {
+							name: portalAppSvelteService.metadata.name,
+							port: {
+								number: portalAppSveltePort,
 							},
 						},
-					],
+					},
+				})),
+				// Routes for the (deprecated) Go app (specific paths).
+				...goAppPaths.map((path) => ({
+					path,
+					pathType: "Prefix" as const,
+					backend: {
+						service: {
+							name: portalAppGoService.metadata.name,
+							port: {
+								number: portalAppGoPort,
+							},
+						},
+					},
+				})),
+				// Catch-all route for the React app
+				{
+					path: "/",
+					pathType: "Prefix",
+					backend: {
+						service: {
+							name: portalAppService.metadata.name,
+							port: {
+								number: portalAppPort,
+							},
+						},
+					},
 				},
-			});
+			]);
 		}
 
 		if (customer.debitorPortalEnabled) {
-			rules.push({
-				host: customer.debitorPortalDomain,
-				http: {
-					paths: [
-						{
-							path: "/",
-							pathType: "Prefix",
-							backend: {
-								service: {
-									name: debitorPortalApp.service.metadata.name,
-									port: {
-										number: debitorPortalApp.port,
-									},
-								},
+			addHost("debitor-portal", customer.debitorPortalDomain, [
+				{
+					path: "/",
+					pathType: "Prefix",
+					backend: {
+						service: {
+							name: debitorPortalApp.service.metadata.name,
+							port: {
+								number: debitorPortalApp.port,
 							},
 						},
-					],
+					},
 				},
-			});
+			]);
 		}
 
 		if (customer.portalApiEnabled) {
-			rules.push({
-				host: customer.apiDomain,
-				http: {
-					paths: [
-						{
-							path: "/",
-							pathType: "Prefix",
-							backend: {
-								service: {
-									name: portalApi.service.metadata.name,
-									port: {
-										number: portalApi.port,
-									},
-								},
+			addHost("api", customer.apiDomain, [
+				{
+					path: "/",
+					pathType: "Prefix",
+					backend: {
+						service: {
+							name: portalApi.service.metadata.name,
+							port: {
+								number: portalApi.port,
 							},
 						},
-					],
+					},
 				},
-			});
+			]);
 		}
 
 		if (customer.onboardingAppEnabled) {
-			rules.push({
-				host: customer.onboardingAppDomain,
-				http: {
-					paths: [
-						{
-							path: "/",
-							pathType: "Prefix",
-							backend: {
-								service: {
-									name: onboardingApp.service.metadata.name,
-									port: {
-										number: onboardingApp.port,
-									},
-								},
+			addHost("onboarding-app", customer.onboardingAppDomain, [
+				{
+					path: "/",
+					pathType: "Prefix",
+					backend: {
+						service: {
+							name: onboardingApp.service.metadata.name,
+							port: {
+								number: onboardingApp.port,
 							},
 						},
-					],
+					},
 				},
-			});
+			]);
 		}
 
 		if (customer.restApiEnabled) {
-			rules.push({
-				host: customer.restApiDomain,
-				http: {
-					paths: [
-						{
-							path: "/",
-							pathType: "Prefix",
-							backend: {
-								service: {
-									name: restApiApp.service.metadata.name,
-									port: {
-										number: restApiApp.port,
-									},
-								},
+			addHost("rest-api", customer.restApiDomain, [
+				{
+					path: "/",
+					pathType: "Prefix",
+					backend: {
+						service: {
+							name: restApiApp.service.metadata.name,
+							port: {
+								number: restApiApp.port,
 							},
 						},
-					],
+					},
 				},
-			});
+			]);
 		}
 
 		// Gate on the same flag as the auth-app DNS record (customer-dns.ts) and
 		// the rest-api rule above. Adding an `auth.<domain>` host for a customer
-		// with the feature disabled points Caddy at a name with no DNS record, so
-		// its ACME challenge for that host fails — and enough such failures
-		// rate-limit certificate issuance for the *enabled* auth hosts too.
+		// with the feature disabled points the ingress at a name with no DNS
+		// record, so its ACME challenge for that host fails — and enough such
+		// failures rate-limit certificate issuance for the *enabled* auth hosts
+		// too.
 		if (customer.authAppEnabled) {
-			rules.push({
-				host: customer.authAppDomain,
-				http: {
-					paths: [
-						{
-							path: "/",
-							pathType: "Prefix",
-							backend: {
-								service: {
-									name: authAppService.metadata.name,
-									port: {
-										number: authAppPort,
-									},
-								},
+			addHost("auth-app", customer.authAppDomain, [
+				{
+					path: "/",
+					pathType: "Prefix",
+					backend: {
+						service: {
+							name: authAppService.metadata.name,
+							port: {
+								number: authAppPort,
 							},
 						},
-					],
+					},
 				},
-			});
+			]);
 		}
 
 		new k8s.networking.v1.Ingress(
@@ -197,7 +189,7 @@ customers.apply((customers) => {
 					name: `customer-${customer.ident.current}`,
 					namespace: namespace.metadata.name,
 					annotations: {
-						"kubernetes.io/ingress.class": "caddy",
+						"cert-manager.io/cluster-issuer": clusterIssuer,
 
 						"pulumi.com/skipAwait": "true",
 					},
@@ -207,7 +199,9 @@ customers.apply((customers) => {
 					},
 				},
 				spec: {
+					ingressClassName,
 					rules,
+					tls,
 				},
 			},
 

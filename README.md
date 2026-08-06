@@ -7,13 +7,16 @@ We use Pulumi to manage infrastructure as code. Pulumi is a tool for creating,
 deploying, and managing cloud infrastructure. It is open source and supports
 multiple cloud providers.
 
-We mainly use Kubernetes, _currently_ deployed at Google Cloud Platform.
+We mainly use Kubernetes, deployed on the `dina-flexisoft` Talos cluster. DNS,
+Artifact Registry and IAM still live in Google Cloud Platform.
 
 ## Prerequisites
 
 - [Pulumi](https://www.pulumi.com/docs/get-started/install/)
 - [Google Cloud SDK](https://cloud.google.com/sdk/docs/install)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+- [Tailscale](https://tailscale.com/download) — the cluster API server has no
+  public endpoint, so `pulumi up` only works from the tailnet
 - [docker](https://docs.docker.com/get-docker/)
 - [nodejs](https://nodejs.org/en/download/)
 - [pnpm](https://pnpm.io/installation)
@@ -21,10 +24,16 @@ We mainly use Kubernetes, _currently_ deployed at Google Cloud Platform.
 ## Architecture
 
 At the core, we have a Kubernetes cluster. This cluster has a namespace for each
-_environment_, along with a few system namespaces. We use [Caddy] to provide a
-reverse proxy for all services and handle automatic SSL certificates.
+_environment_, along with a few system namespaces. [ingress-nginx] is the
+reverse proxy for all services, and [cert-manager] issues their SSL certificates
+from Let's Encrypt.
 
-[Caddy]: https://caddyserver.com/
+[ingress-nginx]: https://kubernetes.github.io/ingress-nginx/
+[cert-manager]: https://cert-manager.io/
+
+Images are pulled from Google Artifact Registry using a dedicated reader service
+account, whose key is mounted into the namespace as the `artifact-registry` pull
+secret.
 
 The portal service uses Redis to store session data.
 
@@ -32,17 +41,24 @@ The portal service uses Redis to store session data.
 flowchart TD
     conf
     conf-->github
-    conf-->gke-->k8s
+    conf-->gcp
+    conf-->k8s
 
     github-->bot-secret["NPM secrets for bot"]
 
-    k8s-->caddy
+    gcp-->dns["Cloud DNS"]
+    gcp-->ar["Artifact Registry"]
+
+    k8s-->ingress-nginx
+    k8s-->cert-manager
 
     namespace-->Deployment:portal-app
     Deployment:portal-app-->Ingress:portal-app
 
-    caddy -->Ingress:portal-app
-    caddy -->Ingress:portal-api
+    ingress-nginx -->Ingress:portal-app
+    ingress-nginx -->Ingress:portal-api
+    cert-manager -->Ingress:portal-app
+    cert-manager -->Ingress:portal-api
 
     k8s-->namespace
 
