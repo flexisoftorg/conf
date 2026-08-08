@@ -1,6 +1,7 @@
 import * as k8s from "@pulumi/kubernetes";
 import * as pulumi from "@pulumi/pulumi";
 import { interpolate } from "@pulumi/pulumi";
+import { rootWildcardSecretName } from "../kubernetes/certificates.js";
 import { imagePullSecrets } from "../kubernetes/image-pull-secret.js";
 import {
 	clusterIssuer,
@@ -203,14 +204,17 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 			Array<pulumi.Input<k8s.types.input.networking.v1.IngressRule>>
 		> = [];
 
-		// One TLS entry per host, so a failing ACME challenge on one host can't
-		// hold up issuance for the other.
+		// Platform hosts all sit one label under the root domain, so they are
+		// covered by the shared `*.fpx.no` certificate rather than one each.
 		const ingressTls: pulumi.Input<
 			Array<pulumi.Input<k8s.types.input.networking.v1.IngressTLS>>
 		> = [];
 
 		if (host) {
-			ingressTls.push({ hosts: [host], secretName: `${name}-tls` });
+			ingressTls.push({
+				hosts: [host],
+				secretName: rootWildcardSecretName,
+			});
 
 			ingressRules.push({
 				host,
@@ -233,6 +237,8 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 			});
 		}
 
+		// A legacy host lives outside the root domain, so it needs its own
+		// certificate and the ingress-shim annotation that mints it.
 		if (legacyHost) {
 			ingressTls.push({
 				hosts: [legacyHost],
@@ -268,9 +274,9 @@ export class DeploymentComponent extends pulumi.ComponentResource {
 						name,
 						namespace,
 						labels: { environment },
-						annotations: {
-							"cert-manager.io/cluster-issuer": clusterIssuer,
-						},
+						annotations: legacyHost
+							? { "cert-manager.io/cluster-issuer": clusterIssuer }
+							: {},
 					},
 					spec: {
 						ingressClassName,

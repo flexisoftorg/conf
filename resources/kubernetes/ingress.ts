@@ -5,6 +5,11 @@ import {
 	ingressClassName,
 } from "../shared/kubernetes/config.js";
 import { provider } from "../shared/kubernetes/provider.js";
+import {
+	cleanRootDomain,
+	customerWildcardSecretName,
+	rootWildcardSecretName,
+} from "./certificates.js";
 import { debitorPortalApp } from "./debitor-portal-app/debitor-portal-app.js";
 import { namespace } from "./namespace.js";
 import { portalApi } from "./portal-api/portal-api.js";
@@ -27,22 +32,36 @@ import { authAppService, authAppPort } from "./auth-app/auth-app.js";
 customers.apply((customers) => {
 	for (const customer of customers) {
 		const rules: k8s.types.input.networking.v1.IngressRule[] = [];
-		const tls: k8s.types.input.networking.v1.IngressTLS[] = [];
+		const hostsBySecret = new Map<string, string[]>();
 
-		// One TLS entry — and so one cert-manager Certificate — per host, rather
-		// than a single entry covering every host on the Ingress. A host whose
-		// ACME challenge fails then can't hold up issuance for the customer's
-		// other hosts.
+		const ident = customer.ident.current;
+
+		// Tenants on our root domain are covered by wildcards issued in
+		// certificates.ts: `*.<ident>.fpx.no` for their own subdomains, and the
+		// shared `*.fpx.no` for their `<ident>.fpx.no` debitor portal. Tenants on
+		// their own domain fall back to a per-host certificate, since DNS-01 needs
+		// a zone we control.
+		const secretForHost = (kind: string, host: string) => {
+			if (customer.hasCustomDomain) {
+				return `${ident}-${kind}-tls`;
+			}
+
+			return host.endsWith(`.${ident}.${cleanRootDomain}`)
+				? customerWildcardSecretName(ident)
+				: rootWildcardSecretName;
+		};
+
 		const addHost = (
 			kind: string,
 			host: string,
 			paths: k8s.types.input.networking.v1.HTTPIngressPath[],
 		) => {
 			rules.push({ host, http: { paths } });
-			tls.push({
-				hosts: [host],
-				secretName: `${customer.ident.current}-${kind}-tls`,
-			});
+
+			const secretName = secretForHost(kind, host);
+			const hosts = hostsBySecret.get(secretName) ?? [];
+			hosts.push(host);
+			hostsBySecret.set(secretName, hosts);
 		};
 
 		if (customer.creditorPortalEnabled) {
@@ -186,22 +205,31 @@ customers.apply((customers) => {
 			`${customer.ident.current}-ingress`,
 			{
 				metadata: {
-					name: `customer-${customer.ident.current}`,
+					name: `customer-${ident}`,
 					namespace: namespace.metadata.name,
 					annotations: {
-						"cert-manager.io/cluster-issuer": clusterIssuer,
+						// Only custom-domain tenants let cert-manager's ingress-shim mint
+						// certificates. Wildcard secrets are shared across Ingresses, so
+						// leaving the annotation on would have several Ingresses each
+						// claiming ownership of the same secret.
+						...(customer.hasCustomDomain
+							? { "cert-manager.io/cluster-issuer": clusterIssuer }
+							: {}),
 
 						"pulumi.com/skipAwait": "true",
 					},
 					labels: {
-						customer: customer.ident.current,
+						customer: ident,
 						kind: "customer-domain",
 					},
 				},
 				spec: {
 					ingressClassName,
 					rules,
-					tls,
+					tls: [...hostsBySecret].map(([secretName, hosts]) => ({
+						hosts,
+						secretName,
+					})),
 				},
 			},
 
