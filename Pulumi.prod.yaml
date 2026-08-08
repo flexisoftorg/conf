@@ -1,7 +1,9 @@
 config:
   api:domain: rest.fpx.no.
   api:tag: main-5d4d9ee
-  cluster:ingress-ip: 91.149.224.2
+  # Cutover switch. Still the GKE address so DNS keeps pointing at the old
+  # cluster while the new one is built out; flip to 91.149.224.2 to move traffic.
+  cluster:ingress-ip: 35.228.111.75
   debitor-portal-app:domain: debitor.fpx.no.
   debitor-portal-app:paymentProviderUrl: https://epayment.nets.eu
   debitor-portal-app:tag: main-1200307
