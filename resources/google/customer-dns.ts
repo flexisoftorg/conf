@@ -1,6 +1,7 @@
 import * as gcp from "@pulumi/gcp";
 import { customers } from "../get-customers.js";
-import { ingressIpAddress, zone } from "../shared/google/dns.js";
+import { zone } from "../shared/google/dns.js";
+import { ingressIpAddress } from "../shared/kubernetes/config.js";
 import { provider as gcpProvider } from "./provider.js";
 
 customers.apply((customers) => {

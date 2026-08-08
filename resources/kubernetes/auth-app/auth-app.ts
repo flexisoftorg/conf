@@ -4,6 +4,7 @@ import { interpolate } from "@pulumi/pulumi";
 import { artifactRepoUrl } from "../../shared/google/artifact-registry.js";
 import { provider as kubernetesProvider } from "../../shared/kubernetes/provider.js";
 import { namespace } from "../namespace.js";
+import { imagePullSecrets } from "../image-pull-secret.js";
 import { redis } from "../portal-api/redis.js";
 import { tenantsConfigMap, tenantsMountPath } from "../tenants-config-map.js";
 
@@ -67,6 +68,7 @@ export const authAppDeployment = new k8s.apps.v1.Deployment(
 			template: {
 				metadata: { labels },
 				spec: {
+					imagePullSecrets,
 					containers: [
 						{
 							name: "auth-app",

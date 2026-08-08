@@ -11,9 +11,7 @@ import { apiServices } from "../../google/api-services.js";
 import { provider } from "../../google/provider.js";
 import { portalApiDomain } from "../../kubernetes/portal-api/portal-api.js";
 import { rootDomain, studioSubDomain } from "../config.js";
-import { ipAddress } from "./ip-address.js";
-
-export const ingressIpAddress = ipAddress.address;
+import { ingressIpAddress } from "../kubernetes/config.js";
 
 /**
  * DNS records for production zone
