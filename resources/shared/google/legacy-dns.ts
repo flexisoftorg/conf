@@ -1,7 +1,6 @@
 import * as gcp from "@pulumi/gcp";
 import { apiServices } from "../../google/api-services.js";
 import { provider } from "../../google/provider.js";
-import { ingressIpAddress } from "../kubernetes/config.js";
 
 // Legacy DNS records, to be deleted as they are only used by older tenants
 // who have their own DNS records poiting to bjerk.dev
