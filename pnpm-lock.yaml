@@ -15,8 +15,8 @@ importers:
         specifier: ^9.0.0
         version: 9.6.0(ts-node@10.9.2(@types/node@22.19.1)(typescript@5.9.3))(typescript@5.9.3)
       '@pulumi/github':
-        specifier: ^6.7.2
-        version: 6.9.1(ts-node@10.9.2(@types/node@22.19.1)(typescript@5.9.3))(typescript@5.9.3)
+        specifier: ^6.14.1
+        version: 6.14.1(ts-node@10.9.2(@types/node@22.19.1)(typescript@5.9.3))(typescript@5.9.3)
       '@pulumi/google-native':
         specifier: ^0.32.0
         version: 0.32.0(ts-node@10.9.2(@types/node@22.19.1)(typescript@5.9.3))(typescript@5.9.3)
@@ -386,8 +386,8 @@ packages:
   '@pulumi/gcp@9.6.0':
     resolution: {integrity: sha512-kEKrPG7WwstD5JWfQW2kHIBaeR1/QZw8rioFyoh5DfrlZmej02CQ/9TVypaOlgQF4+m4iBwEIZeglv0/WS4mYg==}
 
-  '@pulumi/github@6.9.1':
-    resolution: {integrity: sha512-B7FcceruXfMClws4poIyUfJoy2dqcdhi8P5+ahfArIeaDjFDlcRNU9SZbfFRbkdoXflMJi+AI3rWabyvqS2+YQ==}
+  '@pulumi/github@6.14.1':
+    resolution: {integrity: sha512-1murHMQUyCattdVr/bI0A/QhUitWX0NO31PUvNfc53khqvWwIg3T9sCowrwkf4ui4Q2bWPoHi89wuTzVOHWp4g==}
 
   '@pulumi/google-native@0.32.0':
     resolution: {integrity: sha512-7PJrCGHhmN/WnscNoImQtJPd1y817F/678KcgT8JhtTo4Af5enFpKXbQP4owoA9ngoJ4s+0lopBJHDbQi528Zw==}
@@ -3375,7 +3375,7 @@ snapshots:
       - ts-node
       - typescript
 
-  '@pulumi/github@6.9.1(ts-node@10.9.2(@types/node@22.19.1)(typescript@5.9.3))(typescript@5.9.3)':
+  '@pulumi/github@6.14.1(ts-node@10.9.2(@types/node@22.19.1)(typescript@5.9.3))(typescript@5.9.3)':
     dependencies:
       '@pulumi/pulumi': 3.210.0(ts-node@10.9.2(@types/node@22.19.1)(typescript@5.9.3))(typescript@5.9.3)
     transitivePeerDependencies:
