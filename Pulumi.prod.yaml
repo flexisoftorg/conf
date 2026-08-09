@@ -89,6 +89,8 @@ config:
     secure: AAABAN0ONDgxoR5JHSeTSosXhXl9mrDBbE2W1EuP/G5K6BAqSrsT6zjlcHPhv5/row==
   elsa-gateway:tailscale-client-secret:
     secure: AAABAN/f2KjpSztOHW0TbpZXOatgNQKA2r9wo3ln2MxeWn80kUE+gEp9BOJzCC4zUu+1Q6XPD/mNdh5z9RdcatPgzCcddlnBAqy+2l6D0aMLa/cs+QdllvoAWMXZtc4=
+  elsa-gateway:database-name:
+    secure: AAABAA3Rfi2twSEQh8ew2m7rBNGzj9wKrJndNBufBDLsi6LDEQKJE21wNkw0CQ==
 environment:
   - secrets
   - flexisoft-secrets
