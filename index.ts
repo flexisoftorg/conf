@@ -1,7 +1,5 @@
-// GKE cluster and its static IP are kept in state during the migration to the
-// Talos cluster, so DNS can be rolled back to them. Remove once the cutover has
-// settled.
-import "./resources/shared/google/gke.js";
+// The static IP outlived the GKE cluster it fronted; it is kept reserved so the
+// address itself isn't lost, since a released one can't be reclaimed.
 import "./resources/shared/google/ip-address.js";
 import "./resources/kubernetes/image-pull-secret.js";
 import "./resources/kubernetes/cert-manager.js";
