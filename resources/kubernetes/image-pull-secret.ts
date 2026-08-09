@@ -7,21 +7,6 @@ import { namespace } from "./namespace.js";
 
 const name = "artifact-registry";
 
-export const imagePullSecret = new k8s.core.v1.Secret(
-	name,
-	{
-		metadata: {
-			name,
-			namespace: namespace.metadata.name,
-		},
-		type: "kubernetes.io/dockerconfigjson",
-		stringData: {
-			".dockerconfigjson": dockerConfigJson,
-		},
-	},
-	{ provider },
-);
-
 const ghcrName = "ghcr";
 
 /**
@@ -51,20 +36,52 @@ const ghcrDockerConfigJson = pulumi.secret(
 	),
 );
 
-export const ghcrPullSecret = new k8s.core.v1.Secret(
-	ghcrName,
-	{
-		metadata: {
-			name: ghcrName,
-			namespace: namespace.metadata.name,
+/**
+ * A Secret cannot be read across namespaces, so every namespace running our
+ * images needs its own copy of both.
+ *
+ * `resourceSuffix` only distinguishes the Pulumi resources — the Secrets
+ * themselves are named identically everywhere, which is what lets the single
+ * `imagePullSecrets` list below apply in any namespace. The platform's own
+ * pair passes no suffix so that its resource names, and therefore its state,
+ * are untouched by this being made reusable.
+ */
+export function createImagePullSecrets(
+	namespaceName: pulumi.Input<string>,
+	resourceSuffix = "",
+): void {
+	new k8s.core.v1.Secret(
+		`${name}${resourceSuffix}`,
+		{
+			metadata: {
+				name,
+				namespace: namespaceName,
+			},
+			type: "kubernetes.io/dockerconfigjson",
+			stringData: {
+				".dockerconfigjson": dockerConfigJson,
+			},
 		},
-		type: "kubernetes.io/dockerconfigjson",
-		stringData: {
-			".dockerconfigjson": ghcrDockerConfigJson,
+		{ provider },
+	);
+
+	new k8s.core.v1.Secret(
+		`${ghcrName}${resourceSuffix}`,
+		{
+			metadata: {
+				name: ghcrName,
+				namespace: namespaceName,
+			},
+			type: "kubernetes.io/dockerconfigjson",
+			stringData: {
+				".dockerconfigjson": ghcrDockerConfigJson,
+			},
 		},
-	},
-	{ provider },
-);
+		{ provider },
+	);
+}
+
+createImagePullSecrets(namespace.metadata.name);
 
 /**
  * Both registries are offered. Kubelet tries each until one succeeds, so this
