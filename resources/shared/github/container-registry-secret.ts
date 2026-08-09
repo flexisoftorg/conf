@@ -13,6 +13,7 @@ const repositoriesWithArtifacts = [
 	"portal-app-go",
 	"altinn-auth-app",
 	"auth-app",
+	"elsa-gateway",
 ];
 
 for (const repository of repositoriesWithArtifacts) {

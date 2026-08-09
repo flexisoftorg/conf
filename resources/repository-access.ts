@@ -26,6 +26,7 @@ const repositories = [
 	"portal-app-go",
 	"altinn-auth-app",
 	"auth-app",
+	"elsa-gateway",
 ];
 
 for (const repositoryName of repositories) {

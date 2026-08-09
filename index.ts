@@ -17,6 +17,10 @@ import "./resources/kubernetes/tenants-config-map.js";
 import "./resources/kubernetes/portal-app-svelte/portal-app-svelte.js";
 import "./resources/kubernetes/altinn-auth-app/altinn-auth-app.js";
 import "./resources/kubernetes/auth-app/auth-app.js";
+// Temporarily disabled: requires elsa-gateway config secrets that aren't set
+// yet, and a missing `requireSecret` fails the whole program, not just this
+// resource. Re-enable once they're in the stack config.
+// import "./resources/kubernetes/elsa-gateway/elsa-gateway.js";
 import "./resources/google/customer-dns.js";
 import "./resources/kubernetes/ingress.js";
 import "./resources/kubernetes/registration-app/registration-app.js";
