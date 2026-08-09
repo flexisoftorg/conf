@@ -5,6 +5,7 @@ import "./resources/kubernetes/image-pull-secret.js";
 import "./resources/kubernetes/cert-manager.js";
 import "./resources/kubernetes/certificates.js";
 import "./resources/kubernetes/signoz/signoz.js";
+import "./resources/kubernetes/garage/garage.js";
 import "./resources/kubernetes/debitor-portal-app/debitor-portal-app.js";
 import "./resources/kubernetes/debitor-portal-app/debitor-portal-credentials.js";
 import "./resources/kubernetes/api/api.js";
