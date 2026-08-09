@@ -33,3 +33,7 @@ export const altinnAuthAppDomain = altinnAuthAppConfig.require("domain");
 const authAppConfig = new pulumi.Config("auth-app");
 
 export const authAppDomain = authAppConfig.require("domain");
+
+const signozConfig = new pulumi.Config("signoz");
+
+export const signozDomain = signozConfig.require("domain");
