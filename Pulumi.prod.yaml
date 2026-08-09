@@ -24,7 +24,7 @@ config:
     secure: AAABAAAskVEQvCaiI0w6VvWWijFV2dRZVGCtvgHYsnL0CJ3feRklKohg/e48AV4O6GBo7BK16jepyWVw7T4C7ZAid4HEDlnr14KmMrUH23j1sNTWzSNCcdH1VR6aTKyp
   portal-api:domain: api.fpx.no.
   portal-api:log-level: debug
-  portal-api:tag: main-f967d06
+  portal-api:tag: main-06ab655
   portal-app:domain: creditor.fpx.no.
   portal-app:repository: portal-app
   portal-app:tag: main-7998fe0
