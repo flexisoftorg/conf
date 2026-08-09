@@ -100,6 +100,9 @@ config:
   elsa-gateway:database-role:
     secure: AAABANPF8OAFvgSSLVFEiUoE/lnR3E+sXcfJQnie7sChdqahGUXymvMtUXyD
   elsa-gateway:database-port: "3050"
+  ghcr:token:
+    secure: AAABAPLDqAUfx2YPbuzR8TV7bcYNsFZy/caJFdzS/ElNd/QK+8F2xgUd2s+EA/S/myiyyFMmgm3ZOyXqJmbucStomstXfHmF
+  ghcr:username: bjerk-bot
 environment:
   - secrets
   - flexisoft-secrets
