@@ -5,8 +5,11 @@ import { environment } from "../../config.js";
 import { artifactRepoUrl } from "../../shared/google/artifact-registry.js";
 import { provider } from "../../shared/kubernetes/provider.js";
 import { GarageBucket } from "../garage/bucket.js";
-import { imagePullSecrets } from "../image-pull-secret.js";
-import { namespace } from "../namespace.js";
+import {
+	createImagePullSecrets,
+	imagePullSecrets,
+} from "../image-pull-secret.js";
+import { namespace } from "./namespace.js";
 
 /**
  * ELSA Gateway delivers claims to Skatteetaten's SIMS endpoint and collects
@@ -25,6 +28,8 @@ const config = new pulumi.Config(name);
 const certificateMountPath = "/etc/elsa-gateway";
 const proxyAddress = "127.0.0.1:1055";
 const tailscaleTag = "tag:elsa-gateway";
+
+createImagePullSecrets(namespace.metadata.name, `-${name}`);
 
 /** The virksomhetssertifikat SIMS authenticates us with, certificate and key in one PEM. */
 const certificate = new k8s.core.v1.Secret(
