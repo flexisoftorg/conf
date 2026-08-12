@@ -2,7 +2,6 @@ import * as pulumi from "@pulumi/pulumi";
 import * as kubernetes from "@pulumi/kubernetes";
 import { interpolate } from "@pulumi/pulumi";
 import { DeploymentComponent } from "../../components/deployment.js";
-import { restApiDomain } from "../../config.js";
 import { artifactRepoUrl } from "../../shared/google/artifact-registry.js";
 import { provider as kubernetesProvider } from "../../shared/kubernetes/provider.js";
 import { namespace } from "../namespace.js";
@@ -17,9 +16,6 @@ const config = new pulumi.Config("api");
 export const debitorPortalAppApiKey = config.requireSecret(
 	"debitor-portal-app-api-key",
 );
-const cleanApiDomain = restApiDomain.slice(0, -1);
-
-export const fullApiDomain = interpolate`https://${cleanApiDomain}`;
 
 const portalApiConfig = new pulumi.Config("portal-api");
 const cookieSecret = portalApiConfig.requireSecret("cookie-secret");
@@ -84,10 +80,6 @@ export const restApiApp = new DeploymentComponent(
 			{
 				name: "REDIS_URL",
 				value: interpolate`${redis.service.metadata.name}.${redis.service.metadata.namespace}.svc.cluster.local:6379`,
-			},
-			{
-				name: "SELF_URL",
-				value: fullApiDomain,
 			},
 			{
 				name: "ALLOWED_ORIGINS",
