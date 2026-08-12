@@ -60,7 +60,9 @@ export const restApiApp = new DeploymentComponent(
 	{
 		image: interpolate`${artifactRepoUrl}/api`,
 		tag: config.require("tag"),
-		host: cleanApiDomain,
+		// No `host`: go-api resolves its tenant from the request host, so it is
+		// only reachable at `rest.<ident>.fpx.no` via the per-customer Ingress in
+		// `ingress.ts`.
 		namespace: namespace.metadata.name,
 		envFrom: [
 			{ secretRef: { name: apiEnvSecrets.metadata.name } },
