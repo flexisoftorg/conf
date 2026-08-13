@@ -1,6 +1,6 @@
 config:
   api:domain: rest.fpx.no.
-  api:tag: main-5d4d9ee
+  api:tag: main-867cf55
   # Cutover switch. Every A record derives from this, so setting it back to
   # 35.228.111.75 returns traffic to GKE for as long as that cluster is alive.
   cluster:ingress-ip: 91.149.224.2
