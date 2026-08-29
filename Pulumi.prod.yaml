@@ -56,7 +56,7 @@ config:
   altinn-auth-app:systembruker-system-id:
     secure: AAABAFAvvJxmSztLmIEie1NP4rzOxsnF7qR2bb8o/G3cLvzMP/o+CUyl/4OIXMJtnVsKVak=
   altinn-auth-app:tag: main-4675a2a
-  portal-app-svelte:tag: main-00b61e8
+  portal-app-svelte:tag: main-f3585f6
   auth-app:client-secret:
     secure: AAABAOEiJMdDWypWT8VPV3xuehb9ImWE5D05C9TAUKo1doUBNGmyZ3QozTJODfbIPCK4k+cDRo4uHQQ5LdE=
   auth-app:oauth-global-secret:
