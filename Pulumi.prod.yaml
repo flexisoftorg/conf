@@ -17,7 +17,7 @@ config:
   github:owner: flexisoftorg
   google:project: flexisoft-app
   onboarding-app:domain: onboarding.fpx.no.
-  onboarding-app:tag: main-93d5d97
+  onboarding-app:tag: main-e9e5178
   portal-api:auth-sign-secret:
     secure: AAABANHytn22PWHK7781DdVTMvmwKxUbS68uQLOglqkCtz1GkxhZt1GZMwNJ+SCTt+l7A2Mb3noDfEzpmU1+UL2MOVvl9q4kj0MrEtkjUebtwUaQkMeBe9q2d2sNlANx
   portal-api:cookie-secret:
