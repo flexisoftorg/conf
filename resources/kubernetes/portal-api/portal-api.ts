@@ -13,9 +13,6 @@ const config = new pulumi.Config("portal-api");
 const authSignSecret = config.requireSecret("auth-sign-secret");
 const cookieSecret = config.requireSecret("cookie-secret");
 
-export const portalApiDomain = config.require("domain");
-const cleanPortalApiDomain = portalApiDomain.slice(0, -1);
-
 export const portalApiEnvSecrets = new kubernetes.core.v1.Secret(
 	"portal-api-env-secrets",
 	{
@@ -36,7 +33,9 @@ export const portalApi = new DeploymentComponent(
 	{
 		image: interpolate`${artifactRepoUrl}/portal-api`,
 		tag: config.require("tag"),
-		host: cleanPortalApiDomain,
+		// No `host`: the portal API resolves its tenant from the request host, so
+		// it is only reachable at `api.<ident>.fpx.no` via the per-customer
+		// Ingress in `ingress.ts`.
 		namespace: namespace.metadata.name,
 		port: 8000,
 		logLevel: config.get("log-level"),
