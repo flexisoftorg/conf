@@ -9,7 +9,7 @@ export const cleanRootDomain = rootDomain.slice(0, -1);
 
 /**
  * One certificate for every host directly under the root domain — the platform
- * hosts (`api.fpx.no`, `rest.fpx.no`, …) and each tenant's debitor portal
+ * hosts (`reg.fpx.no`, `altinn.fpx.no`, …) and each tenant's debitor portal
  * (`<ident>.fpx.no`). A wildcard covers a single label, so tenant subdomains
  * two levels deep need their own certificate below.
  */

@@ -1,7 +1,6 @@
 import * as pulumi from "@pulumi/pulumi";
 import { interpolate } from "@pulumi/pulumi";
 import { DeploymentComponent } from "../../components/deployment.js";
-import { debitorPortalAppDomain } from "../../config.js";
 import { artifactRepoUrl } from "../../shared/google/artifact-registry.js";
 import { provider as kubernetesProvider } from "../../shared/kubernetes/provider.js";
 import { namespace } from "../namespace.js";
@@ -12,15 +11,15 @@ import { debitorPortalRestApiCredentials } from "./debitor-portal-rest-api-crede
 
 const config = new pulumi.Config("debitor-portal-app");
 
-const cleanDebitorPortalAppDomain = debitorPortalAppDomain.slice(0, -1);
-
 export const debitorPortalApp = new DeploymentComponent(
 	"debitor-portal-app",
 	{
 		image: interpolate`${artifactRepoUrl}/debitor-portal-app`,
 		tag: config.require("tag"),
 		namespace: namespace.metadata.name,
-		host: cleanDebitorPortalAppDomain,
+		// No `host`: the debitor portal resolves its tenant from the request host,
+		// so it is only reachable at each tenant's own domain via the per-customer
+		// Ingress in `ingress.ts`.
 		port: 8000,
 		envFrom: [
 			{
