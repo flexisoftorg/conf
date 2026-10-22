@@ -12,6 +12,8 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    concurrency: pulumi-${{ matrix.stack }}
+
     strategy:
       fail-fast: false
       matrix:
