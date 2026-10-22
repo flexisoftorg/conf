@@ -10,7 +10,7 @@
 	},
 	"packageManager": "pnpm@10.25.0",
 	"dependencies": {
-		"@1password/sdk": "^0.3.1",
+		"@1password/sdk": "^0.5.0",
 		"@pulumi/gcp": "^9.0.0",
 		"@pulumi/github": "^6.14.1",
 		"@pulumi/google-native": "^0.32.0",
