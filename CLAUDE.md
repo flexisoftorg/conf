@@ -11,7 +11,7 @@ Pulumi infrastructure-as-code for the Flexisoft platform. Manages Kubernetes res
 - Customer domain DNS config (CNAME to `ingress.fpx.no` or A records)
 - Artifact Registry pull secret for the cluster
 
-The cluster API server is reachable **only over Tailscale**; `pulumi up` fails from off-tailnet. The GKE cluster and its static IP are still in state as a rollback path for the migration — they serve no live traffic.
+The cluster API server is reachable **only over Tailscale**; `pulumi up` fails from off-tailnet. There is no fallback deploy path: the old GKE cluster has been deleted. Only its static IP is still reserved, because a released address can't be reclaimed and may be in customer firewall allowlists; it serves no traffic.
 
 ## Stack
 
