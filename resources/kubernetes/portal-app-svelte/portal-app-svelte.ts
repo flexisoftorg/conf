@@ -115,11 +115,11 @@ export const portalAppSvelteService = new k8s.core.v1.Service(
 // each page is migrated from React/Go to SvelteKit; remove the matching
 // entry from `goAppPaths` if it overlaps.
 //
-// Empty at Phase 0 — the deployment is reachable in-cluster but takes
-// no public traffic until the first page is migrated.
+// Pages are staged at a `-v2` prefix while the legacy view is still
+// served at the original path.
 export const svelteAppPaths: string[] = [
 	"/hello",
-	"/login-v2",
+	"/cases-v2",
 	"/globals.css",
 	"/fonts.css",
 	"/utils.css",
