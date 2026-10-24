@@ -6,7 +6,7 @@ config:
   cluster:ingress-ip: 91.149.224.2
   debitor-portal-app:domain: debitor.fpx.no.
   debitor-portal-app:paymentProviderUrl: https://epayment.nets.eu
-  debitor-portal-app:tag: main-1200307
+  debitor-portal-app:tag: main-7032cb6
   flexisoft-portal:developers:
     - group:team-developers@bjerk.io
     - user:martin@sokkel.io
