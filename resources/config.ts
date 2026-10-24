@@ -6,33 +6,13 @@ export const developers = config.requireObject<string[]>("developers");
 
 export const environment = pulumi.getStack();
 
-const portalAppConfig = new pulumi.Config("portal-app");
-
-export const portalAppDomain = portalAppConfig.require("domain");
-
-const debitorPortalAppConfig = new pulumi.Config("debitor-portal-app");
-
-export const debitorPortalAppDomain = debitorPortalAppConfig.require("domain");
-
 const registrationAppConfig = new pulumi.Config("registration-app");
 
 export const registrationAppDomain = registrationAppConfig.require("domain");
 
-const apiConfig = new pulumi.Config("api");
-
-export const restApiDomain = apiConfig.require("domain");
-
-const onboardingAppConfig = new pulumi.Config("onboarding-app");
-
-export const onboardingAppDomain = onboardingAppConfig.require("domain");
-
 const altinnAuthAppConfig = new pulumi.Config("altinn-auth-app");
 
 export const altinnAuthAppDomain = altinnAuthAppConfig.require("domain");
-
-const authAppConfig = new pulumi.Config("auth-app");
-
-export const authAppDomain = authAppConfig.require("domain");
 
 const signozConfig = new pulumi.Config("signoz");
 

@@ -1,21 +1,21 @@
 import * as gcp from "@pulumi/gcp";
 import {
-	restApiDomain,
-	debitorPortalAppDomain,
-	portalAppDomain,
 	registrationAppDomain,
 	altinnAuthAppDomain,
-	authAppDomain,
 	signozDomain,
 } from "../../config.js";
 import { apiServices } from "../../google/api-services.js";
 import { provider } from "../../google/provider.js";
-import { portalApiDomain } from "../../kubernetes/portal-api/portal-api.js";
 import { rootDomain, studioSubDomain } from "../config.js";
 import { ingressIpAddress } from "../kubernetes/config.js";
 
 /**
  * DNS records for production zone
+ *
+ * Only genuinely platform-wide hosts live here. Anything that has to resolve a
+ * tenant from the request host — the creditor/debitor portals, the portal API,
+ * the REST API, onboarding, auth — is served at `<service>.<ident>.fpx.no` and
+ * gets its record from `resources/google/customer-dns.ts` instead.
  */
 
 export const zone = new gcp.dns.ManagedZone(
@@ -30,53 +30,6 @@ export const zone = new gcp.dns.ManagedZone(
 		dependsOn: apiServices,
 		ignoreChanges: ["entity.managedZone.id"],
 	},
-);
-
-new gcp.dns.RecordSet(
-	"main-a",
-	{
-		managedZone: zone.name,
-		name: rootDomain,
-		type: "A",
-		ttl: 300,
-		rrdatas: [ingressIpAddress],
-	},
-	{ provider },
-);
-
-new gcp.dns.RecordSet(
-	"portal-app-a",
-	{
-		managedZone: zone.name,
-		name: portalAppDomain,
-		type: "A",
-		ttl: 300,
-		rrdatas: [ingressIpAddress],
-	},
-	{ provider },
-);
-new gcp.dns.RecordSet(
-	"debitor-portal-app-a",
-	{
-		managedZone: zone.name,
-		name: debitorPortalAppDomain,
-		type: "A",
-		ttl: 300,
-		rrdatas: [ingressIpAddress],
-	},
-	{ provider },
-);
-
-new gcp.dns.RecordSet(
-	"portal-api-a",
-	{
-		managedZone: zone.name,
-		name: portalApiDomain,
-		type: "A",
-		ttl: 300,
-		rrdatas: [ingressIpAddress],
-	},
-	{ provider },
 );
 
 new gcp.dns.RecordSet(
@@ -104,33 +57,10 @@ new gcp.dns.RecordSet(
 );
 
 new gcp.dns.RecordSet(
-	"api-a",
-	{
-		managedZone: zone.name,
-		name: restApiDomain,
-		type: "A",
-		ttl: 300,
-		rrdatas: [ingressIpAddress],
-	},
-	{ provider },
-);
-
-new gcp.dns.RecordSet(
 	"altinn-auth-app-a",
 	{
 		managedZone: zone.name,
 		name: altinnAuthAppDomain,
-		type: "A",
-		ttl: 300,
-		rrdatas: [ingressIpAddress],
-	},
-	{ provider },
-);
-new gcp.dns.RecordSet(
-	"auth-app-a",
-	{
-		managedZone: zone.name,
-		name: authAppDomain,
 		type: "A",
 		ttl: 300,
 		rrdatas: [ingressIpAddress],

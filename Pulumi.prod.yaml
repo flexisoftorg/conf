@@ -4,7 +4,6 @@ config:
   # Cutover switch. Every A record derives from this, so setting it back to
   # 35.228.111.75 returns traffic to GKE for as long as that cluster is alive.
   cluster:ingress-ip: 91.149.224.2
-  debitor-portal-app:domain: debitor.fpx.no.
   debitor-portal-app:paymentProviderUrl: https://epayment.nets.eu
   debitor-portal-app:tag: main-1200307
   flexisoft-portal:developers:
@@ -16,16 +15,13 @@ config:
     secure: AAABADnGNOlQyi0xkXljdX9WEqtN3tkY+hj3V4QE2uQWYeYoNUsZw0DLQjSR9l2+6ulXrkfSyqugHIfhyAAp7FBY5bQconlUKzBRTzf2bpWdkViv5GQeKjDTWJx2r8ZivkYQcxJ/qw1y1jrh7gHOeNOs+OfSiS/pm7r+JzI=
   github:owner: flexisoftorg
   google:project: flexisoft-app
-  onboarding-app:domain: onboarding.fpx.no.
   onboarding-app:tag: main-93d5d97
   portal-api:auth-sign-secret:
     secure: AAABANHytn22PWHK7781DdVTMvmwKxUbS68uQLOglqkCtz1GkxhZt1GZMwNJ+SCTt+l7A2Mb3noDfEzpmU1+UL2MOVvl9q4kj0MrEtkjUebtwUaQkMeBe9q2d2sNlANx
   portal-api:cookie-secret:
     secure: AAABAAAskVEQvCaiI0w6VvWWijFV2dRZVGCtvgHYsnL0CJ3feRklKohg/e48AV4O6GBo7BK16jepyWVw7T4C7ZAid4HEDlnr14KmMrUH23j1sNTWzSNCcdH1VR6aTKyp
-  portal-api:domain: api.fpx.no.
   portal-api:log-level: debug
   portal-api:tag: main-f967d06
-  portal-app:domain: creditor.fpx.no.
   portal-app:repository: portal-app
   portal-app:tag: main-28699d6
   pulumi:disable-default-providers:
