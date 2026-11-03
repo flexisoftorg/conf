@@ -15,8 +15,8 @@ Artifact Registry and IAM still live in Google Cloud Platform.
 - [Pulumi](https://www.pulumi.com/docs/get-started/install/)
 - [Google Cloud SDK](https://cloud.google.com/sdk/docs/install)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
-- [Tailscale](https://tailscale.com/download) — the cluster API server has no
-  public endpoint, so `pulumi up` only works from the tailnet
+- [Dina CLI](https://github.com/dinacomputer/cli) — the cluster API server is
+  reached through Dina; run `dina auth login` and `dina clusters connect flexisoft`
 - [docker](https://docs.docker.com/get-docker/)
 - [nodejs](https://nodejs.org/en/download/)
 - [pnpm](https://pnpm.io/installation)

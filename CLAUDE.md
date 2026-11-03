@@ -11,7 +11,7 @@ Pulumi infrastructure-as-code for the Flexisoft platform. Manages Kubernetes res
 - Customer domain DNS config (CNAME to `ingress.fpx.no` or A records)
 - Artifact Registry pull secret for the cluster
 
-The cluster API server is reachable **only over Tailscale**; `pulumi up` fails from off-tailnet. The GKE cluster and its static IP are still in state as a rollback path for the migration — they serve no live traffic.
+The cluster API server is reached **through Dina's cluster proxy**: Pulumi uses the `dina-flexisoft` kubectl context, which `dina clusters connect flexisoft` writes. CI signs in keylessly with the `dinacomputer/setup-dina` action (GitHub OIDC); only `main` of this repo is trusted, so PR previews run without cluster access. The GKE cluster and its static IP are still in state as a rollback path for the migration — they serve no live traffic.
 
 ## Stack
 
@@ -25,7 +25,7 @@ The cluster API server is reachable **only over Tailscale**; `pulumi up` fails f
 - [Pulumi CLI](https://www.pulumi.com/docs/get-started/install/)
 - Google Cloud SDK (`gcloud auth login`)
 - `kubectl`
-- Tailscale, connected to the tailnet
+- Dina CLI, signed in (`dina auth login`) with access to the `flexisoft` cluster
 - Node.js + pnpm
 
 ## Commands
