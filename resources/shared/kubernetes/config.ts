@@ -7,10 +7,11 @@ export const systemEmail = config.require("system-email");
 const clusterConfig = new Config("cluster");
 
 /**
- * Kubeconfig for the target cluster. The API server is only reachable over
- * Tailscale, so anything running `pulumi up` must be on the tailnet.
+ * Kubectl context for the target cluster. The API server is reached through
+ * Dina's cluster proxy; `dina clusters connect flexisoft` (or the
+ * dinacomputer/setup-dina action in CI) writes this context.
  */
-export const kubeconfig = clusterConfig.requireSecret("kubeconfig");
+export const kubeContext = clusterConfig.get("context") ?? "dina-flexisoft";
 
 /**
  * Public address traffic reaches the cluster on. The node itself only has an
